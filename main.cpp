@@ -1,9 +1,10 @@
 #include <iostream>
+#include "MatrixOperations/MatrixOperationManager.h"
+#include "Matrix/DenseMatrix.h"
+#include "Matrix/SparseMatrix.h"
 using namespace std;
 
+
 int main() {
-
-    cout << "Hi there" << endl;
-
     return 0;
 }

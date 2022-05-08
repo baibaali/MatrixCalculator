@@ -12,23 +12,25 @@ public:
 
     std::shared_ptr<Matrix> clone() const override;
 
-    std::shared_ptr<Matrix> add (const Matrix & other) override;
+    std::shared_ptr<Matrix> add (const Matrix & other) const override;
 
-    std::shared_ptr<Matrix> subtract (const Matrix & other) override;
+    std::shared_ptr<Matrix> subtract (const Matrix & other) const override;
 
-    std::shared_ptr<Matrix> multiply (const Matrix & other) override;
+    std::shared_ptr<Matrix> multiply (const Matrix & other) const override;
 
-    std::shared_ptr<Matrix> multiply (int scalar) override;
+    std::shared_ptr<Matrix> multiply (double scalar) const override;
 
-    std::shared_ptr<Matrix> findInversion () override;
+    std::shared_ptr<Matrix> findInversion () const override;
 
-    std::shared_ptr<Matrix> findDeterminant () override;
+    std::shared_ptr<Matrix> findDeterminant () const override;
 
-    std::shared_ptr<Matrix> findRank () override;
+    std::shared_ptr<Matrix> findRank () const override;
 
-    std::shared_ptr<Matrix> gaussEliminate (bool withComments) override;
+    std::shared_ptr<Matrix> gaussEliminateCommon () const override;
 
-    std::shared_ptr<Matrix> merge (const Matrix & other) override;
+    std::shared_ptr<Matrix> gaussEliminateDescribed () const override;
 
-    std::shared_ptr<Matrix> cut (const Matrix & other, int row, int col, int dimension) override;
+    std::shared_ptr<Matrix> merge (const Matrix & other) const override;
+
+    std::shared_ptr<Matrix> cut (std::pair<int, int> pos, std::pair<int, int> size) const override;
 };
