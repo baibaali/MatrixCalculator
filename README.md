@@ -55,3 +55,14 @@ Then, specific matrix operations such as:
         
     The difference between the two types of matrices lies in their representation.
     For efficient use of memory, we will store a sparse matrix in a map instead of a 2D array.
+    
+### Input parsing
+
+    InputReader class responsible for parsing input from user.
+    The user will enter expressions in the form:
+        A + B
+        A * B + D * C
+        det(A)
+        inversion(gem(A))
+    The InputReader class will create an expression tree, that will be evaluated after that.
+    In case of an error in the expression will throw an exception, and print the information about it.
