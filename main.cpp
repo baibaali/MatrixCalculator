@@ -1,10 +1,13 @@
 #include <iostream>
-#include "MatrixOperations/MatrixOperationManager.h"
-#include "Matrix/DenseMatrix.h"
-#include "Matrix/SparseMatrix.h"
+#include "Calculator.h"
 using namespace std;
 
 
 int main() {
+
+    Calculator calculator;
+
+    calculator.run();
+
     return 0;
 }

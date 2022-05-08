@@ -2,6 +2,19 @@
 
 #include <memory>
 
+enum OPERATION {
+    ASSIGN,
+    ADDITION,
+    SUBTRACTION,
+    MULTIPLYING,
+    INVERSION,
+    DETERMINANT,
+    RANK,
+    MERGE,
+    CUT,
+    GEM,
+};
+
 class Matrix {
     std::pair <int, int> size;
 public:
