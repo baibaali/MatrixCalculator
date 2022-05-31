@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
 enum OPERATION {
     ASSIGN,
@@ -19,9 +20,9 @@ class Matrix {
     std::pair <int, int> size;
 public:
 
-    Matrix();
+    Matrix() = default;
 
-    ~Matrix();
+    ~Matrix() = default;
 
     virtual std::shared_ptr<Matrix> clone() const = 0;
 
@@ -58,5 +59,7 @@ public:
     virtual std::shared_ptr<Matrix> cut (std::pair<int, int> pos, std::pair<int, int> size) const = 0;
 
     std::pair <int, int> getSize() const;
+
+    static double sparsity(const std::vector<int> & matrix_elements, int elements_count);
 
 };

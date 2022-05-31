@@ -7,9 +7,9 @@ class DenseMatrix : public Matrix {
     std::vector<std::vector<int>> matrix;
 public:
 
-    DenseMatrix();
+    DenseMatrix() = default;
 
-    ~DenseMatrix();
+    ~DenseMatrix() = default;
 
     std::shared_ptr<Matrix> clone() const override;
 

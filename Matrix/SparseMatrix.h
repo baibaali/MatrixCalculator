@@ -6,9 +6,9 @@
 class SparseMatrix : public Matrix {
     std::map <std::pair<int, int>, int> matrix;
 public:
-    SparseMatrix();
+    SparseMatrix() = default;
 
-    ~SparseMatrix();
+    ~SparseMatrix() = default;
 
     std::shared_ptr<Matrix> clone() const override;
 
