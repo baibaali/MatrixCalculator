@@ -7,7 +7,7 @@ void Calculator::run() {
 
     while (true) {
         inputReader.readExpression();
-        inputReader.parseExpression();
+//        inputReader.parseExpression();
         calculate();
         std::cout << "Calculating finished." << std::endl << std::endl;
     }

@@ -4,6 +4,8 @@
 #include <vector>
 
 enum OPERATION {
+    NONE,
+    SCAN,
     ASSIGN,
     ADDITION,
     SUBTRACTION,
@@ -12,8 +14,12 @@ enum OPERATION {
     DETERMINANT,
     RANK,
     MERGE,
+    CUT_DEFAULT,
     CUT,
     GEM,
+    GEM_COMMENTED,
+    IDENTITY,
+    PRINT,
 };
 
 class Matrix {
