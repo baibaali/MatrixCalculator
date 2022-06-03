@@ -93,6 +93,7 @@ bool InputReader::parseExpression(OPERATION operation) {
                 if ( sscanf(user_input.c_str(), " %c = Cut %c [ %d ] [ %d ]", &first_matrix_name, &second_matrix_name, &rows, &columns) != 4 )
                     sscanf(user_input.c_str(), " %c = cut %c [ %d ] [ %d ]", &first_matrix_name, &second_matrix_name, &rows, &columns);
             printf("%c = CUT %c[%d][%d]\n", first_matrix_name, second_matrix_name, rows, columns);
+            row_from = column_from = 0;
             break;
         case CUT:
             current_operation = CUT;

@@ -53,8 +53,9 @@ std::shared_ptr<Matrix> MatrixOperationManager::MatrixMergeByColumns(const std::
 }
 
 std::shared_ptr<Matrix>
-MatrixOperationManager::MatrixCut(const Matrix &mtrx, std::pair<int, int> pos, std::pair<int, int> size) {
-    return mtrx.cut(pos, size);
+MatrixOperationManager::MatrixCut(const std::shared_ptr<Matrix> mtrx, std::pair<int, int> pos, std::pair<int, int> size) {
+    std::vector<double> result = mtrx->cut(pos, size);
+    return createMatrixBasedOnSparsity(result, size.first, size.second, Matrix::sparsity(result, size.first * size.second));
 }
 
 std::shared_ptr<Matrix>

@@ -32,6 +32,10 @@ bool Calculator::calculate() {
         case MERGE_BY_COLUMNS:
             mergeByColumns();
             break;
+        case CUT:
+        case CUT_DEFAULT:
+            cut();
+            break;
         case EXIT:
             return true;
         default:
@@ -104,5 +108,22 @@ void Calculator::mergeByColumns() {
 
     this->variables[inputReader.getFirstMatrixName()] =
             MatrixOperationManager::MatrixMergeByColumns(lhs->second,rhs->second);
+
+}
+
+void Calculator::cut() {
+    //TODO: check for valid sizes
+
+    auto mtrx = this->variables.find(inputReader.getSecondMatrixName());
+
+    //TODO: exception here
+    if (mtrx == variables.end())
+        return;
+
+    this->variables[inputReader.getFirstMatrixName()] =
+            MatrixOperationManager::MatrixCut(mtrx->second,
+                                              std::make_pair(inputReader.getRowFrom(), inputReader.getColumnFrom()),
+                                              std::make_pair(inputReader.getRows(), inputReader.getColumns())
+                                              );
 
 }

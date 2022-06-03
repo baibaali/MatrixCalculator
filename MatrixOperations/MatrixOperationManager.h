@@ -33,7 +33,7 @@ public:
 
     static std::shared_ptr<Matrix> MatrixMergeByColumns (const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs);
 
-    static std::shared_ptr<Matrix> MatrixCut (const Matrix & mtrx, std::pair <int, int> pos, std::pair<int, int> size);
+    static std::shared_ptr<Matrix> MatrixCut (const std::shared_ptr<Matrix> mtrx, std::pair <int, int> pos, std::pair<int, int> size);
 
 private:
 

@@ -24,4 +24,6 @@ public:
 
     void mergeByColumns();
 
+    void cut();
+
 };
