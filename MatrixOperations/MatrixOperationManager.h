@@ -35,4 +35,7 @@ public:
 
     static std::shared_ptr<Matrix> MatrixCut (const Matrix & mtrx, std::pair <int, int> pos, std::pair<int, int> size);
 
+private:
+
+    static std::shared_ptr<Matrix> createMatrixBasedOnSparsity(const std::vector<double> & values, int rows, int columns, double sparsity);
 };

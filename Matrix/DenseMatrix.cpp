@@ -61,7 +61,7 @@ void DenseMatrix::print() const {
     for (int row = 0; row < size.first; row++){
         std::cout << "| ";
         for (int column = 0; column < size.second; column++){
-            std::cout << std::setw(this->getOutputWidth()) << matrix[row][column] << " ";
+            std::cout << std::setw(this->getOutputWidth()) << this->at(row, column) << " ";
         }
         std::cout << "|" << std::endl;
     }

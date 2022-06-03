@@ -64,11 +64,13 @@ void SparseMatrix::print() const {
     for (int row = 0; row < size.first; row++){
         std::cout << "| ";
         for (int column = 0; column < size.second; column++){
-            if(matrix.count(std::make_pair(row, column)) != 0)
-                std::cout << std::setw(this->getOutputWidth()) << matrix.find(std::make_pair(row, column))->second << " ";
-            else {
-                std::cout << std::setw(this->getOutputWidth()) << "0 ";
-            }
+            std::cout << std::setw(this->getOutputWidth()) << this->at(row, column) << " ";
+
+//            if(matrix.count(std::make_pair(row, column)) != 0)
+//                std::cout << std::setw(this->getOutputWidth()) << matrix.find(std::make_pair(row, column))->second << " ";
+//            else {
+//                std::cout << std::setw(this->getOutputWidth()) << "0 ";
+//            }
         }
         std::cout << "|" << std::endl;
     }
@@ -83,10 +85,11 @@ std::vector<double> SparseMatrix::getMatrixElementsAsVector() const {
     std::vector<double> result;
     for (int row = 0; row < this->getSize().first; row++){
         for (int column = 0; column < this->getSize().second; column++){
-            if (matrix.count(std::make_pair(row, column)) == 0)
-                result.push_back(0);
-            else
-                result.push_back(matrix.find(std::make_pair(row, column))->second);
+            result.push_back(this->at(row, column));
+//            if (matrix.count(std::make_pair(row, column)) == 0)
+//                result.push_back(0);
+//            else
+//                result.push_back(matrix.find(std::make_pair(row, column))->second);
         }
     }
     return result;
