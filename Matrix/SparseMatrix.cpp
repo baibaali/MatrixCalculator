@@ -63,7 +63,27 @@ std::vector<double> SparseMatrix::merge_by_rows (const std::shared_ptr<Matrix> o
 }
 
 std::vector<double> SparseMatrix::merge_by_columns (const std::shared_ptr<Matrix> other) const {
-//    return std::shared_ptr<Matrix>();
+    std::vector<double> thisVec = this->getMatrixElementsAsVector();
+    std::vector<double> otherVec = other->getMatrixElementsAsVector();
+    std::vector<double> result;
+
+    for (int row = 0; row < this->getSize().first; row++) {
+        for (int column = 0; column < this->getSize().second; column++) {
+            if (matrix.count(std::make_pair(row, column)) == 0)
+                result.push_back(0);
+            else
+                result.push_back(matrix.find(std::make_pair(row, column))->second);
+        }
+        for (int column = 0; column < other->getSize().second; column++) {
+            if (matrix.count(std::make_pair(row, column)) == 0)
+                result.push_back(0);
+            else
+                result.push_back(matrix.find(std::make_pair(row, column))->second);
+        }
+    }
+
+    thisVec.insert(thisVec.end(), otherVec.begin(), otherVec.end());
+    return thisVec;
 }
 
 std::shared_ptr<Matrix> SparseMatrix::cut(std::pair<int, int> pos, std::pair<int, int> size) const {
@@ -103,3 +123,9 @@ std::vector<double> SparseMatrix::getMatrixElementsAsVector() const {
     return result;
 }
 
+double SparseMatrix::at(int row, int column) const {
+    if (matrix.count(std::make_pair(row, column)) == 0)
+        return 0;
+    else
+        return matrix.find(std::make_pair(row, column))->second;
+}

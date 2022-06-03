@@ -68,8 +68,21 @@ std::shared_ptr<Matrix> MatrixOperationManager::MatrixMergeByRows(const std::sha
 }
 
 std::shared_ptr<Matrix> MatrixOperationManager::MatrixMergeByColumns(const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs) {
-//     lhs->merge_by_columns(rhs);
-
+    std::vector<double> result = lhs->merge_by_columns(rhs);
+    if ( lhs->getMSparsity() + rhs->getMSparsity() >= 0.75 )
+    {
+        SparseMatrix matrix = SparseMatrix(result,
+                                           lhs->getSize().first,
+                                           lhs->getSize().second + rhs->getSize().second,
+                                           lhs->getMSparsity() + rhs->getMSparsity());
+        return matrix.clone();
+    } else {
+        DenseMatrix matrix = DenseMatrix(result,
+                                         lhs->getSize().first,
+                                         lhs->getSize().second + rhs->getSize().second,
+                                         lhs->getMSparsity() + rhs->getMSparsity());
+        return matrix.clone();
+    }
 }
 
 std::shared_ptr<Matrix>

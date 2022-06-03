@@ -96,3 +96,9 @@ std::vector<double> DenseMatrix::getMatrixElementsAsVector() const {
     }
     return result;
 }
+
+double DenseMatrix::at(int row, int column) const {
+    return matrix[row][column];
+}
+
+

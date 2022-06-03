@@ -89,4 +89,6 @@ public:
     double getMSparsity() const;
 
     void setMSparsity(double mSparsity);
+
+    virtual double at(int row, int column) const = 0;
 };

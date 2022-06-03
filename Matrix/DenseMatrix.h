@@ -43,6 +43,8 @@ public:
 
     std::vector<double> getMatrixElementsAsVector() const override;
 
+    double at(int row, int column) const override;
+
     void makeIdentity() override;
 
     void print() const override;
