@@ -21,4 +21,7 @@ public:
     void readMatrixValues(int count);
 
     void mergeByRows();
+
+    void mergeByColumns();
+
 };

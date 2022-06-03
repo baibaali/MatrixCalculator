@@ -29,6 +29,9 @@ bool Calculator::calculate() {
         case MERGE_BY_ROWS:
             mergeByRows();
             break;
+        case MERGE_BY_COLUMNS:
+            mergeByColumns();
+            break;
         case EXIT:
             return true;
         default:
@@ -89,3 +92,17 @@ void Calculator::mergeByRows() {
 
 }
 
+void Calculator::mergeByColumns() {
+    //TODO: check for existing matrices
+    //TODO: check for valid sizes of matrices
+    auto lhs = this->variables.find(inputReader.getSecondMatrixName());
+    auto rhs = this->variables.find(inputReader.getThirdMatrixName());
+
+    //TODO: check here
+    if (lhs == variables.end() || rhs == variables.end())
+        return;
+
+    this->variables[inputReader.getFirstMatrixName()] =
+            MatrixOperationManager::MatrixMergeByColumns(lhs->second,rhs->second);
+
+}
