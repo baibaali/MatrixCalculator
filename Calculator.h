@@ -19,4 +19,6 @@ public:
     void createIdentityMatrix();
 
     void readMatrixValues(int count);
+
+    void mergeByRows();
 };

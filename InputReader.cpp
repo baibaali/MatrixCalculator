@@ -59,12 +59,19 @@ bool InputReader::parseExpression(OPERATION operation) {
             sscanf(user_input.c_str(), " %c [ %d ] [ %d ] = 1", &first_matrix_name, &rows, &columns);
             printf("%c[%d][%d] = 1\n", first_matrix_name, rows, columns);
             break;
-        case MERGE:
-            current_operation = MERGE;
-            if ( sscanf(user_input.c_str(), " %c = MERGE %c %c", &first_matrix_name, &second_matrix_name, &third_matrix_name) != 3 )
-                if (sscanf(user_input.c_str(), " %c = Merge %c %c", &first_matrix_name, &second_matrix_name, &third_matrix_name) != 3)
-                    sscanf(user_input.c_str(), " %c = merge %c %c", &first_matrix_name, &second_matrix_name, &third_matrix_name);
-            printf("%c = MERGE %c %c\n", first_matrix_name, second_matrix_name, third_matrix_name);
+        case MERGE_BY_ROWS:
+            current_operation = MERGE_BY_ROWS;
+            if ( sscanf(user_input.c_str(), " %c = MERGE -r %c %c", &first_matrix_name, &second_matrix_name, &third_matrix_name) != 3 )
+                if (sscanf(user_input.c_str(), " %c = Merge -r %c %c", &first_matrix_name, &second_matrix_name, &third_matrix_name) != 3)
+                    sscanf(user_input.c_str(), " %c = merge -r %c %c", &first_matrix_name, &second_matrix_name, &third_matrix_name);
+            printf("%c = MERGE -r %c %c\n", first_matrix_name, second_matrix_name, third_matrix_name);
+            break;
+        case MERGE_BY_COLUMNS:
+            current_operation = MERGE_BY_COLUMNS;
+            if ( sscanf(user_input.c_str(), " %c = MERGE -c %c %c", &first_matrix_name, &second_matrix_name, &third_matrix_name) != 3 )
+                if (sscanf(user_input.c_str(), " %c = Merge -c %c %c", &first_matrix_name, &second_matrix_name, &third_matrix_name) != 3)
+                    sscanf(user_input.c_str(), " %c = merge -c %c %c", &first_matrix_name, &second_matrix_name, &third_matrix_name);
+            printf("%c = MERGE -c %c %c\n", first_matrix_name, second_matrix_name, third_matrix_name);
             break;
         case GEM:
             current_operation = GEM;

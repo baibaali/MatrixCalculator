@@ -3,16 +3,16 @@
 std::shared_ptr<Matrix> MatrixOperationManager::Create(int rows, int columns, const std::vector<double> &values) {
     if ( Matrix::sparsity(values, rows * columns) >= 0.75 )
     {
-        SparseMatrix matrix = SparseMatrix(values, rows, columns);
+        SparseMatrix matrix = SparseMatrix(values, rows, columns, Matrix::sparsity(values, rows * columns));
         return matrix.clone();
     } else {
-        DenseMatrix matrix = DenseMatrix(values, rows, columns);
+        DenseMatrix matrix = DenseMatrix(values, rows, columns, Matrix::sparsity(values, rows * columns));
         return matrix.clone();
     }
 }
 
 std::shared_ptr<Matrix> MatrixOperationManager::CreateIdentity(int rows) {
-   SparseMatrix matrix = SparseMatrix(rows, rows);
+   SparseMatrix matrix = SparseMatrix(rows, rows, Matrix::sparsity(rows, rows));
    matrix.makeIdentity();
    return matrix.clone();
 }
@@ -49,8 +49,27 @@ std::shared_ptr<Matrix> MatrixOperationManager::MatrixGem(const Matrix &mtrx, bo
     return mtrx.gaussEliminate(withComments);
 }
 
-std::shared_ptr<Matrix> MatrixOperationManager::MatrixMerge(const Matrix &lhs, const Matrix &rhs) {
-    return lhs.merge(rhs);
+std::shared_ptr<Matrix> MatrixOperationManager::MatrixMergeByRows(const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs) {
+    std::vector<double> result = lhs->merge_by_rows(rhs);
+    if ( lhs->getMSparsity() + rhs->getMSparsity() >= 0.75 )
+    {
+        SparseMatrix matrix = SparseMatrix(result,
+                                             lhs->getSize().first + rhs->getSize().first,
+                                           lhs->getSize().second,
+                                           lhs->getMSparsity() + rhs->getMSparsity());
+        return matrix.clone();
+    } else {
+        DenseMatrix matrix = DenseMatrix(result,
+                                         lhs->getSize().first + rhs->getSize().first,
+                                         lhs->getSize().second,
+                                         lhs->getMSparsity() + rhs->getMSparsity());
+        return matrix.clone();
+    }
+}
+
+std::shared_ptr<Matrix> MatrixOperationManager::MatrixMergeByColumns(const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs) {
+//     lhs->merge_by_columns(rhs);
+
 }
 
 std::shared_ptr<Matrix>

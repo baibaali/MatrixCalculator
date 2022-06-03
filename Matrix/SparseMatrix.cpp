@@ -2,9 +2,9 @@
 #include <iostream>
 #include <iomanip>
 
-SparseMatrix::SparseMatrix(int rows, int columns) : Matrix(rows, columns, 1) {}
+SparseMatrix::SparseMatrix(int rows, int columns, double sparsity) : Matrix(rows, columns, 1, sparsity) {}
 
-SparseMatrix::SparseMatrix(const std::vector<double> &values, int rows, int columns) : Matrix(rows, columns, 1) {
+SparseMatrix::SparseMatrix(const std::vector<double> &values, int rows, int columns, double sparsity) : Matrix(rows, columns, 1, sparsity) {
     for (int i = 0; i < rows; i++){
         for (int j = 0; j < columns; j++) {
             if (values[i * rows + j] != 0) {
@@ -55,8 +55,15 @@ std::shared_ptr<Matrix> SparseMatrix::gaussEliminateDescribed () const {
     return std::shared_ptr<Matrix>();
 }
 
-std::shared_ptr<Matrix> SparseMatrix::merge(const Matrix &other) const {
-    return std::shared_ptr<Matrix>();
+std::vector<double> SparseMatrix::merge_by_rows (const std::shared_ptr<Matrix> other) const {
+    std::vector<double> thisVec = this->getMatrixElementsAsVector();
+    std::vector<double> otherVec = other->getMatrixElementsAsVector();
+    thisVec.insert(thisVec.end(), otherVec.begin(), otherVec.end());
+    return thisVec;
+}
+
+std::vector<double> SparseMatrix::merge_by_columns (const std::shared_ptr<Matrix> other) const {
+//    return std::shared_ptr<Matrix>();
 }
 
 std::shared_ptr<Matrix> SparseMatrix::cut(std::pair<int, int> pos, std::pair<int, int> size) const {
@@ -81,5 +88,18 @@ void SparseMatrix::print() const {
 void SparseMatrix::makeIdentity() {
     for (int i = 0; i < this->getSize().first; i++)
         this->matrix[std::make_pair(i, i)] = 1;
+}
+
+std::vector<double> SparseMatrix::getMatrixElementsAsVector() const {
+    std::vector<double> result;
+    for (int row = 0; row < this->getSize().first; row++){
+        for (int column = 0; column < this->getSize().second; column++){
+            if (matrix.count(std::make_pair(row, column)) == 0)
+                result.push_back(0);
+            else
+                result.push_back(matrix.find(std::make_pair(row, column))->second);
+        }
+    }
+    return result;
 }
 

@@ -8,9 +8,9 @@ class SparseMatrix : public Matrix {
 public:
     SparseMatrix() = default;
 
-    SparseMatrix(const std::vector<double> & values, int rows, int columns);
+    SparseMatrix(const std::vector<double> & values, int rows, int columns, double sparsity);
 
-    SparseMatrix(int rows, int columns);
+    SparseMatrix(int rows, int columns, double sparsity);
 
     ~SparseMatrix() = default;
 
@@ -34,9 +34,13 @@ public:
 
     std::shared_ptr<Matrix> gaussEliminateDescribed () const override;
 
-    std::shared_ptr<Matrix> merge (const Matrix & other) const override;
+    std::vector<double> merge_by_rows (const std::shared_ptr<Matrix> other) const override;
+
+    std::vector<double> merge_by_columns (const std::shared_ptr<Matrix> other) const override;
 
     std::shared_ptr<Matrix> cut (std::pair<int, int> pos, std::pair<int, int> size) const override;
+
+    std::vector<double> getMatrixElementsAsVector() const override;
 
     void makeIdentity() override;
 

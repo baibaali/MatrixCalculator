@@ -26,6 +26,9 @@ bool Calculator::calculate() {
         case IDENTITY:
             createIdentityMatrix();
             break;
+        case MERGE_BY_ROWS:
+            mergeByRows();
+            break;
         case EXIT:
             return true;
         default:
@@ -69,5 +72,20 @@ void Calculator::readMatrixValues(int count) {
         std::cin >> value;
         matrix_values.push_back(value);
     }
+}
+
+void Calculator::mergeByRows() {
+    //TODO: check for existing matrices
+    //TODO: check for valid sizes of matrices
+    auto lhs = this->variables.find(inputReader.getSecondMatrixName());
+    auto rhs = this->variables.find(inputReader.getThirdMatrixName());
+
+    //TODO: check here
+    if (lhs == variables.end() || rhs == variables.end())
+        return;
+
+    this->variables[inputReader.getFirstMatrixName()] =
+            MatrixOperationManager::MatrixMergeByRows(lhs->second,rhs->second);
+
 }
 

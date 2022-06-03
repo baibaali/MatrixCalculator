@@ -13,7 +13,8 @@ enum OPERATION {
     INVERSION,
     DETERMINANT,
     RANK,
-    MERGE,
+    MERGE_BY_ROWS,
+    MERGE_BY_COLUMNS,
     CUT_DEFAULT,
     CUT,
     GEM,
@@ -26,11 +27,12 @@ enum OPERATION {
 class Matrix {
     std::pair <int, int> size;
     int output_width;
+    double m_sparsity;
 public:
 
     Matrix();
 
-    Matrix(int rows, int columns, int output_width);
+    Matrix(int rows, int columns, int output_width, double m_sparsity);
 
     virtual std::shared_ptr<Matrix> clone() const = 0;
 
@@ -62,9 +64,13 @@ public:
 
     virtual std::shared_ptr<Matrix> gaussEliminateDescribed () const = 0;
 
-    virtual std::shared_ptr<Matrix> merge (const Matrix & other) const = 0;
+    virtual std::vector<double> merge_by_rows (const std::shared_ptr<Matrix> other) const = 0;
+
+    virtual std::vector<double> merge_by_columns (const std::shared_ptr<Matrix> other) const = 0;
 
     virtual std::shared_ptr<Matrix> cut (std::pair<int, int> pos, std::pair<int, int> size) const = 0;
+
+    virtual std::vector<double> getMatrixElementsAsVector () const = 0;
 
     virtual void makeIdentity() = 0;
 
@@ -79,4 +85,8 @@ public:
     int getOutputWidth() const;
 
     void setOutputWidth(double number);
+
+    double getMSparsity() const;
+
+    void setMSparsity(double mSparsity);
 };

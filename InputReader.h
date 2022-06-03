@@ -19,8 +19,9 @@ class InputReader {
 
     std::map<OPERATION, std::string> regex {
             {SCAN, R"([\s]*(SCAN|Scan|scan)[\s]+[A-Z][\s]*\[[\s]*[1-9]+[\s]*\][\s]*\[[\s]*[1-9]+[\s]*\][\s]*)"},
-            {IDENTITY, R"([\s]*[A-Z][\s]*\[[\s]*[1-9]+[\s]*\][\s]*\[[\s]*[1-9]+[\s]*\][\s]*(=)[\s]*(1)[\s]*)"},
-            {MERGE, R"([\s]*[A-Z][\s]*(=)[\s]*(MERGE|Merge|merge)[\s]+[A-Z][\s]+[A-Z][\s]*)"},
+            {IDENTITY, R"([\s]* [\s]*\[[\s]*[1-9]+[\s]*\][\s]*\[[\s]*[1-9]+[\s]*\][\s]*(=)[\s]*(1)[\s]*)"},
+            {MERGE_BY_ROWS, R"([\s]*[A-Z][\s]*(=)[\s]*(MERGE|Merge|merge)[\s]+(-r)[\s]+[A-Z][\s]+[A-Z][\s]*)"},
+            {MERGE_BY_COLUMNS, R"([\s]*[A-Z][\s]*(=)[\s]*(MERGE|Merge|merge)[\s]+(-c)[\s]+[A-Z][\s]+[A-Z][\s]*)"},
             {GEM, R"([\s]*(GEM|Gem|gem)[\s]+[A-Z][\s]*)"},
             {GEM_COMMENTED, R"([\s]*(GEM|Gem|gem)[\s]+[A-Z][\s]+(-v))"},
             {CUT_DEFAULT, R"([\s]*[A-Z][\s]*(=)[\s]*(CUT|Cut|cut)[\s]+[A-Z][\s]*\[[\s]*[1-9]+[\s]*\][\s]*\[[\s]*[1-9]+[\s]*\][\s]*)"},

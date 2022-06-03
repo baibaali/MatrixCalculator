@@ -2,9 +2,9 @@
 #include <iostream>
 #include <iomanip>
 
-DenseMatrix::DenseMatrix(int rows, int columns) : Matrix(rows, columns, 1) {}
+DenseMatrix::DenseMatrix(int rows, int columns, double sparsity) : Matrix(rows, columns, 1, sparsity) {}
 
-DenseMatrix::DenseMatrix(const std::vector<double> & values, int rows, int columns) : Matrix(rows, columns, 1) {
+DenseMatrix::DenseMatrix(const std::vector<double> & values, int rows, int columns, double sparsity) : Matrix(rows, columns, 1, sparsity) {
     for (int i = 0; i < rows; i++) {
         matrix.emplace_back(values.begin() + i * columns, values.begin() + (i + 1) * columns);
         for (auto & x: matrix[i])
@@ -53,8 +53,15 @@ std::shared_ptr<Matrix> DenseMatrix::gaussEliminateDescribed () const {
 }
 
 
-std::shared_ptr<Matrix> DenseMatrix::merge(const Matrix &other) const {
-    return std::shared_ptr<Matrix>();
+std::vector<double> DenseMatrix::merge_by_rows(const std::shared_ptr<Matrix> other) const {
+    std::vector<double> thisVec = this->getMatrixElementsAsVector();
+    std::vector<double> otherVec = other->getMatrixElementsAsVector();
+    thisVec.insert(thisVec.end(), otherVec.begin(), otherVec.end());
+    return thisVec;
+}
+
+std::vector<double> DenseMatrix::merge_by_columns(const std::shared_ptr<Matrix> other) const {
+//    return std::shared_ptr<Matrix>();
 }
 
 std::shared_ptr<Matrix> DenseMatrix::cut(std::pair<int, int> pos, std::pair<int, int> size) const {
@@ -79,4 +86,13 @@ void DenseMatrix::makeIdentity() {
             if (i == j)
                 matrix[i][j] = 1;
         }
+}
+
+std::vector<double> DenseMatrix::getMatrixElementsAsVector() const {
+    std::vector<double> result;
+    for (auto & x : matrix){
+        for (auto & y : x)
+            result.push_back(y);
+    }
+    return result;
 }

@@ -1,10 +1,11 @@
 #include "Matrix.h"
 #include <cmath>
 
-Matrix::Matrix(int rows, int columns, int output_width) {
+Matrix::Matrix(int rows, int columns, int output_width, double m_sparsity) {
     size.first = rows;
     size.second = columns;
     this->output_width = output_width;
+    this->m_sparsity = m_sparsity;
 }
 
 std::shared_ptr<Matrix> Matrix::operator+(const Matrix &other) const {
@@ -57,5 +58,13 @@ Matrix::Matrix() {
 
 double Matrix::sparsity(int rows, int columns) {
     return ((rows * 1.0) / (rows * columns));
+}
+
+double Matrix::getMSparsity() const {
+    return m_sparsity;
+}
+
+void Matrix::setMSparsity(double mSparsity) {
+    m_sparsity = mSparsity;
 }
 
