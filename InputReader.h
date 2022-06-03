@@ -17,10 +17,6 @@ class InputReader {
 
     OPERATION current_operation;
 
-    std::vector<double> matrix_values;
-
-    std::shared_ptr<Matrix> matrix;
-
     std::map<OPERATION, std::string> regex {
             {SCAN, R"([\s]*(SCAN|Scan|scan)[\s]+[A-Z][\s]*\[[\s]*[1-9]+[\s]*\][\s]*\[[\s]*[1-9]+[\s]*\][\s]*)"},
             {IDENTITY, R"([\s]*[A-Z][\s]*\[[\s]*[1-9]+[\s]*\][\s]*\[[\s]*[1-9]+[\s]*\][\s]*(=)[\s]*(1)[\s]*)"},
@@ -49,8 +45,6 @@ public:
 
     std::vector<std::pair<OPERATION, std::vector<std::string>>> & getExpressions();
 
-    void readMatrixValues(int count);
-
     void reset();
 
     char getFirstMatrixName() const;
@@ -58,4 +52,16 @@ public:
     std::shared_ptr<Matrix> getMatrix() const;
 
     OPERATION getCurrentOperation() const;
+
+    int getRows() const;
+
+    int getColumns() const;
+
+    int getRowFrom() const;
+
+    int getColumnFrom() const;
+
+    char getSecondMatrixName() const;
+
+    char getThirdMatrixName() const;
 };

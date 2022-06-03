@@ -11,6 +11,12 @@ std::shared_ptr<Matrix> MatrixOperationManager::Create(int rows, int columns, co
     }
 }
 
+std::shared_ptr<Matrix> MatrixOperationManager::CreateIdentity(int rows) {
+   SparseMatrix matrix = SparseMatrix(rows, rows);
+   matrix.makeIdentity();
+   return matrix.clone();
+}
+
 std::shared_ptr<Matrix> MatrixOperationManager::MatrixAddition(const Matrix &lhs, const Matrix &rhs) {
     return lhs + rhs;
 }

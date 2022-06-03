@@ -46,12 +46,16 @@ int Matrix::getOutputWidth() const {
 }
 
 void Matrix::setOutputWidth(double number) {
-    int width = ceil(log10(number));
+    int width = int(log10(number)) + 1;
     if (width > output_width)
         output_width = width;
 }
 
 Matrix::Matrix() {
     output_width = 1;
+}
+
+double Matrix::sparsity(int rows, int columns) {
+    return ((rows * 1.0) / (rows * columns));
 }
 

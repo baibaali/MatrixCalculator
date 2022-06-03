@@ -2,6 +2,8 @@
 #include <iostream>
 #include <iomanip>
 
+DenseMatrix::DenseMatrix(int rows, int columns) : Matrix(rows, columns, 1) {}
+
 DenseMatrix::DenseMatrix(const std::vector<double> & values, int rows, int columns) : Matrix(rows, columns, 1) {
     for (int i = 0; i < rows; i++) {
         matrix.emplace_back(values.begin() + i * columns, values.begin() + (i + 1) * columns);
@@ -70,3 +72,11 @@ void DenseMatrix::print() const {
     }
 }
 
+void DenseMatrix::makeIdentity() {
+    for (int i = 0; i < this->getSize().first; i++)
+        for (int j = 0; j < this->getSize().second; j++) {
+            this->matrix[i].push_back(0);
+            if (i == j)
+                matrix[i][j] = 1;
+        }
+}

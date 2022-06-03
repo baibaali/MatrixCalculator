@@ -10,6 +10,8 @@ public:
 
     SparseMatrix(const std::vector<double> & values, int rows, int columns);
 
+    SparseMatrix(int rows, int columns);
+
     ~SparseMatrix() = default;
 
     std::shared_ptr<Matrix> clone() const override;
@@ -35,6 +37,8 @@ public:
     std::shared_ptr<Matrix> merge (const Matrix & other) const override;
 
     std::shared_ptr<Matrix> cut (std::pair<int, int> pos, std::pair<int, int> size) const override;
+
+    void makeIdentity() override;
 
     void print() const override;
 };

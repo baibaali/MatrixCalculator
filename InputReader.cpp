@@ -52,8 +52,6 @@ bool InputReader::parseExpression(OPERATION operation) {
             current_operation = SCAN;
             sscanf(user_input.c_str(), " SCAN %c [ %d ] [ %d ]", &first_matrix_name, &rows, &columns);
             printf("SCAN %c[%d][%d]\n", first_matrix_name, rows, columns);
-            readMatrixValues(rows * columns);
-            matrix = MatrixOperationManager::Create(rows, columns, matrix_values);
             break;
         }
         case IDENTITY:
@@ -136,32 +134,41 @@ std::vector<std::pair<OPERATION, std::vector<std::string>>> &InputReader::getExp
     return expressions;
 }
 
-void InputReader::readMatrixValues(int count) {
-    double value;
-    for (int i = 0; i < count; i++)
-    {
-        std::cin >> value;
-        matrix_values.push_back(value);
-    }
-}
-
 void InputReader::reset() {
     user_input.clear();
-    matrix_values.clear();
     rows = columns = row_from = column_from = 0;
     first_matrix_name = second_matrix_name = third_matrix_name = 0;
     current_operation = NONE;
-    matrix = nullptr;
 }
 
 char InputReader::getFirstMatrixName() const {
     return first_matrix_name;
 }
 
-std::shared_ptr<Matrix> InputReader::getMatrix() const {
-    return matrix;
-}
-
 OPERATION InputReader::getCurrentOperation() const {
     return current_operation;
+}
+
+int InputReader::getRows() const {
+    return rows;
+}
+
+int InputReader::getColumns() const {
+    return columns;
+}
+
+int InputReader::getRowFrom() const {
+    return row_from;
+}
+
+int InputReader::getColumnFrom() const {
+    return column_from;
+}
+
+char InputReader::getSecondMatrixName() const {
+    return second_matrix_name;
+}
+
+char InputReader::getThirdMatrixName() const {
+    return third_matrix_name;
 }

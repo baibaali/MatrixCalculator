@@ -11,6 +11,8 @@ public:
 
     static std::shared_ptr<Matrix> Create (int rows, int columns, const std::vector<double> & values);
 
+    static std::shared_ptr<Matrix> CreateIdentity(int rows);
+
     static std::shared_ptr<Matrix> MatrixAddition (const Matrix & lhs, const Matrix & rhs);
 
     static std::shared_ptr<Matrix> MatrixSubtraction (const Matrix & lhs, const Matrix & rhs);

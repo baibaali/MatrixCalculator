@@ -5,13 +5,18 @@
 
 class Calculator {
     InputReader inputReader;
+    std::vector<double> matrix_values;
     std::map<char, std::shared_ptr<Matrix>> variables;
 public:
     void run();
 
-    void calculate();
+    bool calculate();
 
-    void addNewVariable(char name, std::shared_ptr<Matrix> matrix);
+    void addNewVariable();
 
-    void printMatrix(char name) const;
+    void printMatrix() const;
+
+    void createIdentityMatrix();
+
+    void readMatrixValues(int count);
 };

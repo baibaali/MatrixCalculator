@@ -20,6 +20,7 @@ enum OPERATION {
     GEM_COMMENTED,
     IDENTITY,
     PRINT,
+    EXIT
 };
 
 class Matrix {
@@ -65,9 +66,13 @@ public:
 
     virtual std::shared_ptr<Matrix> cut (std::pair<int, int> pos, std::pair<int, int> size) const = 0;
 
+    virtual void makeIdentity() = 0;
+
     std::pair <int, int> getSize() const;
 
     static double sparsity(const std::vector<double> & matrix_elements, int elements_count);
+
+    static double sparsity(int rows, int columns);
 
     virtual void print() const = 0;
 

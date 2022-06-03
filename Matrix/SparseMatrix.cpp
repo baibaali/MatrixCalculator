@@ -2,6 +2,8 @@
 #include <iostream>
 #include <iomanip>
 
+SparseMatrix::SparseMatrix(int rows, int columns) : Matrix(rows, columns, 1) {}
+
 SparseMatrix::SparseMatrix(const std::vector<double> &values, int rows, int columns) : Matrix(rows, columns, 1) {
     for (int i = 0; i < rows; i++){
         for (int j = 0; j < columns; j++) {
@@ -74,5 +76,10 @@ void SparseMatrix::print() const {
         }
         std::cout << "|" << std::endl;
     }
+}
+
+void SparseMatrix::makeIdentity() {
+    for (int i = 0; i < this->getSize().first; i++)
+        this->matrix[std::make_pair(i, i)] = 1;
 }
 
