@@ -4,10 +4,13 @@
 #include "InputReader.h"
 
 class Calculator {
-    std::map<std::string, std::shared_ptr<Matrix>> variables;
+    InputReader inputReader;
+    std::map<char, std::shared_ptr<Matrix>> variables;
 public:
     void run();
 
     void calculate();
+
+    void addNewVariable(char name, std::shared_ptr<Matrix> matrix);
 
 };

@@ -4,9 +4,11 @@
 #include "Matrix.h"
 
 class SparseMatrix : public Matrix {
-    std::map <std::pair<int, int>, int> matrix;
+    std::map <std::pair<int, int>, double> matrix;
 public:
     SparseMatrix() = default;
+
+    SparseMatrix(const std::vector<double> & values, int rows, int columns);
 
     ~SparseMatrix() = default;
 
@@ -33,4 +35,5 @@ public:
     std::shared_ptr<Matrix> merge (const Matrix & other) const override;
 
     std::shared_ptr<Matrix> cut (std::pair<int, int> pos, std::pair<int, int> size) const override;
+
 };

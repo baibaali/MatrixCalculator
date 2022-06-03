@@ -1,5 +1,10 @@
 #include "Matrix.h"
 
+Matrix::Matrix(int rows, int columns) {
+    size.first = rows;
+    size.second = columns;
+}
+
 std::shared_ptr<Matrix> Matrix::operator+(const Matrix &other) const {
     return this->add(other);
 }
@@ -24,13 +29,13 @@ std::shared_ptr<Matrix> Matrix::gaussEliminate(bool withComments) const {
     return withComments ? this->gaussEliminateDescribed() : this->gaussEliminateCommon();
 }
 
-double Matrix::sparsity(const std::vector<int> &matrix_elements, int elements_count) {
+double Matrix::sparsity(const std::vector<double> &matrix_elements, int elements_count) {
 
-    double non_zero_values = 0;
+    double zero_values = 0;
 
     for (int i = 0; i < elements_count; i++)
-        non_zero_values += (matrix_elements[i] != 0);
+        zero_values += (matrix_elements[i] == 0);
 
-    return (non_zero_values / elements_count);
-
+    return (zero_values / elements_count);
 }
+

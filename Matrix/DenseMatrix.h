@@ -4,10 +4,12 @@
 #include "Matrix.h"
 
 class DenseMatrix : public Matrix {
-    std::vector<std::vector<int>> matrix;
+    std::vector<std::vector<double>> matrix;
 public:
 
     DenseMatrix() = default;
+
+    DenseMatrix(const std::vector<double> & values, int rows, int columns);
 
     ~DenseMatrix() = default;
 
@@ -34,4 +36,5 @@ public:
     std::shared_ptr<Matrix> merge (const Matrix & other) const override;
 
     std::shared_ptr<Matrix> cut (std::pair<int, int> pos, std::pair<int, int> size) const override;
+
 };

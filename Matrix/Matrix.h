@@ -28,6 +28,8 @@ public:
 
     Matrix() = default;
 
+    Matrix(int rows, int columns);
+
     ~Matrix() = default;
 
     virtual std::shared_ptr<Matrix> clone() const = 0;
@@ -66,6 +68,6 @@ public:
 
     std::pair <int, int> getSize() const;
 
-    static double sparsity(const std::vector<int> & matrix_elements, int elements_count);
+    static double sparsity(const std::vector<double> & matrix_elements, int elements_count);
 
 };
