@@ -37,4 +37,5 @@ public:
 
     std::shared_ptr<Matrix> cut (std::pair<int, int> pos, std::pair<int, int> size) const override;
 
+    void print() const override;
 };

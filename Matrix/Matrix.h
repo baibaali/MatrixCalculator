@@ -24,13 +24,12 @@ enum OPERATION {
 
 class Matrix {
     std::pair <int, int> size;
+    int output_width;
 public:
 
-    Matrix() = default;
+    Matrix();
 
-    Matrix(int rows, int columns);
-
-    ~Matrix() = default;
+    Matrix(int rows, int columns, int output_width);
 
     virtual std::shared_ptr<Matrix> clone() const = 0;
 
@@ -70,4 +69,9 @@ public:
 
     static double sparsity(const std::vector<double> & matrix_elements, int elements_count);
 
+    virtual void print() const = 0;
+
+    int getOutputWidth() const;
+
+    void setOutputWidth(double number);
 };

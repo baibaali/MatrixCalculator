@@ -1,8 +1,10 @@
 #include "Matrix.h"
+#include <cmath>
 
-Matrix::Matrix(int rows, int columns) {
+Matrix::Matrix(int rows, int columns, int output_width) {
     size.first = rows;
     size.second = columns;
+    this->output_width = output_width;
 }
 
 std::shared_ptr<Matrix> Matrix::operator+(const Matrix &other) const {
@@ -37,5 +39,19 @@ double Matrix::sparsity(const std::vector<double> &matrix_elements, int elements
         zero_values += (matrix_elements[i] == 0);
 
     return (zero_values / elements_count);
+}
+
+int Matrix::getOutputWidth() const {
+    return output_width;
+}
+
+void Matrix::setOutputWidth(double number) {
+    int width = ceil(log10(number));
+    if (width > output_width)
+        output_width = width;
+}
+
+Matrix::Matrix() {
+    output_width = 1;
 }
 

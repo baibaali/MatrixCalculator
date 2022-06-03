@@ -13,4 +13,5 @@ public:
 
     void addNewVariable(char name, std::shared_ptr<Matrix> matrix);
 
+    void printMatrix(char name) const;
 };
