@@ -83,7 +83,7 @@ void Calculator::mergeByRows() {
     auto lhs = this->variables.find(inputReader.getSecondMatrixName());
     auto rhs = this->variables.find(inputReader.getThirdMatrixName());
 
-    //TODO: check here
+    //TODO: exception . here
     if (lhs == variables.end() || rhs == variables.end())
         return;
 
@@ -98,7 +98,7 @@ void Calculator::mergeByColumns() {
     auto lhs = this->variables.find(inputReader.getSecondMatrixName());
     auto rhs = this->variables.find(inputReader.getThirdMatrixName());
 
-    //TODO: check here
+    //TODO: exception here
     if (lhs == variables.end() || rhs == variables.end())
         return;
 

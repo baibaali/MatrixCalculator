@@ -64,9 +64,9 @@ public:
 
     virtual std::shared_ptr<Matrix> gaussEliminateDescribed () const = 0;
 
-    virtual std::vector<double> merge_by_rows (const std::shared_ptr<Matrix> other) const = 0;
+    std::vector<double> merge_by_rows (const std::shared_ptr<Matrix> other) const;
 
-    virtual std::vector<double> merge_by_columns (const std::shared_ptr<Matrix> other) const = 0;
+    std::vector<double> merge_by_columns (const std::shared_ptr<Matrix> other) const;
 
     virtual std::shared_ptr<Matrix> cut (std::pair<int, int> pos, std::pair<int, int> size) const = 0;
 

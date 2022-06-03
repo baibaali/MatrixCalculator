@@ -68,3 +68,25 @@ void Matrix::setMSparsity(double mSparsity) {
     m_sparsity = mSparsity;
 }
 
+std::vector<double> Matrix::merge_by_rows(const std::shared_ptr<Matrix> other) const {
+    std::vector<double> thisVec = this->getMatrixElementsAsVector();
+    std::vector<double> otherVec = other->getMatrixElementsAsVector();
+    thisVec.insert(thisVec.end(), otherVec.begin(), otherVec.end());
+    return thisVec;
+}
+
+std::vector<double> Matrix::merge_by_columns(const std::shared_ptr<Matrix> other) const {
+    std::vector<double> result;
+
+    for (int row = 0; row < this->getSize().first; row++) {
+        for (int column = 0; column < this->getSize().second; column++) {
+            result.push_back(this->at(row, column));
+        }
+        for (int column = 0; column < other->getSize().second; column++) {
+            result.push_back(other->at(row, column));
+        }
+    }
+
+    return result;
+}
+
