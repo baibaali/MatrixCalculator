@@ -52,17 +52,6 @@ std::shared_ptr<Matrix> DenseMatrix::gaussEliminateDescribed () const {
     return std::shared_ptr<Matrix>();
 }
 
-void DenseMatrix::print() const {
-    std::pair<int, int> size = this->getSize();
-    for (int row = 0; row < size.first; row++){
-        std::cout << "| ";
-        for (int column = 0; column < size.second; column++){
-            std::cout << std::setw(this->getOutputWidth()) << this->at(row, column) << " ";
-        }
-        std::cout << "|" << std::endl;
-    }
-}
-
 void DenseMatrix::makeIdentity() {
     for (int i = 0; i < this->getSize().first; i++)
         for (int j = 0; j < this->getSize().second; j++) {
@@ -70,15 +59,6 @@ void DenseMatrix::makeIdentity() {
             if (i == j)
                 matrix[i][j] = 1;
         }
-}
-
-std::vector<double> DenseMatrix::getMatrixElementsAsVector() const {
-    std::vector<double> result;
-    for (auto & x : matrix){
-        for (auto & y : x)
-            result.push_back(y);
-    }
-    return result;
 }
 
 double DenseMatrix::at(int row, int column) const {

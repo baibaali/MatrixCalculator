@@ -1,5 +1,7 @@
 #include "Matrix.h"
 #include <cmath>
+#include <iostream>
+#include <iomanip>
 
 Matrix::Matrix(int rows, int columns, int output_width, double m_sparsity) {
     size.first = rows;
@@ -94,6 +96,26 @@ std::vector<double> Matrix::cut(std::pair<int, int> pos, std::pair<int, int> m_s
     std::vector<double> result;
     for (int row = pos.first; row < pos.first + m_size.first; row++) {
         for (int column = pos.second; column < pos.second + m_size.second; column++) {
+            result.push_back(this->at(row, column));
+        }
+    }
+    return result;
+}
+
+void Matrix::print() const {
+    for (int row = 0; row < size.first; row++){
+        std::cout << "| ";
+        for (int column = 0; column < size.second; column++){
+            std::cout << std::setw(this->getOutputWidth()) << this->at(row, column) << " ";
+        }
+        std::cout << "|" << std::endl;
+    }
+}
+
+std::vector<double> Matrix::getMatrixElementsAsVector() const {
+    std::vector<double> result;
+    for (int row = 0; row < this->getSize().first; row++){
+        for (int column = 0; column < this->getSize().second; column++){
             result.push_back(this->at(row, column));
         }
     }

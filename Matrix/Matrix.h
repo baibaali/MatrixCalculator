@@ -70,7 +70,7 @@ public:
 
     std::vector<double> cut (std::pair<int, int> pos, std::pair<int, int> m_size) const;
 
-    virtual std::vector<double> getMatrixElementsAsVector () const = 0;
+    std::vector<double> getMatrixElementsAsVector () const;
 
     virtual void makeIdentity() = 0;
 
@@ -80,7 +80,7 @@ public:
 
     static double sparsity(int rows, int columns);
 
-    virtual void print() const = 0;
+    void print() const;
 
     int getOutputWidth() const;
 

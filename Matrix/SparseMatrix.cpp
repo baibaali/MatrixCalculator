@@ -55,30 +55,9 @@ std::shared_ptr<Matrix> SparseMatrix::gaussEliminateDescribed () const {
     return std::shared_ptr<Matrix>();
 }
 
-void SparseMatrix::print() const {
-    std::pair<int, int> size = this->getSize();
-    for (int row = 0; row < size.first; row++){
-        std::cout << "| ";
-        for (int column = 0; column < size.second; column++){
-            std::cout << std::setw(this->getOutputWidth()) << this->at(row, column) << " ";
-        }
-        std::cout << "|" << std::endl;
-    }
-}
-
 void SparseMatrix::makeIdentity() {
     for (int i = 0; i < this->getSize().first; i++)
         this->matrix[std::make_pair(i, i)] = 1;
-}
-
-std::vector<double> SparseMatrix::getMatrixElementsAsVector() const {
-    std::vector<double> result;
-    for (int row = 0; row < this->getSize().first; row++){
-        for (int column = 0; column < this->getSize().second; column++){
-            result.push_back(this->at(row, column));
-        }
-    }
-    return result;
 }
 
 double SparseMatrix::at(int row, int column) const {
