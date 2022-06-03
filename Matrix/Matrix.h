@@ -68,7 +68,7 @@ public:
 
     std::vector<double> merge_by_columns (const std::shared_ptr<Matrix> other) const;
 
-    virtual std::shared_ptr<Matrix> cut (std::pair<int, int> pos, std::pair<int, int> size) const = 0;
+    std::vector<double> cut (std::pair<int, int> pos, std::pair<int, int> size) const;
 
     virtual std::vector<double> getMatrixElementsAsVector () const = 0;
 

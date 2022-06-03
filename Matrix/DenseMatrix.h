@@ -35,8 +35,6 @@ public:
 
     std::shared_ptr<Matrix> gaussEliminateDescribed () const override;
 
-    std::shared_ptr<Matrix> cut (std::pair<int, int> pos, std::pair<int, int> size) const override;
-
     std::vector<double> getMatrixElementsAsVector() const override;
 
     double at(int row, int column) const override;

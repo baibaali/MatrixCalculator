@@ -90,3 +90,7 @@ std::vector<double> Matrix::merge_by_columns(const std::shared_ptr<Matrix> other
     return result;
 }
 
+std::vector<double> Matrix::cut(std::pair<int, int> pos, std::pair<int, int> size) const {
+
+}
+

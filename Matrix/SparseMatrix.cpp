@@ -55,22 +55,12 @@ std::shared_ptr<Matrix> SparseMatrix::gaussEliminateDescribed () const {
     return std::shared_ptr<Matrix>();
 }
 
-std::shared_ptr<Matrix> SparseMatrix::cut(std::pair<int, int> pos, std::pair<int, int> size) const {
-    return std::shared_ptr<Matrix>();
-}
-
 void SparseMatrix::print() const {
     std::pair<int, int> size = this->getSize();
     for (int row = 0; row < size.first; row++){
         std::cout << "| ";
         for (int column = 0; column < size.second; column++){
             std::cout << std::setw(this->getOutputWidth()) << this->at(row, column) << " ";
-
-//            if(matrix.count(std::make_pair(row, column)) != 0)
-//                std::cout << std::setw(this->getOutputWidth()) << matrix.find(std::make_pair(row, column))->second << " ";
-//            else {
-//                std::cout << std::setw(this->getOutputWidth()) << "0 ";
-//            }
         }
         std::cout << "|" << std::endl;
     }
@@ -86,10 +76,6 @@ std::vector<double> SparseMatrix::getMatrixElementsAsVector() const {
     for (int row = 0; row < this->getSize().first; row++){
         for (int column = 0; column < this->getSize().second; column++){
             result.push_back(this->at(row, column));
-//            if (matrix.count(std::make_pair(row, column)) == 0)
-//                result.push_back(0);
-//            else
-//                result.push_back(matrix.find(std::make_pair(row, column))->second);
         }
     }
     return result;

@@ -52,10 +52,6 @@ std::shared_ptr<Matrix> DenseMatrix::gaussEliminateDescribed () const {
     return std::shared_ptr<Matrix>();
 }
 
-std::shared_ptr<Matrix> DenseMatrix::cut(std::pair<int, int> pos, std::pair<int, int> size) const {
-    return std::shared_ptr<Matrix>();
-}
-
 void DenseMatrix::print() const {
     std::pair<int, int> size = this->getSize();
     for (int row = 0; row < size.first; row++){
