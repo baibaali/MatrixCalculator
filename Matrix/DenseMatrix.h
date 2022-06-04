@@ -17,8 +17,6 @@ public:
 
     std::shared_ptr<Matrix> clone() const override;
 
-    std::shared_ptr<Matrix> add (const Matrix & other) const override;
-
     std::shared_ptr<Matrix> subtract (const Matrix & other) const override;
 
     std::shared_ptr<Matrix> multiply (const Matrix & other) const override;

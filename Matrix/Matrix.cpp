@@ -10,10 +10,6 @@ Matrix::Matrix(int rows, int columns, int output_width, double m_sparsity) {
     this->m_sparsity = m_sparsity;
 }
 
-std::shared_ptr<Matrix> Matrix::operator+(const Matrix &other) const {
-    return this->add(other);
-}
-
 std::shared_ptr<Matrix> Matrix::operator-(const Matrix &other) const {
     return this->subtract(other);
 }
@@ -120,5 +116,18 @@ std::vector<double> Matrix::getMatrixElementsAsVector() const {
         }
     }
     return result;
+}
+
+std::vector<double> Matrix::add(const std::shared_ptr<Matrix> other) const {
+    std::vector<double> result;
+    for (int row = 0; row < size.first; row++) {
+        for (int column = 0; column < size.second; column++)
+            result.push_back(this->at(row, column) + other->at(row, column));
+    }
+    return result;
+}
+
+std::vector<double> operator+(const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs) {
+    return lhs->add(rhs);
 }
 

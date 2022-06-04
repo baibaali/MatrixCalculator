@@ -26,4 +26,6 @@ public:
 
     void cut();
 
+    void addition();
+
 };

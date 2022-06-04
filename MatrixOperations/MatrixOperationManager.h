@@ -13,7 +13,7 @@ public:
 
     static std::shared_ptr<Matrix> CreateIdentity(int rows);
 
-    static std::shared_ptr<Matrix> MatrixAddition (const Matrix & lhs, const Matrix & rhs);
+    static std::shared_ptr<Matrix> MatrixAddition (const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs);
 
     static std::shared_ptr<Matrix> MatrixSubtraction (const Matrix & lhs, const Matrix & rhs);
 

@@ -19,7 +19,7 @@ class InputReader {
 
     std::map<OPERATION, std::string> regex {
             {SCAN, R"([\s]*(SCAN|Scan|scan)[\s]+[A-Z][\s]*\[[\s]*[1-9]+[\s]*\][\s]*\[[\s]*[1-9]+[\s]*\][\s]*)"},
-            {IDENTITY, R"([\s]* [\s]*\[[\s]*[1-9]+[\s]*\][\s]*\[[\s]*[1-9]+[\s]*\][\s]*(=)[\s]*(1)[\s]*)"},
+            {IDENTITY, R"([\s]*[A-Z][\s]*\[[\s]*[1-9]+[\s]*\][\s]*\[[\s]*[1-9]+[\s]*\][\s]*(=)[\s]*(1)[\s]*)"},
             {MERGE_BY_ROWS, R"([\s]*[A-Z][\s]*(=)[\s]*(MERGE|Merge|merge)[\s]+(-r)[\s]+[A-Z][\s]+[A-Z][\s]*)"},
             {MERGE_BY_COLUMNS, R"([\s]*[A-Z][\s]*(=)[\s]*(MERGE|Merge|merge)[\s]+(-c)[\s]+[A-Z][\s]+[A-Z][\s]*)"},
             {GEM, R"([\s]*(GEM|Gem|gem)[\s]+[A-Z][\s]*)"},
@@ -30,6 +30,7 @@ class InputReader {
             {DETERMINANT, R"([\s]*(DET|Det|det)[\s]+[A-Z][\s]*)"},
             {INVERSION, R"([\s]*(INV|Inv|inv)[\s]+[A-Z][\s]*)"},
             {RANK, R"([\s]*(RANK|Rank|rank)[\s]+[A-Z][\s]*)"},
+            {ADDITION, R"([\s]*[A-Z][\s]*(=)[\s]*[A-Z][\s]*(\+)[\s]*[A-Z][\s]*)"},
     };
 
     std::vector<std::pair<OPERATION, std::vector<std::string>>> expressions;

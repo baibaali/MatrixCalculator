@@ -36,6 +36,9 @@ bool Calculator::calculate() {
         case CUT_DEFAULT:
             cut();
             break;
+        case ADDITION:
+            addition();
+            break;
         case EXIT:
             return true;
         default:
@@ -126,4 +129,18 @@ void Calculator::cut() {
                                               std::make_pair(inputReader.getRows(), inputReader.getColumns())
                                               );
 
+}
+
+void Calculator::addition() {
+    //TODO: check for existing matrices
+    //TODO: check for valid sizes of matrices
+    auto lhs = this->variables.find(inputReader.getSecondMatrixName());
+    auto rhs = this->variables.find(inputReader.getThirdMatrixName());
+
+    //TODO: exception here
+    if (lhs == variables.end() || rhs == variables.end())
+        return;
+
+    this->variables[inputReader.getFirstMatrixName()] =
+            MatrixOperationManager::MatrixAddition(lhs->second,rhs->second);
 }

@@ -130,6 +130,11 @@ bool InputReader::parseExpression(OPERATION operation) {
                     sscanf(user_input.c_str(), " rank %c", &first_matrix_name);
             printf("RANK %c\n", first_matrix_name);
             break;
+        case ADDITION:
+            current_operation = ADDITION;
+            sscanf(user_input.c_str(), "%c = %c + %c", &first_matrix_name, &second_matrix_name, &third_matrix_name);
+            printf("%c = %c + %c\n", first_matrix_name, second_matrix_name, third_matrix_name);
+            break;
     }
     return false;
 }
