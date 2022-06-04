@@ -6,37 +6,37 @@
 
 void Calculator::run() {
 
-    Fraction a(1,4);
-    Fraction b(3,7);
-
-    Fraction c = a * b;
-    Fraction d = a + b;
-    Fraction e = a - b;
-    Fraction f = a / b;
-
-    std::cout << a << " * " << b << " = " << c << std::endl
-              << a << " + " << b << " = " << d << std::endl
-              << a << " - " << b << " = " << e << std::endl
-              << a << " / " << b << " = " << f << std::endl;
-
-    Fraction g = a * 4;
-    Fraction h = 4 * a;
-
-    std::cout << a << " * 4 = " << g << std::endl;
-    std::cout << "4 * " << a << " = " << h << std::endl;
-
-    Fraction i = b * 7;
-    Fraction j = 7 * b;
-
-    std::cout << b << " * 7 = " << i << std::endl;
-    std::cout << "7 * " << b << " = " << j << std::endl;
-//    while (true) {
-//        inputReader.readExpression();
-//        if (calculate())
-//            break;
-//        inputReader.reset();
-//        std::cout << "Calculating finished." << std::endl << std::endl;
-//    }
+//    Fraction a(1,4);
+//    Fraction b(3,7);
+//
+//    Fraction c = a * b;
+//    Fraction d = a + b;
+//    Fraction e = a - b;
+//    Fraction f = a / b;
+//
+//    std::cout << a << " * " << b << " = " << c << std::endl
+//              << a << " + " << b << " = " << d << std::endl
+//              << a << " - " << b << " = " << e << std::endl
+//              << a << " / " << b << " = " << f << std::endl;
+//
+//    Fraction g = a * 4;
+//    Fraction h = 4 * a;
+//
+//    std::cout << a << " * 4 = " << g << std::endl;
+//    std::cout << "4 * " << a << " = " << h << std::endl;
+//
+//    Fraction i = b * 7;
+//    Fraction j = 7 * b;
+//
+//    std::cout << b << " * 7 = " << i << std::endl;
+//    std::cout << "7 * " << b << " = " << j << std::endl;
+    while (true) {
+        inputReader.readExpression();
+        if (calculate())
+            break;
+        inputReader.reset();
+        std::cout << "Calculating finished." << std::endl << std::endl;
+    }
 }
 
 bool Calculator::calculate() {

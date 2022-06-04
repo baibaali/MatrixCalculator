@@ -35,7 +35,7 @@ std::shared_ptr<Matrix> Matrix::gaussEliminate(bool withComments) const {
     return withComments ? this->gaussEliminateDescribed() : this->gaussEliminateCommon();
 }
 
-double Matrix::sparsity(const std::vector<double> &matrix_elements, int elements_count) {
+double Matrix::sparsity(const std::vector<Fraction> &matrix_elements, int elements_count) {
 
     double zero_values = 0;
 
@@ -49,10 +49,8 @@ int Matrix::getOutputWidth() const {
     return output_width;
 }
 
-void Matrix::setOutputWidth(double number) {
-    int width = int(log10(number)) + 1;
-    if (width > output_width)
-        output_width = width;
+void Matrix::setOutputWidth(const Fraction & number) {
+    output_width = number.getWidth();
 }
 
 Matrix::Matrix() {
@@ -71,15 +69,15 @@ void Matrix::setMSparsity(double mSparsity) {
     m_sparsity = mSparsity;
 }
 
-std::vector<double> Matrix::merge_by_rows(const std::shared_ptr<Matrix> other) const {
-    std::vector<double> thisVec = this->getMatrixElementsAsVector();
-    std::vector<double> otherVec = other->getMatrixElementsAsVector();
+std::vector<Fraction> Matrix::merge_by_rows(const std::shared_ptr<Matrix> other) const {
+    std::vector<Fraction> thisVec = this->getMatrixElementsAsVector();
+    std::vector<Fraction> otherVec = other->getMatrixElementsAsVector();
     thisVec.insert(thisVec.end(), otherVec.begin(), otherVec.end());
     return thisVec;
 }
 
-std::vector<double> Matrix::merge_by_columns(const std::shared_ptr<Matrix> other) const {
-    std::vector<double> result;
+std::vector<Fraction> Matrix::merge_by_columns(const std::shared_ptr<Matrix> other) const {
+    std::vector<Fraction> result;
 
     for (int row = 0; row < this->getSize().first; row++) {
         for (int column = 0; column < this->getSize().second; column++) {
@@ -93,8 +91,8 @@ std::vector<double> Matrix::merge_by_columns(const std::shared_ptr<Matrix> other
     return result;
 }
 
-std::vector<double> Matrix::cut(std::pair<int, int> pos, std::pair<int, int> m_size) const {
-    std::vector<double> result;
+std::vector<Fraction> Matrix::cut(std::pair<int, int> pos, std::pair<int, int> m_size) const {
+    std::vector<Fraction> result;
     for (int row = pos.first; row < pos.first + m_size.first; row++) {
         for (int column = pos.second; column < pos.second + m_size.second; column++) {
             result.push_back(this->at(row, column));
@@ -113,8 +111,8 @@ void Matrix::print() const {
     }
 }
 
-std::vector<double> Matrix::getMatrixElementsAsVector() const {
-    std::vector<double> result;
+std::vector<Fraction> Matrix::getMatrixElementsAsVector() const {
+    std::vector<Fraction> result;
     for (int row = 0; row < this->getSize().first; row++){
         for (int column = 0; column < this->getSize().second; column++){
             result.push_back(this->at(row, column));
@@ -123,8 +121,8 @@ std::vector<double> Matrix::getMatrixElementsAsVector() const {
     return result;
 }
 
-std::vector<double> Matrix::add(const std::shared_ptr<Matrix> other) const {
-    std::vector<double> result;
+std::vector<Fraction> Matrix::add(const std::shared_ptr<Matrix> other) const {
+    std::vector<Fraction> result;
     for (int row = 0; row < size.first; row++) {
         for (int column = 0; column < size.second; column++)
             result.push_back(this->at(row, column) + other->at(row, column));
@@ -132,8 +130,8 @@ std::vector<double> Matrix::add(const std::shared_ptr<Matrix> other) const {
     return result;
 }
 
-std::vector<double> Matrix::subtract(const std::shared_ptr<Matrix> other) const {
-    std::vector<double> result;
+std::vector<Fraction> Matrix::subtract(const std::shared_ptr<Matrix> other) const {
+    std::vector<Fraction> result;
     for (int row = 0; row < size.first; row++) {
         for (int column = 0; column < size.second; column++)
             result.push_back(this->at(row, column) - other->at(row, column));
@@ -141,9 +139,9 @@ std::vector<double> Matrix::subtract(const std::shared_ptr<Matrix> other) const 
     return result;
 }
 
-std::vector<double> Matrix::multiply(const std::shared_ptr<Matrix> other) const {
-    std::vector<double> result;
-    double temp_result = 0;
+std::vector<Fraction> Matrix::multiply(const std::shared_ptr<Matrix> other) const {
+    std::vector<Fraction> result;
+    Fraction temp_result = 0;
     for (int row = 0; row < this->getSize().first; row++){
         for (int column = 0; column < other->getSize().second; column++) {
             for (int element = 0; element < this->getSize().second; element++) {
@@ -155,5 +153,4 @@ std::vector<double> Matrix::multiply(const std::shared_ptr<Matrix> other) const 
     }
     return result;
 }
-
 

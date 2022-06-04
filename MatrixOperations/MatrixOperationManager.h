@@ -4,12 +4,13 @@
 #include "../Matrix/Matrix.h"
 #include "../Matrix/SparseMatrix.h"
 #include "../Matrix/DenseMatrix.h"
+#include "../Fraction.h"
 
 class MatrixOperationManager {
 
 public:
 
-    static std::shared_ptr<Matrix> Create (int rows, int columns, const std::vector<double> & values);
+    static std::shared_ptr<Matrix> Create (int rows, int columns, const std::vector<Fraction> & values);
 
     static std::shared_ptr<Matrix> CreateIdentity(int rows);
 
@@ -19,7 +20,7 @@ public:
 
     static std::shared_ptr<Matrix> MatrixMultiplication (const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs);
 
-    static std::shared_ptr<Matrix> MatrixMultiplication (const std::shared_ptr<Matrix> mtrx, double scalar);
+    static std::shared_ptr<Matrix> MatrixMultiplication (const std::shared_ptr<Matrix> mtrx, Fraction scalar);
 
     static std::shared_ptr<Matrix> MatrixInversion (const Matrix & mtrx);
 
@@ -37,5 +38,5 @@ public:
 
 private:
 
-    static std::shared_ptr<Matrix> createMatrixBasedOnSparsity(const std::vector<double> & values, int rows, int columns, double sparsity);
+    static std::shared_ptr<Matrix> createMatrixBasedOnSparsity(const std::vector<Fraction> & values, int rows, int columns, double sparsity);
 };

@@ -4,7 +4,7 @@
 
 DenseMatrix::DenseMatrix(int rows, int columns, double sparsity) : Matrix(rows, columns, 1, sparsity) {}
 
-DenseMatrix::DenseMatrix(const std::vector<double> & values, int rows, int columns, double sparsity) : Matrix(rows, columns, 1, sparsity) {
+DenseMatrix::DenseMatrix(const std::vector<Fraction> & values, int rows, int columns, double sparsity) : Matrix(rows, columns, 1, sparsity) {
     for (int i = 0; i < rows; i++) {
         matrix.emplace_back(values.begin() + i * columns, values.begin() + (i + 1) * columns);
         for (auto & x: matrix[i])
@@ -16,7 +16,7 @@ std::shared_ptr<Matrix> DenseMatrix::clone() const {
     return std::make_shared<DenseMatrix>(*this);
 }
 
-std::shared_ptr<Matrix> DenseMatrix::multiply(double scalar) const {
+std::shared_ptr<Matrix> DenseMatrix::multiply(Fraction scalar) const {
     DenseMatrix result = DenseMatrix(*this);
     for (int row = 0; row < result.getSize().first; row++) {
         for (int column = 0; column < result.getSize().second; column++) {
@@ -55,7 +55,7 @@ void DenseMatrix::makeIdentity() {
         }
 }
 
-double DenseMatrix::at(int row, int column) const {
+Fraction DenseMatrix::at(int row, int column) const {
     return matrix[row][column];
 }
 

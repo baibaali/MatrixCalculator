@@ -2,14 +2,15 @@
 
 #include <vector>
 #include "Matrix.h"
+#include "../Fraction.h"
 
 class DenseMatrix : public Matrix {
-    std::vector<std::vector<double>> matrix;
+    std::vector<std::vector<Fraction>> matrix;
 public:
 
     DenseMatrix() = default;
 
-    DenseMatrix(const std::vector<double> & values, int rows, int columns, double sparsity);
+    DenseMatrix(const std::vector<Fraction> & values, int rows, int columns, double sparsity);
 
     DenseMatrix(int rows, int columns, double sparsity);
 
@@ -17,7 +18,7 @@ public:
 
     std::shared_ptr<Matrix> clone() const override;
 
-    std::shared_ptr<Matrix> multiply (double scalar) const override;
+    std::shared_ptr<Matrix> multiply (Fraction scalar) const override;
 
     std::shared_ptr<Matrix> findInversion () const override;
 
@@ -29,7 +30,7 @@ public:
 
     std::shared_ptr<Matrix> gaussEliminateDescribed () const override;
 
-    double at(int row, int column) const override;
+    Fraction at(int row, int column) const override;
 
     void makeIdentity() override;
 };

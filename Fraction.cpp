@@ -8,6 +8,10 @@ Fraction::Fraction(int numerator, int denominator)  : numerator(numerator), deno
 
 void Fraction::normalize() {
         //TODO: exception if denominator == 0
+    if (numerator == 0) {
+        denominator = 1;
+        return;
+    }
     if (numerator < 0 && denominator < 0)
     {
         numerator = abs(numerator);
@@ -21,10 +25,18 @@ void Fraction::normalize() {
     int fraction_gcd = std::__gcd(numerator, denominator);
     this->numerator = this->numerator / fraction_gcd;
     this->denominator = this->denominator / fraction_gcd;
+
 }
 
 Fraction operator+(const Fraction & lhs, const Fraction & rhs) {
     return lhs.add(rhs);
+}
+
+Fraction operator+=(Fraction & lhs, const Fraction & rhs) {
+    lhs.numerator = (lhs.numerator * rhs.denominator + rhs.numerator * lhs.denominator);
+    lhs.denominator = (lhs.denominator * rhs.denominator);
+    lhs.normalize();
+    return lhs;
 }
 
 Fraction Fraction::add(const Fraction &rhs) const {
@@ -38,6 +50,13 @@ Fraction operator-(const Fraction & lhs, const Fraction & rhs) {
     return lhs.subtract(rhs);
 }
 
+Fraction operator-=(Fraction & lhs, const Fraction & rhs) {
+    lhs.numerator = (lhs.numerator * rhs.denominator - rhs.numerator * lhs.denominator);
+    lhs.denominator = (lhs.denominator * rhs.denominator);
+    lhs.normalize();
+    return lhs;
+}
+
 Fraction Fraction::subtract(const Fraction &rhs) const {
     int temp_numerator = (this->numerator * rhs.denominator - rhs.numerator * this->denominator);
     int temp_denominator = (this->denominator * rhs.denominator);
@@ -47,6 +66,13 @@ Fraction Fraction::subtract(const Fraction &rhs) const {
 
 Fraction operator*(const Fraction & lhs, const Fraction & rhs) {
     return lhs.multiply(rhs);
+}
+
+Fraction operator*=(Fraction & lhs, const Fraction &rhs) {
+    lhs.denominator *= rhs.denominator;
+    lhs.numerator *= rhs.numerator;
+    lhs.normalize();
+    return lhs;
 }
 
 Fraction Fraction::multiply(const Fraction &rhs) const {
@@ -97,3 +123,23 @@ std::ostream & operator<<(std::ostream & os, const Fraction & fraction) {
         os << '/' << fraction.denominator;
     return os;
 }
+
+int Fraction::getWidth() const {
+    bool isNegative = numerator < 0;
+    // +1 for first log, +1 for second, +1 for '/' sign and +1 if number is negative
+    return log10(numerator) + log10(denominator) + 3 + isNegative;
+}
+
+bool Fraction::operator==(const Fraction &rhs) const {
+    Fraction lhs = *this;
+    Fraction temp_rhs = rhs;
+    lhs.normalize();
+    temp_rhs.normalize();
+    return lhs.numerator == temp_rhs.numerator &&
+           lhs.denominator == temp_rhs.denominator;
+}
+
+bool Fraction::operator!=(const Fraction &rhs) const {
+    return !(rhs == *this);
+}
+

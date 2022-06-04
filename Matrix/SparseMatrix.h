@@ -4,11 +4,11 @@
 #include "Matrix.h"
 
 class SparseMatrix : public Matrix {
-    std::map <std::pair<int, int>, double> matrix;
+    std::map <std::pair<int, int>, Fraction> matrix;
 public:
     SparseMatrix() = default;
 
-    SparseMatrix(const std::vector<double> & values, int rows, int columns, double sparsity);
+    SparseMatrix(const std::vector<Fraction> & values, int rows, int columns, double sparsity);
 
     SparseMatrix(int rows, int columns, double sparsity);
 
@@ -16,7 +16,7 @@ public:
 
     std::shared_ptr<Matrix> clone() const override;
 
-    std::shared_ptr<Matrix> multiply (double scalar) const override;
+    std::shared_ptr<Matrix> multiply (Fraction scalar) const override;
 
     std::shared_ptr<Matrix> findInversion () const override;
 
@@ -28,7 +28,7 @@ public:
 
     std::shared_ptr<Matrix> gaussEliminateDescribed () const override;
 
-    double at(int row, int column) const override;
+    Fraction at(int row, int column) const override;
 
     void makeIdentity() override;
 

@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <vector>
+#include "../Fraction.h"
 
 enum OPERATION {
     NONE,
@@ -45,13 +46,13 @@ public:
 
     friend std::shared_ptr<Matrix> operator* (const std::shared_ptr<Matrix> lhs, double scalar);
 
-    std::vector<double> add (const std::shared_ptr<Matrix> other) const;
+    std::vector<Fraction> add (const std::shared_ptr<Matrix> other) const;
 
-    std::vector<double> subtract (const std::shared_ptr<Matrix> other) const;
+    std::vector<Fraction> subtract (const std::shared_ptr<Matrix> other) const;
 
-    std::vector<double> multiply (const std::shared_ptr<Matrix> other) const;
+    std::vector<Fraction> multiply (const std::shared_ptr<Matrix> other) const;
 
-    virtual std::shared_ptr<Matrix> multiply (double scalar) const = 0;
+    virtual std::shared_ptr<Matrix> multiply (Fraction scalar) const = 0;
 
     virtual std::shared_ptr<Matrix> findInversion () const = 0;
 
@@ -65,19 +66,19 @@ public:
 
     virtual std::shared_ptr<Matrix> gaussEliminateDescribed () const = 0;
 
-    std::vector<double> merge_by_rows (const std::shared_ptr<Matrix> other) const;
+    std::vector<Fraction> merge_by_rows (const std::shared_ptr<Matrix> other) const;
 
-    std::vector<double> merge_by_columns (const std::shared_ptr<Matrix> other) const;
+    std::vector<Fraction> merge_by_columns (const std::shared_ptr<Matrix> other) const;
 
-    std::vector<double> cut (std::pair<int, int> pos, std::pair<int, int> m_size) const;
+    std::vector<Fraction> cut (std::pair<int, int> pos, std::pair<int, int> m_size) const;
 
-    std::vector<double> getMatrixElementsAsVector () const;
+    std::vector<Fraction> getMatrixElementsAsVector () const;
 
     virtual void makeIdentity() = 0;
 
     std::pair <int, int> getSize() const;
 
-    static double sparsity(const std::vector<double> & matrix_elements, int elements_count);
+    static double sparsity(const std::vector<Fraction> & matrix_elements, int elements_count);
 
     static double sparsity(int rows, int columns);
 
@@ -85,11 +86,11 @@ public:
 
     int getOutputWidth() const;
 
-    void setOutputWidth(double number);
+    void setOutputWidth(const Fraction & number);
 
     double getMSparsity() const;
 
     void setMSparsity(double mSparsity);
 
-    virtual double at(int row, int column) const = 0;
+    virtual Fraction at(int row, int column) const = 0;
 };
