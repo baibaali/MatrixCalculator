@@ -6,6 +6,7 @@
 
 InputReader::InputReader() {
     rows = columns = 0;
+    scalar = 1;
     first_matrix_name = second_matrix_name = 0;
     current_operation = NONE;
 };
@@ -140,6 +141,11 @@ bool InputReader::parseExpression(OPERATION operation) {
             sscanf(user_input.c_str(), "%c = %c - %c", &first_matrix_name, &second_matrix_name, &third_matrix_name);
             printf("%c = %c - %c\n", first_matrix_name, second_matrix_name, third_matrix_name);
             break;
+        case MULTIPLICATION_BY_SCALAR:
+            current_operation = MULTIPLICATION_BY_SCALAR;
+            sscanf(user_input.c_str(), "%c = %d * %c", &first_matrix_name, &scalar, &second_matrix_name);
+            printf("%c = %d * %c", first_matrix_name, scalar, second_matrix_name);
+            break;
     }
     return false;
 }
@@ -157,6 +163,7 @@ void InputReader::reset() {
     rows = columns = row_from = column_from = 0;
     first_matrix_name = second_matrix_name = third_matrix_name = 0;
     current_operation = NONE;
+    scalar = 1;
 }
 
 char InputReader::getFirstMatrixName() const {
@@ -189,4 +196,8 @@ char InputReader::getSecondMatrixName() const {
 
 char InputReader::getThirdMatrixName() const {
     return third_matrix_name;
+}
+
+int InputReader::getScalar() const {
+    return scalar;
 }

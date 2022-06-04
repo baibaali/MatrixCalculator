@@ -24,7 +24,10 @@ std::shared_ptr<Matrix> SparseMatrix::multiply(const Matrix &other) const {
 }
 
 std::shared_ptr<Matrix> SparseMatrix::multiply(double scalar) const {
-    return std::shared_ptr<Matrix>();
+    SparseMatrix result = SparseMatrix(*this);
+    for (auto & el : result.matrix)
+        el.second *= 2;
+    return result.clone();
 }
 
 std::shared_ptr<Matrix> SparseMatrix::findInversion() const {

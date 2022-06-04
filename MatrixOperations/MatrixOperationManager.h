@@ -19,7 +19,7 @@ public:
 
     static std::shared_ptr<Matrix> MatrixMultiplication (const Matrix & lhs, const Matrix & rhs);
 
-    static std::shared_ptr<Matrix> MatrixMultiplication (const Matrix & mtrx, double scalar);
+    static std::shared_ptr<Matrix> MatrixMultiplication (const std::shared_ptr<Matrix> mtrx, double scalar);
 
     static std::shared_ptr<Matrix> MatrixInversion (const Matrix & mtrx);
 

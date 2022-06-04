@@ -18,15 +18,14 @@ std::shared_ptr<Matrix> MatrixOperationManager::MatrixAddition(const std::shared
 std::shared_ptr<Matrix> MatrixOperationManager::MatrixSubtraction(const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs) {
     std::vector<double> result = lhs->subtract(rhs);
     return createMatrixBasedOnSparsity(result, lhs->getSize().first, lhs->getSize().second, Matrix::sparsity(result, lhs->getSize().first * lhs->getSize().second));
-
 }
 
 std::shared_ptr<Matrix> MatrixOperationManager::MatrixMultiplication(const Matrix &lhs, const Matrix &rhs) {
-    return lhs * rhs;
+//    return lhs.multiply(scalar);
 }
 
-std::shared_ptr<Matrix> MatrixOperationManager::MatrixMultiplication(const Matrix &mtrx, double scalar) {
-    return mtrx * scalar;
+std::shared_ptr<Matrix> MatrixOperationManager::MatrixMultiplication(const std::shared_ptr<Matrix> mtrx, double scalar) {
+    return mtrx->multiply(scalar);
 }
 
 std::shared_ptr<Matrix> MatrixOperationManager::MatrixInversion(const Matrix &mtrx) {

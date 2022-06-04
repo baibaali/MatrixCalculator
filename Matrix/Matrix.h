@@ -9,7 +9,8 @@ enum OPERATION {
     ASSIGN,
     ADDITION,
     SUBTRACTION,
-    MULTIPLYING,
+    MULTIPLICATION,
+    MULTIPLICATION_BY_SCALAR,
     INVERSION,
     DETERMINANT,
     RANK,
@@ -40,17 +41,15 @@ public:
 
     friend std::shared_ptr<Matrix> operator-(const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs);
 
-//    std::shared_ptr<Matrix> operator- (const Matrix & other) const;
-
     std::shared_ptr<Matrix> operator* (const Matrix & other) const;
 
-    std::shared_ptr<Matrix> operator* (double scalar) const;
+    friend std::shared_ptr<Matrix> operator* (const std::shared_ptr<Matrix> lhs, double scalar);
 
     std::vector<double> add (const std::shared_ptr<Matrix> other) const;
 
     std::vector<double> subtract (const std::shared_ptr<Matrix> other) const;
 
-    virtual std::shared_ptr<Matrix> multiply (const Matrix & other) const = 0;
+    std::shared_ptr<Matrix> multiply (const std::shared_ptr<Matrix> other) const;
 
     virtual std::shared_ptr<Matrix> multiply (double scalar) const = 0;
 

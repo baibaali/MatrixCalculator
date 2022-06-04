@@ -16,12 +16,14 @@ std::shared_ptr<Matrix> DenseMatrix::clone() const {
     return std::make_shared<DenseMatrix>(*this);
 }
 
-std::shared_ptr<Matrix> DenseMatrix::multiply(const Matrix &other) const {
-    return std::shared_ptr<Matrix>();
-}
-
 std::shared_ptr<Matrix> DenseMatrix::multiply(double scalar) const {
-    return std::shared_ptr<Matrix>();
+    DenseMatrix result = DenseMatrix(*this);
+    for (int row = 0; row < result.getSize().first; row++) {
+        for (int column = 0; column < result.getSize().second; column++) {
+            result.matrix[row][column] *= scalar;
+        }
+    }
+    return result.clone();
 }
 
 std::shared_ptr<Matrix> DenseMatrix::findInversion() const {
@@ -56,5 +58,6 @@ void DenseMatrix::makeIdentity() {
 double DenseMatrix::at(int row, int column) const {
     return matrix[row][column];
 }
+
 
 

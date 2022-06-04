@@ -42,6 +42,9 @@ bool Calculator::calculate() {
         case SUBTRACTION:
             subtraction();
             break;
+        case MULTIPLICATION_BY_SCALAR:
+            multiplicationByScalar();
+            break;
         case EXIT:
             return true;
         default:
@@ -158,4 +161,14 @@ void Calculator::subtraction() {
         return;
 
     this->variables[inputReader.getFirstMatrixName()] = lhs->second - rhs->second;
+}
+
+void Calculator::multiplicationByScalar() {
+    auto mtrx = this->variables.find(inputReader.getSecondMatrixName());
+
+    //TODO: exception here
+    if (mtrx == variables.end())
+        return;
+
+    this->variables[inputReader.getFirstMatrixName()] = mtrx->second * inputReader.getScalar();
 }

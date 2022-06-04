@@ -19,13 +19,13 @@ std::shared_ptr<Matrix> operator-(const std::shared_ptr<Matrix> lhs, const std::
     return MatrixOperationManager::MatrixSubtraction(lhs, rhs);
 }
 
-std::shared_ptr<Matrix> Matrix::operator*(const Matrix &other) const {
-    return this->multiply(other);
+std::shared_ptr<Matrix> operator*(const std::shared_ptr<Matrix> lhs, double scalar) {
+    return MatrixOperationManager::MatrixMultiplication(lhs, scalar);
 }
 
-std::shared_ptr<Matrix> Matrix::operator*(double scalar) const {
-    return this->multiply(scalar);
-}
+//std::shared_ptr<Matrix> operator*(double scalar) {
+//    return this->multiply(scalar);
+//}
 
 std::pair<int, int> Matrix::getSize() const {
     return this->size;
@@ -140,4 +140,5 @@ std::vector<double> Matrix::subtract(const std::shared_ptr<Matrix> other) const 
     }
     return result;
 }
+
 

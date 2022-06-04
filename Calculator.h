@@ -30,4 +30,5 @@ public:
 
     void subtraction();
 
+    void multiplicationByScalar();
 };
