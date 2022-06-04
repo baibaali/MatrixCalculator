@@ -1,12 +1,15 @@
 #pragma once
 
 #include <ostream>
+#include <istream>
 
 class Fraction {
     int numerator;
     int denominator;
 
 public:
+    Fraction() : numerator(1), denominator(1) {};
+
     Fraction(int numerator, int denominator = 1);
     ~Fraction() = default;
 
@@ -32,6 +35,8 @@ public:
 
     friend Fraction operator/(const Fraction & lhs, const int num);
     Fraction divide(const int num) const;
+
+    friend std::istream & operator>>(std::istream & is, Fraction & fraction);
 
     friend std::ostream & operator<<(std::ostream & os, const Fraction & fraction);
 

@@ -8,6 +8,7 @@ InputReader::InputReader() {
     rows = columns = 0;
     scalar = 1;
     first_matrix_name = second_matrix_name = 0;
+    scalar_numerator = scalar_denominator = 1;
     current_operation = NONE;
 };
 
@@ -143,8 +144,10 @@ bool InputReader::parseExpression(OPERATION operation) {
             break;
         case MULTIPLICATION_BY_SCALAR:
             current_operation = MULTIPLICATION_BY_SCALAR;
-            sscanf(user_input.c_str(), "%c = %d * %c", &first_matrix_name, &scalar, &second_matrix_name);
-            printf("%c = %d * %c\n", first_matrix_name, scalar, second_matrix_name);
+            if (sscanf(user_input.c_str(), "%c = %d * %c", &first_matrix_name, &scalar_numerator, &second_matrix_name) != 3)
+                sscanf(user_input.c_str(), "%c = %d / %d * %c", &first_matrix_name, &scalar_numerator, &scalar_denominator, &second_matrix_name);
+            scalar = Fraction(scalar_numerator, scalar_denominator);
+            std::cout << first_matrix_name << " = " << scalar << " * " << second_matrix_name << std::endl;
             break;
         case MULTIPLICATION:
             current_operation = MULTIPLICATION;
@@ -203,6 +206,6 @@ char InputReader::getThirdMatrixName() const {
     return third_matrix_name;
 }
 
-int InputReader::getScalar() const {
+Fraction InputReader::getScalar() const {
     return scalar;
 }

@@ -5,7 +5,7 @@
 
 class Calculator {
     InputReader inputReader;
-    std::vector<double> matrix_values;
+    std::vector<Fraction> matrix_values;
     std::map<char, std::shared_ptr<Matrix>> variables;
 public:
     void run();

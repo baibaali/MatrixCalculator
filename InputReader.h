@@ -10,8 +10,8 @@ class InputReader {
 
     int rows, columns;
     int row_from, column_from;
-    int scalar;
-
+    Fraction scalar;
+    int scalar_numerator, scalar_denominator;
     char first_matrix_name;
     char second_matrix_name;
     char third_matrix_name;
@@ -35,6 +35,7 @@ class InputReader {
             {SUBTRACTION, R"([\s]*[A-Z][\s]*(=)[\s]*[A-Z][\s]*(\-)[\s]*[A-Z][\s]*)"},
             {SUBTRACTION, R"([\s]*[A-Z][\s]*(=)[\s]*[A-Z][\s]*(\-)[\s]*[A-Z][\s]*)"},
             {MULTIPLICATION_BY_SCALAR, R"([\s]*[A-Z][\s]*(=)[\s]*[-]?[0-9]+[\s]*(\*)[\s]*[A-Z][\s]*)"},
+            {MULTIPLICATION_BY_SCALAR, R"([\s]*[A-Z][\s]*(=)[\s]*[-]?[0-9]+[\s]*(/)[\s]*[-]?[0-9](\*)[\s]*[A-Z][\s]*)"},
             {MULTIPLICATION, R"([\s]*[A-Z][\s]*(=)[\s]*[A-Z][\s]*(\*)[\s]*[A-Z][\s]*)"}
     };
 
@@ -72,5 +73,5 @@ public:
 
     char getThirdMatrixName() const;
 
-    int getScalar() const;
+    Fraction getScalar() const;
 };

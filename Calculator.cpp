@@ -110,7 +110,7 @@ void Calculator::createIdentityMatrix() {
 }
 
 void Calculator::readMatrixValues(int count) {
-    double value;
+    Fraction value;
     for (int i = 0; i < count; i++)
     {
         std::cin >> value;
@@ -202,6 +202,7 @@ void Calculator::multiplicationByScalar() {
 }
 
 void Calculator::multiplication() {
+    //TODO: check scalar for non-null denominator
     //TODO: check for valid sizes
     auto lhs = this->variables.find(inputReader.getSecondMatrixName());
     auto rhs = this->variables.find(inputReader.getThirdMatrixName());

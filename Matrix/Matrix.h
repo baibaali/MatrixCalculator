@@ -44,7 +44,7 @@ public:
 
     friend std::shared_ptr<Matrix> operator* (const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs);
 
-    friend std::shared_ptr<Matrix> operator* (const std::shared_ptr<Matrix> lhs, double scalar);
+    friend std::shared_ptr<Matrix> operator* (const std::shared_ptr<Matrix> lhs, Fraction scalar);
 
     std::vector<Fraction> add (const std::shared_ptr<Matrix> other) const;
 

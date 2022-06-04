@@ -19,7 +19,7 @@ std::shared_ptr<Matrix> operator-(const std::shared_ptr<Matrix> lhs, const std::
     return MatrixOperationManager::MatrixSubtraction(lhs, rhs);
 }
 
-std::shared_ptr<Matrix> operator*(const std::shared_ptr<Matrix> lhs, double scalar) {
+std::shared_ptr<Matrix> operator*(const std::shared_ptr<Matrix> lhs, Fraction scalar) {
     return MatrixOperationManager::MatrixMultiplication(lhs, scalar);
 }
 
@@ -50,7 +50,9 @@ int Matrix::getOutputWidth() const {
 }
 
 void Matrix::setOutputWidth(const Fraction & number) {
-    output_width = number.getWidth();
+    int width = number.getWidth();
+    if (width > output_width)
+        output_width = width;
 }
 
 Matrix::Matrix() {

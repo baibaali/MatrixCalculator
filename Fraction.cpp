@@ -22,7 +22,7 @@ void Fraction::normalize() {
         denominator = abs(denominator);
         numerator *= -1;
     }
-    int fraction_gcd = std::__gcd(numerator, denominator);
+    int fraction_gcd = abs(std::__gcd(numerator, denominator));
     this->numerator = this->numerator / fraction_gcd;
     this->denominator = this->denominator / fraction_gcd;
 
@@ -122,6 +122,31 @@ std::ostream & operator<<(std::ostream & os, const Fraction & fraction) {
     if (fraction.denominator != 1)
         os << '/' << fraction.denominator;
     return os;
+}
+
+std::istream & operator>>(std::istream & is, Fraction & fraction) {
+    int numerator;
+    int denominator = 1;
+    int peeked_char;
+
+    is >> numerator; //get the numerator
+    is >> std::ws;
+    peeked_char = is.peek(); //peek at next character
+
+    if(is && peeked_char == '/') { //if next character is a /
+        is.get(); //skip the / character
+        is >> std::ws;
+        peeked_char = is.peek();
+        is >> denominator;
+//        if (is && peeked_char == '-')
+
+    }
+
+    if (is) { //if we succeeded is reading
+        //TODO: denominator == 0 ? exception (maybe in Fraction constructor)
+        fraction = Fraction(numerator, denominator);
+    }
+    return is;
 }
 
 int Fraction::getWidth() const {
