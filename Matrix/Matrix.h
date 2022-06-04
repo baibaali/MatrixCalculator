@@ -41,7 +41,7 @@ public:
 
     friend std::shared_ptr<Matrix> operator-(const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs);
 
-    std::shared_ptr<Matrix> operator* (const Matrix & other) const;
+    friend std::shared_ptr<Matrix> operator* (const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs);
 
     friend std::shared_ptr<Matrix> operator* (const std::shared_ptr<Matrix> lhs, double scalar);
 
@@ -49,7 +49,7 @@ public:
 
     std::vector<double> subtract (const std::shared_ptr<Matrix> other) const;
 
-    std::shared_ptr<Matrix> multiply (const std::shared_ptr<Matrix> other) const;
+    std::vector<double> multiply (const std::shared_ptr<Matrix> other) const;
 
     virtual std::shared_ptr<Matrix> multiply (double scalar) const = 0;
 

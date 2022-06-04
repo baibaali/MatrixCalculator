@@ -35,6 +35,7 @@ class InputReader {
             {SUBTRACTION, R"([\s]*[A-Z][\s]*(=)[\s]*[A-Z][\s]*(\-)[\s]*[A-Z][\s]*)"},
             {SUBTRACTION, R"([\s]*[A-Z][\s]*(=)[\s]*[A-Z][\s]*(\-)[\s]*[A-Z][\s]*)"},
             {MULTIPLICATION_BY_SCALAR, R"([\s]*[A-Z][\s]*(=)[\s]*[-]?[0-9]+[\s]*(\*)[\s]*[A-Z][\s]*)"},
+            {MULTIPLICATION, R"([\s]*[A-Z][\s]*(=)[\s]*[A-Z][\s]*(\*)[\s]*[A-Z][\s]*)"}
     };
 
     std::vector<std::pair<OPERATION, std::vector<std::string>>> expressions;

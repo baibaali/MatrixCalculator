@@ -19,10 +19,6 @@ std::shared_ptr<Matrix> SparseMatrix::clone() const {
     return std::make_shared<SparseMatrix>(*this);
 }
 
-std::shared_ptr<Matrix> SparseMatrix::multiply(const Matrix &other) const {
-    return std::shared_ptr<Matrix>();
-}
-
 std::shared_ptr<Matrix> SparseMatrix::multiply(double scalar) const {
     SparseMatrix result = SparseMatrix(*this);
     for (auto & el : result.matrix)

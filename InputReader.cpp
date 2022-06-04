@@ -144,7 +144,12 @@ bool InputReader::parseExpression(OPERATION operation) {
         case MULTIPLICATION_BY_SCALAR:
             current_operation = MULTIPLICATION_BY_SCALAR;
             sscanf(user_input.c_str(), "%c = %d * %c", &first_matrix_name, &scalar, &second_matrix_name);
-            printf("%c = %d * %c", first_matrix_name, scalar, second_matrix_name);
+            printf("%c = %d * %c\n", first_matrix_name, scalar, second_matrix_name);
+            break;
+        case MULTIPLICATION:
+            current_operation = MULTIPLICATION;
+            sscanf(user_input.c_str(), "%c = %c * %c", &first_matrix_name, &second_matrix_name, &third_matrix_name);
+            printf("%c = %c * %c\n", first_matrix_name, second_matrix_name, third_matrix_name);
             break;
     }
     return false;

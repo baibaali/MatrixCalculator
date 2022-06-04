@@ -23,9 +23,9 @@ std::shared_ptr<Matrix> operator*(const std::shared_ptr<Matrix> lhs, double scal
     return MatrixOperationManager::MatrixMultiplication(lhs, scalar);
 }
 
-//std::shared_ptr<Matrix> operator*(double scalar) {
-//    return this->multiply(scalar);
-//}
+std::shared_ptr<Matrix> operator*(const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs) {
+    return MatrixOperationManager::MatrixMultiplication(lhs, rhs);
+}
 
 std::pair<int, int> Matrix::getSize() const {
     return this->size;
@@ -137,6 +137,21 @@ std::vector<double> Matrix::subtract(const std::shared_ptr<Matrix> other) const 
     for (int row = 0; row < size.first; row++) {
         for (int column = 0; column < size.second; column++)
             result.push_back(this->at(row, column) - other->at(row, column));
+    }
+    return result;
+}
+
+std::vector<double> Matrix::multiply(const std::shared_ptr<Matrix> other) const {
+    std::vector<double> result;
+    double temp_result = 0;
+    for (int row = 0; row < this->getSize().first; row++){
+        for (int column = 0; column < other->getSize().second; column++) {
+            for (int element = 0; element < this->getSize().second; element++) {
+                temp_result += this->at(row, element) * other->at(element, column);
+            }
+            result.push_back(temp_result);
+            temp_result = 0;
+        }
     }
     return result;
 }

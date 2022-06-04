@@ -31,4 +31,6 @@ public:
     void subtraction();
 
     void multiplicationByScalar();
+
+    void multiplication();
 };

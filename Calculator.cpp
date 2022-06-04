@@ -25,26 +25,29 @@ bool Calculator::calculate() {
             return false;
         case IDENTITY:
             createIdentityMatrix();
-            break;
+            return false;
         case MERGE_BY_ROWS:
             mergeByRows();
-            break;
+            return false;
         case MERGE_BY_COLUMNS:
             mergeByColumns();
-            break;
+            return false;
         case CUT:
         case CUT_DEFAULT:
             cut();
-            break;
+            return false;
         case ADDITION:
             addition();
             break;
         case SUBTRACTION:
             subtraction();
-            break;
+            return false;
         case MULTIPLICATION_BY_SCALAR:
             multiplicationByScalar();
-            break;
+            return false;
+        case MULTIPLICATION:
+            multiplication();
+            return false;
         case EXIT:
             return true;
         default:
@@ -171,4 +174,16 @@ void Calculator::multiplicationByScalar() {
         return;
 
     this->variables[inputReader.getFirstMatrixName()] = mtrx->second * inputReader.getScalar();
+}
+
+void Calculator::multiplication() {
+    //TODO: check for valid sizes
+    auto lhs = this->variables.find(inputReader.getSecondMatrixName());
+    auto rhs = this->variables.find(inputReader.getThirdMatrixName());
+
+    //TODO: exception here
+    if (lhs == variables.end() || rhs == variables.end())
+        return;
+
+    this->variables[inputReader.getFirstMatrixName()] = lhs->second * rhs->second;
 }

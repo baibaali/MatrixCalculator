@@ -20,8 +20,10 @@ std::shared_ptr<Matrix> MatrixOperationManager::MatrixSubtraction(const std::sha
     return createMatrixBasedOnSparsity(result, lhs->getSize().first, lhs->getSize().second, Matrix::sparsity(result, lhs->getSize().first * lhs->getSize().second));
 }
 
-std::shared_ptr<Matrix> MatrixOperationManager::MatrixMultiplication(const Matrix &lhs, const Matrix &rhs) {
-//    return lhs.multiply(scalar);
+std::shared_ptr<Matrix> MatrixOperationManager::MatrixMultiplication(const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs) {
+    std::vector<double> result = lhs->multiply(rhs);
+    return createMatrixBasedOnSparsity(result, lhs->getSize().first, rhs->getSize().second,
+                                Matrix::sparsity(result, lhs->getSize().first * rhs->getSize().second));
 }
 
 std::shared_ptr<Matrix> MatrixOperationManager::MatrixMultiplication(const std::shared_ptr<Matrix> mtrx, double scalar) {
