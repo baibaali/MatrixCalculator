@@ -39,6 +39,9 @@ bool Calculator::calculate() {
         case ADDITION:
             addition();
             break;
+        case SUBTRACTION:
+            subtraction();
+            break;
         case EXIT:
             return true;
         default:
@@ -142,4 +145,17 @@ void Calculator::addition() {
         return;
 
     this->variables[inputReader.getFirstMatrixName()] = lhs->second + rhs->second;
+}
+
+void Calculator::subtraction() {
+    //TODO: check for existing matrices
+    //TODO: check for valid sizes of matrices
+    auto lhs = this->variables.find(inputReader.getSecondMatrixName());
+    auto rhs = this->variables.find(inputReader.getThirdMatrixName());
+
+    //TODO: exception here
+    if (lhs == variables.end() || rhs == variables.end())
+        return;
+
+    this->variables[inputReader.getFirstMatrixName()] = lhs->second - rhs->second;
 }

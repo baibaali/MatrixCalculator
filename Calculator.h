@@ -28,4 +28,6 @@ public:
 
     void addition();
 
+    void subtraction();
+
 };

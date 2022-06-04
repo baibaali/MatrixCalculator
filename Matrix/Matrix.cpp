@@ -15,8 +15,8 @@ std::shared_ptr<Matrix> operator+(const std::shared_ptr<Matrix> lhs, const std::
     return MatrixOperationManager::MatrixAddition(lhs, rhs);
 }
 
-std::shared_ptr<Matrix> Matrix::operator-(const Matrix &other) const {
-    return this->subtract(other);
+std::shared_ptr<Matrix> operator-(const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs) {
+    return MatrixOperationManager::MatrixSubtraction(lhs, rhs);
 }
 
 std::shared_ptr<Matrix> Matrix::operator*(const Matrix &other) const {
@@ -128,6 +128,15 @@ std::vector<double> Matrix::add(const std::shared_ptr<Matrix> other) const {
     for (int row = 0; row < size.first; row++) {
         for (int column = 0; column < size.second; column++)
             result.push_back(this->at(row, column) + other->at(row, column));
+    }
+    return result;
+}
+
+std::vector<double> Matrix::subtract(const std::shared_ptr<Matrix> other) const {
+    std::vector<double> result;
+    for (int row = 0; row < size.first; row++) {
+        for (int column = 0; column < size.second; column++)
+            result.push_back(this->at(row, column) - other->at(row, column));
     }
     return result;
 }

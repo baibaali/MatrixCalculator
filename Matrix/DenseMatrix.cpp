@@ -16,10 +16,6 @@ std::shared_ptr<Matrix> DenseMatrix::clone() const {
     return std::make_shared<DenseMatrix>(*this);
 }
 
-std::shared_ptr<Matrix> DenseMatrix::subtract(const Matrix &other) const {
-    return std::shared_ptr<Matrix>();
-}
-
 std::shared_ptr<Matrix> DenseMatrix::multiply(const Matrix &other) const {
     return std::shared_ptr<Matrix>();
 }

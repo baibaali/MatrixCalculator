@@ -11,13 +11,14 @@ std::shared_ptr<Matrix> MatrixOperationManager::CreateIdentity(int rows) {
 }
 
 std::shared_ptr<Matrix> MatrixOperationManager::MatrixAddition(const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs) {
-//    std::vector<double> result = lhs->add(rhs);
     std::vector<double> result = lhs->add(rhs);
     return createMatrixBasedOnSparsity(result, lhs->getSize().first, lhs->getSize().second, Matrix::sparsity(result, lhs->getSize().first * lhs->getSize().second));
 }
 
-std::shared_ptr<Matrix> MatrixOperationManager::MatrixSubtraction(const Matrix &lhs, const Matrix &rhs) {
-    return lhs - rhs;
+std::shared_ptr<Matrix> MatrixOperationManager::MatrixSubtraction(const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs) {
+    std::vector<double> result = lhs->subtract(rhs);
+    return createMatrixBasedOnSparsity(result, lhs->getSize().first, lhs->getSize().second, Matrix::sparsity(result, lhs->getSize().first * lhs->getSize().second));
+
 }
 
 std::shared_ptr<Matrix> MatrixOperationManager::MatrixMultiplication(const Matrix &lhs, const Matrix &rhs) {

@@ -31,6 +31,7 @@ class InputReader {
             {INVERSION, R"([\s]*(INV|Inv|inv)[\s]+[A-Z][\s]*)"},
             {RANK, R"([\s]*(RANK|Rank|rank)[\s]+[A-Z][\s]*)"},
             {ADDITION, R"([\s]*[A-Z][\s]*(=)[\s]*[A-Z][\s]*(\+)[\s]*[A-Z][\s]*)"},
+            {SUBTRACTION, R"([\s]*[A-Z][\s]*(=)[\s]*[A-Z][\s]*(\-)[\s]*[A-Z][\s]*)"},
     };
 
     std::vector<std::pair<OPERATION, std::vector<std::string>>> expressions;
