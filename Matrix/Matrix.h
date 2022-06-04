@@ -36,7 +36,7 @@ public:
 
     virtual std::shared_ptr<Matrix> clone() const = 0;
 
-    friend std::vector<double> operator+(const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs);
+    friend std::shared_ptr<Matrix> operator+(const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs);
 
     std::shared_ptr<Matrix> operator- (const Matrix & other) const;
 

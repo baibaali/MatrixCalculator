@@ -141,6 +141,5 @@ void Calculator::addition() {
     if (lhs == variables.end() || rhs == variables.end())
         return;
 
-    this->variables[inputReader.getFirstMatrixName()] =
-            MatrixOperationManager::MatrixAddition(lhs->second,rhs->second);
+    this->variables[inputReader.getFirstMatrixName()] = lhs->second + rhs->second;
 }

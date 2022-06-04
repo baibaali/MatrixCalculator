@@ -2,12 +2,17 @@
 #include <cmath>
 #include <iostream>
 #include <iomanip>
+#include "../MatrixOperations/MatrixOperationManager.h"
 
 Matrix::Matrix(int rows, int columns, int output_width, double m_sparsity) {
     size.first = rows;
     size.second = columns;
     this->output_width = output_width;
     this->m_sparsity = m_sparsity;
+}
+
+std::shared_ptr<Matrix> operator+(const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs) {
+    return MatrixOperationManager::MatrixAddition(lhs, rhs);
 }
 
 std::shared_ptr<Matrix> Matrix::operator-(const Matrix &other) const {
@@ -125,9 +130,5 @@ std::vector<double> Matrix::add(const std::shared_ptr<Matrix> other) const {
             result.push_back(this->at(row, column) + other->at(row, column));
     }
     return result;
-}
-
-std::vector<double> operator+(const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs) {
-    return lhs->add(rhs);
 }
 
