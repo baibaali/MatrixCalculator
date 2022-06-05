@@ -173,3 +173,19 @@ bool Fraction::operator!=(const Fraction &rhs) const {
     return !(rhs == *this);
 }
 
+int Fraction::getNumerator() const {
+    return numerator;
+}
+
+void Fraction::setNumerator(int numerator) {
+    Fraction::numerator = numerator;
+}
+
+int Fraction::getDenominator() const {
+    return denominator;
+}
+
+void Fraction::setDenominator(int denominator) {
+    Fraction::denominator = denominator;
+}
+

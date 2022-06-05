@@ -28,7 +28,7 @@ public:
 
     static std::shared_ptr<Matrix> MatrixRank (const Matrix & mtrx);
 
-    static std::shared_ptr<Matrix> MatrixGem (const Matrix & mtrx, bool withComments);
+    static std::shared_ptr<Matrix> MatrixGem (const std::shared_ptr<Matrix> mtrx, bool withComments);
 
     static std::shared_ptr<Matrix> MatrixMergeByRows (const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs);
 

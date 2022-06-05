@@ -33,4 +33,6 @@ public:
     void multiplicationByScalar();
 
     void multiplication();
+
+    void gem();
 };

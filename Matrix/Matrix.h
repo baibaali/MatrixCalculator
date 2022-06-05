@@ -54,11 +54,11 @@ public:
 
     virtual std::shared_ptr<Matrix> multiply (Fraction scalar) const = 0;
 
-    virtual std::shared_ptr<Matrix> findInversion () const = 0;
+    virtual std::shared_ptr<Matrix> inversion () const = 0;
 
-    virtual std::shared_ptr<Matrix> findDeterminant () const = 0;
+    virtual std::shared_ptr<Matrix> determinant () const = 0;
 
-    virtual std::shared_ptr<Matrix> findRank () const = 0;
+    virtual std::shared_ptr<Matrix> rank () const = 0;
 
     virtual std::shared_ptr<Matrix> gaussEliminate (bool withComments) const;
 
@@ -93,4 +93,16 @@ public:
     void setMSparsity(double mSparsity);
 
     virtual Fraction at(int row, int column) const = 0;
+
+    bool isColumnNull (int column);
+
+    void swap_rows(int first, int second);
+
+    virtual void makeCellNull(int row, int column) = 0;
+
+    virtual void setCellValue(int row, int column, const Fraction value) = 0;
+
+    virtual void subtractTwoRows(int first, int second, const Fraction multiple) = 0;
+
+    virtual void multiplyRowByScalar(int row, int scalar) = 0;
 };

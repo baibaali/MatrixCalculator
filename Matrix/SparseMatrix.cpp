@@ -26,20 +26,53 @@ std::shared_ptr<Matrix> SparseMatrix::multiply(Fraction scalar) const {
     return result.clone();
 }
 
-std::shared_ptr<Matrix> SparseMatrix::findInversion() const {
+std::shared_ptr<Matrix> SparseMatrix::inversion() const {
     return std::shared_ptr<Matrix>();
 }
 
-std::shared_ptr<Matrix> SparseMatrix::findDeterminant() const {
+std::shared_ptr<Matrix> SparseMatrix::determinant() const {
     return std::shared_ptr<Matrix>();
 }
 
-std::shared_ptr<Matrix> SparseMatrix::findRank() const {
+std::shared_ptr<Matrix> SparseMatrix::rank() const {
     return std::shared_ptr<Matrix>();
 }
 
 std::shared_ptr<Matrix> SparseMatrix::gaussEliminateCommon () const {
-    return std::shared_ptr<Matrix>();
+
+    SparseMatrix gem_matrix = SparseMatrix(*this);
+
+    std::cout << "Matrix before GEM:" << std::endl;
+    gem_matrix.print();
+    std::cout << std::endl << "Matrix after GEM:" << std::endl;
+
+    for (int column = 0; column < gem_matrix.getSize().second; column++){
+        if(gem_matrix.isColumnNull(column))
+            continue;
+//        for (int row = 0; row < gem_matrix.getSize().first; row++){
+            if (gem_matrix.at(column, column) == 0) {
+                for (int temp_row = column + 1; temp_row < gem_matrix.getSize().first; temp_row++) {
+                    if (gem_matrix.at(temp_row, column) != 0) {
+                        gem_matrix.swap_rows(column, temp_row);
+                        break;
+                    }
+                }
+            }
+            for (int temp_row = column + 1; temp_row < gem_matrix.getSize().first; temp_row++){
+                if (gem_matrix.at(temp_row, column) == 0)
+                    continue;
+                gem_matrix.subtractTwoRows(temp_row, column, gem_matrix.at(temp_row, column) / gem_matrix.at(column, column));
+            }
+    }
+
+    for (int pos = 0; pos < gem_matrix.getSize().first; pos++){
+        if (gem_matrix.at(pos, pos).getDenominator() != 1)
+            gem_matrix.multiplyRowByScalar(pos, gem_matrix.at(pos, pos).getDenominator());
+    }
+
+    return gem_matrix.clone();
+
+//    }
 }
 
 std::shared_ptr<Matrix> SparseMatrix::gaussEliminateDescribed () const {
@@ -56,4 +89,27 @@ Fraction SparseMatrix::at(int row, int column) const {
         return 0;
     else
         return matrix.find(std::make_pair(row, column))->second;
+}
+
+void SparseMatrix::makeCellNull(int row, int column) {
+    this->matrix.erase(std::make_pair(row, column));
+}
+
+void SparseMatrix::setCellValue(int row, int column, const Fraction value) {
+    this->matrix[std::make_pair(row, column)] = value;
+}
+
+void SparseMatrix::subtractTwoRows(int first, int second, const Fraction multiple) {
+    Fraction temp_res;
+    for (int column = 0; column < this->getSize().second; column++) {
+        temp_res = this->at(first, column) - multiple * this->at(second, column);
+        if (temp_res != 0)
+            this->matrix[std::make_pair(first, column)] = temp_res;
+    }
+}
+
+void SparseMatrix::multiplyRowByScalar(int row, int scalar) {
+    for (int column = 0; column < this->getSize().second; column++)
+        if (this->at(row, column) != 0)
+            this->setCellValue(row, column, this->at(row, column) * scalar);
 }

@@ -47,6 +47,14 @@ public:
 
     int getWidth() const;
 
+    int getNumerator() const;
+
+    void setNumerator(int numerator);
+
+    int getDenominator() const;
+
+    void setDenominator(int denominator);
+
 private:
 
     void normalize();

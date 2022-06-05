@@ -26,20 +26,51 @@ std::shared_ptr<Matrix> DenseMatrix::multiply(Fraction scalar) const {
     return result.clone();
 }
 
-std::shared_ptr<Matrix> DenseMatrix::findInversion() const {
+std::shared_ptr<Matrix> DenseMatrix::inversion() const {
     return std::shared_ptr<Matrix>();
 }
 
-std::shared_ptr<Matrix> DenseMatrix::findDeterminant() const {
+std::shared_ptr<Matrix> DenseMatrix::determinant() const {
     return std::shared_ptr<Matrix>();
 }
 
-std::shared_ptr<Matrix> DenseMatrix::findRank() const {
+std::shared_ptr<Matrix> DenseMatrix::rank() const {
     return std::shared_ptr<Matrix>();
 }
 
 std::shared_ptr<Matrix> DenseMatrix::gaussEliminateCommon () const {
-    return std::shared_ptr<Matrix>();
+
+    DenseMatrix gem_matrix = DenseMatrix(*this);
+
+    std::cout << "Matrix before GEM:" << std::endl;
+    gem_matrix.print();
+    std::cout << std::endl << "Matrix after GEM:" << std::endl;
+
+    for (int column = 0; column < gem_matrix.getSize().second; column++){
+        if(gem_matrix.isColumnNull(column))
+            continue;
+        if (gem_matrix.at(column, column) == 0) {
+            for (int temp_row = column + 1; temp_row < gem_matrix.getSize().first; temp_row++) {
+                if (gem_matrix.at(temp_row, column) != 0) {
+                    gem_matrix.swap_rows(column, temp_row);
+                    break;
+                }
+            }
+        }
+        for (int temp_row = column + 1; temp_row < gem_matrix.getSize().first; temp_row++){
+            if (gem_matrix.at(temp_row, column) == 0)
+                continue;
+            gem_matrix.subtractTwoRows(temp_row, column, gem_matrix.at(temp_row, column) / gem_matrix.at(column, column));
+        }
+    }
+
+    for (int pos = 0; pos < gem_matrix.getSize().first; pos++){
+        if (gem_matrix.at(pos, pos).getDenominator() != 1)
+            gem_matrix.multiplyRowByScalar(pos, gem_matrix.at(pos, pos).getDenominator());
+    }
+
+    return gem_matrix.clone();
+
 }
 
 std::shared_ptr<Matrix> DenseMatrix::gaussEliminateDescribed () const {
@@ -57,6 +88,27 @@ void DenseMatrix::makeIdentity() {
 
 Fraction DenseMatrix::at(int row, int column) const {
     return matrix[row][column];
+}
+
+void DenseMatrix::makeCellNull(int row, int column) {
+    this->matrix[row][column] = 0;
+}
+
+void DenseMatrix::setCellValue(int row, int column, const Fraction value) {
+    this->matrix[row][column] = value;
+}
+
+void DenseMatrix::subtractTwoRows(int first, int second, const Fraction multiple) {
+    Fraction temp_res;
+    for (int column = 0; column < this->getSize().second; column++) {
+        temp_res = this->at(first, column) - multiple * this->at(second, column);
+        this->matrix[first][column] = temp_res;
+    }
+}
+
+void DenseMatrix::multiplyRowByScalar(int row, int scalar) {
+    for (int column = 0; column < this->getSize().second; column++)
+        this->setCellValue(row, column, this->at(row, column) * scalar);
 }
 
 

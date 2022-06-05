@@ -18,11 +18,11 @@ public:
 
     std::shared_ptr<Matrix> multiply (Fraction scalar) const override;
 
-    std::shared_ptr<Matrix> findInversion () const override;
+    std::shared_ptr<Matrix> inversion () const override;
 
-    std::shared_ptr<Matrix> findDeterminant () const override;
+    std::shared_ptr<Matrix> determinant () const override;
 
-    std::shared_ptr<Matrix> findRank () const override;
+    std::shared_ptr<Matrix> rank () const override;
 
     std::shared_ptr<Matrix> gaussEliminateCommon () const override;
 
@@ -32,4 +32,11 @@ public:
 
     void makeIdentity() override;
 
+    void makeCellNull(int row, int column) override;
+
+    void setCellValue(int row, int column, const Fraction value) override;
+
+    void subtractTwoRows(int first, int second, Fraction multiple) override;
+
+    void multiplyRowByScalar(int row, int scalar) override;
 };

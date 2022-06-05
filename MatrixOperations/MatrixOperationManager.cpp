@@ -31,19 +31,19 @@ std::shared_ptr<Matrix> MatrixOperationManager::MatrixMultiplication(const std::
 }
 
 std::shared_ptr<Matrix> MatrixOperationManager::MatrixInversion(const Matrix &mtrx) {
-    return mtrx.findInversion();
+    return mtrx.inversion();
 }
 
 std::shared_ptr<Matrix> MatrixOperationManager::MatrixDeterminant(const Matrix &mtrx) {
-    return mtrx.findDeterminant();
+    return mtrx.determinant();
 }
 
 std::shared_ptr<Matrix> MatrixOperationManager::MatrixRank(const Matrix &mtrx) {
-    return mtrx.findRank();
+    return mtrx.rank();
 }
 
-std::shared_ptr<Matrix> MatrixOperationManager::MatrixGem(const Matrix &mtrx, bool withComments) {
-    return mtrx.gaussEliminate(withComments);
+std::shared_ptr<Matrix> MatrixOperationManager::MatrixGem(const std::shared_ptr<Matrix> mtrx, bool withComments) {
+    return mtrx->gaussEliminate(withComments);
 }
 
 std::shared_ptr<Matrix> MatrixOperationManager::MatrixMergeByRows(const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs) {

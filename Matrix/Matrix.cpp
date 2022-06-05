@@ -156,3 +156,23 @@ std::vector<Fraction> Matrix::multiply(const std::shared_ptr<Matrix> other) cons
     return result;
 }
 
+bool Matrix::isColumnNull(int column) {
+    for (int row = 0; row < this->getSize().first; row++)
+        if (this->at(row, column) != 0)
+            return false;
+    return true;
+}
+
+void Matrix::swap_rows(int first, int second) {
+    for (int column = 0; column < this->getSize().second; column++){
+        Fraction temp = this->at(first, column);
+        if (this->at(second, column) == 0)
+            this->makeCellNull(first, column);
+        else
+            this->setCellValue(first, column, this->at(second, column));
+        if (temp == 0)
+            this->makeCellNull(second, column);
+        else
+            this->setCellValue(second, column, temp);
+    }
+}
