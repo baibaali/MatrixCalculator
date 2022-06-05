@@ -1,6 +1,7 @@
 #include "Fraction.h"
 #include <algorithm>
 #include <cmath>
+#include <iostream>
 
 Fraction::Fraction(int numerator, int denominator)  : numerator(numerator), denominator(denominator) {
     normalize();
@@ -125,34 +126,38 @@ std::ostream & operator<<(std::ostream & os, const Fraction & fraction) {
 }
 
 std::istream & operator>>(std::istream & is, Fraction & fraction) {
-    int numerator;
+    double numerator;
     int denominator = 1;
     int peeked_char;
 
     is >> numerator; //get the numerator
-    is >> std::ws;
+    while(std::isspace(is.peek()) && is.peek() != '\n')
+        is.get();
     peeked_char = is.peek(); //peek at next character
 
     if(is && peeked_char == '/') { //if next character is a /
         is.get(); //skip the / character
-        is >> std::ws;
+        while(std::isspace(is.peek()))
+            is.get();
         peeked_char = is.peek();
         is >> denominator;
 //        if (is && peeked_char == '-')
-
     }
 
     if (is) { //if we succeeded is reading
         //TODO: denominator == 0 ? exception (maybe in Fraction constructor)
-        fraction = Fraction(numerator, denominator);
+        fraction = Fraction(int(numerator), denominator);
     }
     return is;
 }
 
 int Fraction::getWidth() const {
     bool isNegative = numerator < 0;
-    // +1 for first log, +1 for second, +1 for '/' sign and +1 if number is negative
-    return log10(numerator) + log10(denominator) + 3 + isNegative;
+    int result = log10(numerator) + 1;
+    result += isNegative;
+    if (denominator != 1)
+        result += log10(denominator) + 2;
+    return result;
 }
 
 bool Fraction::operator==(const Fraction &rhs) const {

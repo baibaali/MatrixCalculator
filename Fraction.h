@@ -11,6 +11,7 @@ public:
     Fraction() : numerator(1), denominator(1) {};
 
     Fraction(int numerator, int denominator = 1);
+
     ~Fraction() = default;
 
     friend Fraction operator+(const Fraction & lhs, const Fraction & rhs);
