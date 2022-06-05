@@ -39,4 +39,6 @@ public:
     void determinant();
 
     void rank();
+
+    void inversion();
 };

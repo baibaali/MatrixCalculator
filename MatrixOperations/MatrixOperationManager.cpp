@@ -30,8 +30,8 @@ std::shared_ptr<Matrix> MatrixOperationManager::MatrixMultiplication(const std::
     return mtrx->multiply(scalar);
 }
 
-std::shared_ptr<Matrix> MatrixOperationManager::MatrixInversion(const Matrix &mtrx) {
-    return mtrx.inversion();
+std::shared_ptr<Matrix> MatrixOperationManager::MatrixInversion(const std::shared_ptr<Matrix> mtrx) {
+    return mtrx->inversion();
 }
 
 Fraction MatrixOperationManager::MatrixDeterminant(const std::shared_ptr<Matrix> mtrx) {

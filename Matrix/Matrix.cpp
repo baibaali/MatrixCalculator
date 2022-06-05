@@ -31,10 +31,6 @@ std::pair<int, int> Matrix::getSize() const {
     return this->size;
 }
 
-//std::shared_ptr<Matrix> Matrix::gaussEliminate(bool withComments) const {
-//    return this->gaussEliminate(withComments);
-//}
-
 Fraction Matrix::determinant() const {
     Fraction det = 1;
     for (int pos = 0; pos < this->getSize().first; pos++) {
@@ -204,3 +200,5 @@ void Matrix::print_ws(int width, int max_width, std::ostream & ostream) const {
     for (int i = width; i < max_width; i++)
         ostream << " ";
 }
+
+

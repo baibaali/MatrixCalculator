@@ -56,15 +56,13 @@ public:
 
     virtual std::shared_ptr<Matrix> inversion () const = 0;
 
+    virtual std::shared_ptr<Matrix> transposition () const = 0;
+
     Fraction determinant () const;
 
     int rank () const;
 
     virtual std::shared_ptr<Matrix> gaussEliminate (bool withComments) const = 0;
-
-//    virtual std::shared_ptr<Matrix> gaussEliminateCommon () const = 0;
-//
-//    virtual std::shared_ptr<Matrix> gaussEliminateDescribed () const = 0;
 
     std::vector<Fraction> merge_by_rows (const std::shared_ptr<Matrix> other) const;
 
@@ -106,7 +104,8 @@ public:
 
     virtual void subtractTwoRows(int first, int second, const Fraction multiple) = 0;
 
-    virtual void multiplyRowByScalar(int row, int scalar) = 0;
+    virtual void multiplyRowByScalar(int row, Fraction scalar) = 0;
 
     void print_ws(int width, int width1, std::ostream & ostream) const;
+
 };

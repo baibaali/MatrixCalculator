@@ -27,7 +27,57 @@ std::shared_ptr<Matrix> DenseMatrix::multiply(Fraction scalar) const {
 }
 
 std::shared_ptr<Matrix> DenseMatrix::inversion() const {
-    return std::shared_ptr<Matrix>();
+    DenseMatrix gem_matrix = DenseMatrix(*this);
+    DenseMatrix identity = DenseMatrix(*this);
+    identity.makeIdentity();
+
+    for (int column = 0; column < gem_matrix.getSize().second; column++){
+        if(gem_matrix.isColumnNull(column))
+            continue;
+        if (gem_matrix.at(column, column) == 0) {
+            for (int temp_row = column + 1; temp_row < gem_matrix.getSize().first; temp_row++) {
+                if (gem_matrix.at(temp_row, column) != 0) {
+                    gem_matrix.swap_rows(column, temp_row);
+                    identity.swap_rows(column, temp_row);
+                    break;
+                }
+            }
+        }
+        for (int temp_row = column + 1; temp_row < gem_matrix.getSize().first; temp_row++){
+            if (gem_matrix.at(temp_row, column) == 0)
+                continue;
+            Fraction multiply = gem_matrix.at(temp_row, column) / gem_matrix.at(column, column);
+            gem_matrix.subtractTwoRows(temp_row, column, multiply);
+            identity.subtractTwoRows(temp_row, column, multiply);
+        }
+    }
+
+    for (int column = gem_matrix.getSize().second - 1; column >= 0; column--){
+        if(gem_matrix.isColumnNull(column))
+            continue;
+        if (gem_matrix.at(column, column) == 0) {
+            for (int temp_row = column - 1; temp_row >= 0; temp_row--) {
+                if (gem_matrix.at(temp_row, column) != 0) {
+                    gem_matrix.swap_rows(column, temp_row);
+                    identity.swap_rows(column, temp_row);
+                    break;
+                }
+            }
+        }
+        for (int temp_row = column - 1; temp_row >= 0; temp_row--){
+            if (gem_matrix.at(temp_row, column) == 0)
+                continue;
+            Fraction multiply = gem_matrix.at(temp_row, column) / gem_matrix.at(column, column);
+            gem_matrix.subtractTwoRows(temp_row, column, multiply);
+            identity.subtractTwoRows(temp_row, column, multiply);
+        }
+    }
+
+    for (int pos = 0; pos < identity.getSize().first; pos++){
+        identity.multiplyRowByScalar(pos, 1 / gem_matrix.at(pos, pos));
+    }
+
+    return identity.clone();
 }
 
 std::shared_ptr<Matrix> DenseMatrix::gaussEliminate(bool withComments) const {
@@ -112,9 +162,21 @@ void DenseMatrix::subtractTwoRows(int first, int second, const Fraction multiple
     }
 }
 
-void DenseMatrix::multiplyRowByScalar(int row, int scalar) {
+void DenseMatrix::multiplyRowByScalar(int row, Fraction scalar) {
     for (int column = 0; column < this->getSize().second; column++)
         this->setCellValue(row, column, this->at(row, column) * scalar);
+}
+
+std::shared_ptr<Matrix> DenseMatrix::transposition() const {
+    DenseMatrix transposed = DenseMatrix(*this);
+
+    for (int row = 0; row < this->getSize().first; row++) {
+        for (int column = 0; column < this->getSize().second; column++) {
+            transposed.setCellValue(column, row, this->at(row, column));
+        }
+    }
+
+    return transposed.clone();
 }
 
 

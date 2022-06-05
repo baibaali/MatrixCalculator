@@ -53,16 +53,19 @@ bool Calculator::calculate() {
             return false;
         case GEM:
             gem(false);
-            break;
+            return false;
         case GEM_COMMENTED:
             gem(true);
-            break;
+            return false;
         case DETERMINANT:
             determinant();
-            break;
+            return false;
         case RANK:
             rank();
-            break;
+            return false;
+        case INVERSION:
+            inversion();
+            return false;
         case EXIT:
             return true;
         default:
@@ -241,4 +244,17 @@ void Calculator::rank() {
 
     auto result = MatrixOperationManager::MatrixRank(mtrx->second);
     std::cout << "Matrix rank is: " << result << std::endl;
+}
+
+void Calculator::inversion() {
+    auto mtrx = this->variables.find(inputReader.getFirstMatrixName());
+
+    //TODO: exception here
+    if (mtrx == variables.end())
+        return;
+
+    auto result = MatrixOperationManager::MatrixInversion(mtrx->second);
+    std::cout << "Matrix inversion is: " << std::endl;
+    std::cout << result->getSize().first << " " << result->getSize().second << std::endl;
+    result->print();
 }

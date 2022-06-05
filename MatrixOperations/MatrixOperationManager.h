@@ -22,7 +22,7 @@ public:
 
     static std::shared_ptr<Matrix> MatrixMultiplication (const std::shared_ptr<Matrix> mtrx, Fraction scalar);
 
-    static std::shared_ptr<Matrix> MatrixInversion (const Matrix & mtrx);
+    static std::shared_ptr<Matrix> MatrixInversion (const std::shared_ptr<Matrix> mtrx);
 
     static Fraction MatrixDeterminant (const std::shared_ptr<Matrix> mtrx);
 
