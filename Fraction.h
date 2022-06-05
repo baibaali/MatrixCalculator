@@ -4,13 +4,13 @@
 #include <istream>
 
 class Fraction {
-    int numerator;
-    int denominator;
+    long long int numerator;
+    long long int denominator;
 
 public:
     Fraction() : numerator(1), denominator(1) {};
 
-    Fraction(int numerator, int denominator = 1);
+    Fraction(long long int numerator, long long int denominator = 1);
 
     ~Fraction() = default;
 
@@ -25,17 +25,17 @@ public:
     friend Fraction operator*(const Fraction & lhs, const Fraction & rhs);
     Fraction multiply(const Fraction & rhs) const;
 
-    friend Fraction operator*(const Fraction & lhs, const int num);
-    friend Fraction operator*(const int num, const Fraction & lhs);
-    Fraction multiply(const int num) const;
+    friend Fraction operator*(const Fraction & lhs, const long long int num);
+    friend Fraction operator*(const long long int num, const Fraction & lhs);
+    Fraction multiply(const long long int num) const;
 
     friend Fraction operator*=(Fraction & lhs, const Fraction & rhs);
 
     friend Fraction operator/(const Fraction & lhs, const Fraction & rhs);
     Fraction divide(const Fraction & rhs) const;
 
-    friend Fraction operator/(const Fraction & lhs, const int num);
-    Fraction divide(const int num) const;
+    friend Fraction operator/(const Fraction & lhs, const long long int num);
+    Fraction divide(const long long int num) const;
 
     friend std::istream & operator>>(std::istream & is, Fraction & fraction);
 
@@ -47,13 +47,13 @@ public:
 
     int getWidth() const;
 
-    int getNumerator() const;
+    long long int getNumerator() const;
 
     void setNumerator(int numerator);
 
-    int getDenominator() const;
+    long long int getDenominator() const;
 
-    void setDenominator(int denominator);
+    void setDenominator(long long int denominator);
 
 private:
 

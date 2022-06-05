@@ -2,28 +2,32 @@
 #include <algorithm>
 #include <cmath>
 #include <iostream>
+#include "Exception.h"
 
-Fraction::Fraction(int numerator, int denominator)  : numerator(numerator), denominator(denominator) {
+Fraction::Fraction(long long int numerator, long long int denominator)  : numerator(numerator), denominator(denominator) {
     normalize();
 }
 
 void Fraction::normalize() {
-        //TODO: exception if denominator == 0
+
+    if (denominator == 0)
+        throw Exception("ERROR: Fraction's denominator cannot be null");
+
     if (numerator == 0) {
         denominator = 1;
         return;
     }
     if (numerator < 0 && denominator < 0)
     {
-        numerator = abs(numerator);
-        denominator = abs(denominator);
+        numerator = llabs(numerator);
+        denominator = llabs(denominator);
     }
     else if (numerator < 0 || denominator < 0){
-        numerator = abs(numerator);
-        denominator = abs(denominator);
+        numerator = llabs(numerator);
+        denominator = llabs(denominator);
         numerator *= -1;
     }
-    int fraction_gcd = abs(std::__gcd(numerator, denominator));
+    long long int fraction_gcd = llabs(std::__gcd(numerator, denominator));
     this->numerator = this->numerator / fraction_gcd;
     this->denominator = this->denominator / fraction_gcd;
 
@@ -41,9 +45,9 @@ Fraction operator+=(Fraction & lhs, const Fraction & rhs) {
 }
 
 Fraction Fraction::add(const Fraction &rhs) const {
-    int temp_numerator = (this->numerator * rhs.denominator + rhs.numerator * this->denominator);
-    int temp_denominator = (this->denominator * rhs.denominator);
-    int fraction_gcd = std::__gcd(temp_denominator, temp_numerator);
+    long long int temp_numerator = (this->numerator * rhs.denominator + rhs.numerator * this->denominator);
+    long long int temp_denominator = (this->denominator * rhs.denominator);
+    long long int fraction_gcd = std::__gcd(temp_denominator, temp_numerator);
     return Fraction(temp_numerator / fraction_gcd, temp_denominator / fraction_gcd);
 }
 
@@ -59,9 +63,9 @@ Fraction operator-=(Fraction & lhs, const Fraction & rhs) {
 }
 
 Fraction Fraction::subtract(const Fraction &rhs) const {
-    int temp_numerator = (this->numerator * rhs.denominator - rhs.numerator * this->denominator);
-    int temp_denominator = (this->denominator * rhs.denominator);
-    int fraction_gcd = std::__gcd(temp_denominator, temp_numerator);
+    long long int temp_numerator = (this->numerator * rhs.denominator - rhs.numerator * this->denominator);
+    long long int temp_denominator = (this->denominator * rhs.denominator);
+    long long int fraction_gcd = std::__gcd(temp_denominator, temp_numerator);
     return Fraction(temp_numerator / fraction_gcd, temp_denominator / fraction_gcd);
 }
 
@@ -77,9 +81,9 @@ Fraction operator*=(Fraction & lhs, const Fraction &rhs) {
 }
 
 Fraction Fraction::multiply(const Fraction &rhs) const {
-    int temp_numerator = (this->numerator * rhs.numerator);
-    int temp_denominator = (this->denominator * rhs.denominator);
-    int fraction_gcd = std::__gcd(temp_denominator, temp_numerator);
+    long long int temp_numerator = (this->numerator * rhs.numerator);
+    long long int temp_denominator = (this->denominator * rhs.denominator);
+    long long int fraction_gcd = std::__gcd(temp_denominator, temp_numerator);
     return Fraction(temp_numerator / fraction_gcd, temp_denominator / fraction_gcd);
 }
 
@@ -91,9 +95,9 @@ Fraction operator*(const int num, const Fraction & lhs) {
     return lhs.multiply(num);
 }
 
-Fraction Fraction::multiply(const int num) const {
-    int temp_numerator = (this->numerator * num);
-    int fraction_gcd = std::__gcd(this->denominator, temp_numerator);
+Fraction Fraction::multiply(const long long int num) const {
+    long long int temp_numerator = (this->numerator * num);
+    long long int fraction_gcd = std::__gcd(this->denominator, temp_numerator);
     return Fraction(temp_numerator / fraction_gcd, this->denominator / fraction_gcd);
 }
 
@@ -102,19 +106,19 @@ Fraction operator/(const Fraction & lhs, const Fraction & rhs) {
 }
 
 Fraction Fraction::divide(const Fraction &rhs) const {
-    int temp_numerator = (this->numerator * rhs.denominator);
-    int temp_denominator = (this->denominator * rhs.numerator);
-    int fraction_gcd = std::__gcd(temp_denominator, temp_numerator);
+    long long int temp_numerator = (this->numerator * rhs.denominator);
+    long long int temp_denominator = (this->denominator * rhs.numerator);
+    long long int fraction_gcd = std::__gcd(temp_denominator, temp_numerator);
     return Fraction(temp_numerator / fraction_gcd, temp_denominator / fraction_gcd);
 }
 
-Fraction operator/(const Fraction & lhs, const int num) {
+Fraction operator/(const Fraction & lhs, const long long int num) {
     return lhs.divide(num);
 }
 
-Fraction Fraction::divide(const int num) const {
-    int temp_denominator = (this->denominator * num);
-    int fraction_gcd = std::__gcd(this->numerator, temp_denominator);
+Fraction Fraction::divide(const long long int num) const {
+    long long int temp_denominator = (this->denominator * num);
+    long long int fraction_gcd = std::__gcd(this->numerator, temp_denominator);
     return Fraction(temp_denominator / fraction_gcd, this->numerator / fraction_gcd);
 }
 
@@ -129,10 +133,15 @@ std::ostream & operator<<(std::ostream & os, const Fraction & fraction) {
 
 std::istream & operator>>(std::istream & is, Fraction & fraction) {
     double numerator;
-    int denominator = 1;
-    int peeked_char;
+    long long int denominator = 1;
+    long long int peeked_char;
 
     is >> numerator; //get the numerator
+    if (is.fail()){
+        is.clear();
+        is.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+        throw Exception("ERROR: Matrix elements can be only numbers or fractions");
+    }
     while(std::isspace(is.peek()) && is.peek() != '\n')
         is.get();
     peeked_char = is.peek(); //peek at next character
@@ -143,6 +152,11 @@ std::istream & operator>>(std::istream & is, Fraction & fraction) {
             is.get();
         peeked_char = is.peek();
         is >> denominator;
+        if (is.fail()){
+            is.clear();
+            is.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+            throw Exception("ERROR: Matrix elements can be only numbers or fractions");
+        }
 //        if (is && peeked_char == '-')
     }
 
@@ -157,7 +171,7 @@ int Fraction::getWidth() const {
     if (numerator == 0)
         return 1;
     bool isNegative = numerator < 0;
-    int result = log10(abs(numerator)) + 1;
+    int result = log10(llabs(numerator)) + 1;
     result += isNegative;
     if (denominator != 1)
         result += log10(denominator) + 2;
@@ -177,7 +191,7 @@ bool Fraction::operator!=(const Fraction &rhs) const {
     return !(rhs == *this);
 }
 
-int Fraction::getNumerator() const {
+long long int Fraction::getNumerator() const {
     return numerator;
 }
 
@@ -185,10 +199,10 @@ void Fraction::setNumerator(int numerator) {
     Fraction::numerator = numerator;
 }
 
-int Fraction::getDenominator() const {
+long long int Fraction::getDenominator() const {
     return denominator;
 }
 
-void Fraction::setDenominator(int denominator) {
+void Fraction::setDenominator(long long int denominator) {
     Fraction::denominator = denominator;
 }

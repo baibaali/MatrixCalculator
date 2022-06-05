@@ -44,10 +44,6 @@ int MatrixOperationManager::MatrixRank(const std::shared_ptr<Matrix> mtrx) {
 
 std::shared_ptr<Matrix> MatrixOperationManager::MatrixGem(const std::shared_ptr<Matrix> mtrx, bool withComments) {
     std::shared_ptr<Matrix> res = mtrx->gaussEliminate(withComments);
-    for (int pos = 0; pos < res->getSize().first; pos++){
-        if (res->at(pos, pos).getDenominator() != 1)
-            res->multiplyRowByScalar(pos, res->at(pos, pos).getDenominator());
-    }
     return res;
 }
 

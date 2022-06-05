@@ -27,10 +27,15 @@ std::shared_ptr<Matrix> DenseMatrix::multiply(Fraction scalar) const {
 }
 
 std::shared_ptr<Matrix> DenseMatrix::inversion() const {
+
     DenseMatrix gem_matrix = DenseMatrix(*this);
     DenseMatrix identity = DenseMatrix(*this);
     identity.makeIdentity();
 
+    std::cout << "++++++++++"<<std::endl;
+    identity.print();
+    std::cout << "++++++++++"<<std::endl;
+    Fraction multiply;
     for (int column = 0; column < gem_matrix.getSize().second; column++){
         if(gem_matrix.isColumnNull(column))
             continue;
@@ -39,17 +44,45 @@ std::shared_ptr<Matrix> DenseMatrix::inversion() const {
                 if (gem_matrix.at(temp_row, column) != 0) {
                     gem_matrix.swap_rows(column, temp_row);
                     identity.swap_rows(column, temp_row);
+
+                    std::cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+" << std::endl;
+                    gem_matrix.print();
+                    std::cout << std::endl;
+                    identity.print();
+                    std::cout << std::endl;
+                    std::cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+" << std::endl;
+
                     break;
                 }
             }
         }
+
+        multiply = 1 / gem_matrix.at(column, column);
+        gem_matrix.multiplyRowByScalar(column, multiply);
+        identity.multiplyRowByScalar(column, multiply);
+
+        std::cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+" << std::endl;
+        gem_matrix.print();
+        std::cout << std::endl;
+        identity.print();
+        std::cout << std::endl;
+        std::cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+" << std::endl;
+
         for (int temp_row = column + 1; temp_row < gem_matrix.getSize().first; temp_row++){
             if (gem_matrix.at(temp_row, column) == 0)
                 continue;
             Fraction multiply = gem_matrix.at(temp_row, column) / gem_matrix.at(column, column);
             gem_matrix.subtractTwoRows(temp_row, column, multiply);
             identity.subtractTwoRows(temp_row, column, multiply);
+
+            std::cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+" << std::endl;
+            gem_matrix.print();
+            std::cout << std::endl;
+            identity.print();
+            std::cout << std::endl;
+            std::cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+" << std::endl;
         }
+
     }
 
     for (int column = gem_matrix.getSize().second - 1; column >= 0; column--){
@@ -63,6 +96,13 @@ std::shared_ptr<Matrix> DenseMatrix::inversion() const {
             Fraction multiply = gem_matrix.at(temp_row, column) / gem_matrix.at(column, column);
             gem_matrix.subtractTwoRows(temp_row, column, multiply);
             identity.subtractTwoRows(temp_row, column, multiply);
+
+            std::cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+" << std::endl;
+            gem_matrix.print();
+            std::cout << std::endl;
+            identity.print();
+            std::cout << std::endl;
+            std::cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+" << std::endl;
         }
     }
 
@@ -73,6 +113,13 @@ std::shared_ptr<Matrix> DenseMatrix::inversion() const {
             identity.setCellValue(pos, column, identity.at(pos, column) * scalar);
         }
     }
+
+    std::cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+" << std::endl;
+    gem_matrix.print();
+    std::cout << std::endl;
+    identity.print();
+    std::cout << std::endl;
+    std::cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+" << std::endl;
 
     return identity.clone();
 }
@@ -106,7 +153,7 @@ std::shared_ptr<Matrix> DenseMatrix::gaussEliminate(bool withComments) const {
                 }
             }
         }
-        for (int temp_row = column + 1; temp_row < gem_matrix.getSize().first; temp_row++){
+        for (int temp_row = column + 1; temp_row < gem_matrix.getSize().first; temp_row++) {
             if (gem_matrix.at(temp_row, column) == 0)
                 continue;
             if (withComments) {
@@ -123,19 +170,20 @@ std::shared_ptr<Matrix> DenseMatrix::gaussEliminate(bool withComments) const {
         }
     }
 
+//    for (int i = 1; i < gem_matrix.getSize().first; i++){
+//        if (gem_matrix.isRowNull(i - 1)) {
+//            for (int j = i; j < gem_matrix.getSize().first; j++){
+//                if (!gem_matrix.isRowNull(j)) {
+//                    gem_matrix.swap_rows(i - 1, j);
+//                    break;
+//                }
+//            }
+//        }
+//    }
+
     if (swap_counts % 2 == 1)
         gem_matrix.multiplyRowByScalar(0, -1);
 
-    for (int i = 1; i < gem_matrix.getSize().first; i++){
-        if (gem_matrix.isRowNull(i - 1)) {
-            for (int j = i; j < gem_matrix.getSize().first; j++){
-                if (!gem_matrix.isRowNull(j)) {
-                    gem_matrix.swap_rows(i - 1, j);
-                    break;
-                }
-            }
-        }
-    }
 
     return gem_matrix.clone();
 

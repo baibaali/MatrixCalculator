@@ -3,6 +3,7 @@
 #include "MatrixOperations/MatrixOperationManager.h"
 #include <regex>
 #include <limits>
+#include "Exception.h"
 
 InputReader::InputReader() {
     rows = columns = 0;
@@ -19,82 +20,71 @@ void InputReader::readExpression() {
 
     std::cin >> std::ws;
     std::getline( std::cin, user_input );
-//    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
 
     for (auto & exp : regex)
     {
         scan = std::regex(exp.second);
         if (std::regex_match(user_input, scan)) {
-//            std::cout << std::to_string(exp.first) << std::endl;
             parseExpression(exp.first);
             break;
-//            std::cout << ui << std::endl;
-//            sscanf(ui.c_str(), " SCAN %c [ %d ] [ %d ]", &name, &rows, &columns);
-//            printf("SCAN %c[%d][%d]\n", name, rows, columns);
         }
     }
 
-
-//    if (std::regex_match(ui, scan)) {
-////        std::cout << ui << std::endl;
-//        sscanf(ui.c_str(), " SCAN %c [ %d ] [ %d ]", &name, &rows, &columns);
-//        printf("SCAN %c[%d][%d]\n", name, rows, columns);
-//    } else
-//        std::cout << "Pattern doesn't match" << std::endl;
 }
 
 bool InputReader::parseExpression(OPERATION operation) {
-    std::cout << "Parsing expression..." << std::endl;
     switch (operation) {
+        default:
         case NONE:
             current_operation = NONE;
-            std::cout << "Pattern doesn't match" << std::endl;
             break;
         case SCAN: {
             current_operation = SCAN;
-            sscanf(user_input.c_str(), " SCAN %c [ %d ] [ %d ]", &first_matrix_name, &rows, &columns);
-            printf("SCAN %c[%d][%d]\n", first_matrix_name, rows, columns);
+            if (sscanf(user_input.c_str(), " SCAN %c [ %d ] [ %d ]", &first_matrix_name, &rows, &columns) != 3)
+                if (sscanf(user_input.c_str(), " Scan %c [ %d ] [ %d ]", &first_matrix_name, &rows, &columns) != 3)
+                    sscanf(user_input.c_str(), " scan %c [ %d ] [ %d ]", &first_matrix_name, &rows, &columns);
+//            printf("SCAN %c[%d][%d]\n", first_matrix_name, rows, columns);
             break;
         }
         case IDENTITY:
             current_operation = IDENTITY;
             sscanf(user_input.c_str(), " %c [ %d ] [ %d ] = 1", &first_matrix_name, &rows, &columns);
-            printf("%c[%d][%d] = 1\n", first_matrix_name, rows, columns);
+//            printf("%c[%d][%d] = 1\n", first_matrix_name, rows, columns);
             break;
         case MERGE_BY_ROWS:
             current_operation = MERGE_BY_ROWS;
             if ( sscanf(user_input.c_str(), " %c = MERGE -r %c %c", &first_matrix_name, &second_matrix_name, &third_matrix_name) != 3 )
                 if (sscanf(user_input.c_str(), " %c = Merge -r %c %c", &first_matrix_name, &second_matrix_name, &third_matrix_name) != 3)
                     sscanf(user_input.c_str(), " %c = merge -r %c %c", &first_matrix_name, &second_matrix_name, &third_matrix_name);
-            printf("%c = MERGE -r %c %c\n", first_matrix_name, second_matrix_name, third_matrix_name);
+//            printf("%c = MERGE -r %c %c\n", first_matrix_name, second_matrix_name, third_matrix_name);
             break;
         case MERGE_BY_COLUMNS:
             current_operation = MERGE_BY_COLUMNS;
             if ( sscanf(user_input.c_str(), " %c = MERGE -c %c %c", &first_matrix_name, &second_matrix_name, &third_matrix_name) != 3 )
                 if (sscanf(user_input.c_str(), " %c = Merge -c %c %c", &first_matrix_name, &second_matrix_name, &third_matrix_name) != 3)
                     sscanf(user_input.c_str(), " %c = merge -c %c %c", &first_matrix_name, &second_matrix_name, &third_matrix_name);
-            printf("%c = MERGE -c %c %c\n", first_matrix_name, second_matrix_name, third_matrix_name);
+//            printf("%c = MERGE -c %c %c\n", first_matrix_name, second_matrix_name, third_matrix_name);
             break;
         case GEM:
             current_operation = GEM;
             if ( sscanf(user_input.c_str(), " GEM %c", &first_matrix_name) != 1 )
                 if (sscanf(user_input.c_str(), " Gem %c", &first_matrix_name) != 1)
                     sscanf(user_input.c_str(), " gem %c", &first_matrix_name);
-            printf("GEM %c\n", first_matrix_name);
+//            printf("GEM %c\n", first_matrix_name);
             break;
         case GEM_COMMENTED:
             current_operation = GEM_COMMENTED;
             if ( sscanf(user_input.c_str(), " GEM %c -v", &first_matrix_name) != 1 )
                 if (sscanf(user_input.c_str(), " Gem %c -v", &first_matrix_name) != 1)
                     sscanf(user_input.c_str(), " gem %c -v", &first_matrix_name);
-            printf("GEM %c -v\n", first_matrix_name);
+//            printf("GEM %c -v\n", first_matrix_name);
             break;
         case CUT_DEFAULT:
             current_operation = CUT_DEFAULT;
             if ( sscanf(user_input.c_str(), " %c = CUT %c [ %d ] [ %d ]", &first_matrix_name, &second_matrix_name, &rows, &columns) != 4 )
                 if ( sscanf(user_input.c_str(), " %c = Cut %c [ %d ] [ %d ]", &first_matrix_name, &second_matrix_name, &rows, &columns) != 4 )
                     sscanf(user_input.c_str(), " %c = cut %c [ %d ] [ %d ]", &first_matrix_name, &second_matrix_name, &rows, &columns);
-            printf("%c = CUT %c[%d][%d]\n", first_matrix_name, second_matrix_name, rows, columns);
+//            printf("%c = CUT %c[%d][%d]\n", first_matrix_name, second_matrix_name, rows, columns);
             row_from = column_from = 0;
             break;
         case CUT:
@@ -102,57 +92,60 @@ bool InputReader::parseExpression(OPERATION operation) {
             if ( sscanf(user_input.c_str(), " %c = CUT %c [ %d ] [ %d ] ( %d , %d )", &first_matrix_name, &second_matrix_name, &rows, &columns, &row_from, &column_from) != 6 )
                 if ( sscanf(user_input.c_str(), " %c = Cut %c [ %d ] [ %d ] ( %d , %d )", &first_matrix_name, &second_matrix_name, &rows, &columns, &row_from, &column_from) != 6 )
                     sscanf(user_input.c_str(), " %c = cut %c [ %d ] [ %d ] ( %d , %d )", &first_matrix_name, &second_matrix_name, &rows, &columns, &row_from, &column_from);
-            printf("%c = CUT %c[%d][%d] (%d,%d)\n", first_matrix_name, second_matrix_name, rows, columns, row_from, column_from);
+//            printf("%c = CUT %c[%d][%d] (%d,%d)\n", first_matrix_name, second_matrix_name, rows, columns, row_from, column_from);
             break;
         case PRINT:
             current_operation = PRINT;
             if ( sscanf(user_input.c_str(), " PRINT %c", &first_matrix_name) != 1 )
                 if (sscanf(user_input.c_str(), " Print %c", &first_matrix_name) != 1)
                     sscanf(user_input.c_str(), " print %c", &first_matrix_name);
-            printf("PRINT %c\n", first_matrix_name);
+//            printf("PRINT %c\n", first_matrix_name);
             break;
         case DETERMINANT:
             current_operation = DETERMINANT;
             if ( sscanf(user_input.c_str(), " DET %c", &first_matrix_name) != 1 )
                 if (sscanf(user_input.c_str(), " Det %c", &first_matrix_name) != 1)
                     sscanf(user_input.c_str(), " det %c", &first_matrix_name);
-            printf("DET %c\n", first_matrix_name);
+//            printf("DET %c\n", first_matrix_name);
             break;
         case INVERSION:
             current_operation = INVERSION;
             if ( sscanf(user_input.c_str(), " INV %c", &first_matrix_name) != 1 )
                 if (sscanf(user_input.c_str(), " Inv %c", &first_matrix_name) != 1)
                     sscanf(user_input.c_str(), " inv %c", &first_matrix_name);
-            printf("INV %c\n", first_matrix_name);
+//            printf("INV %c\n", first_matrix_name);
             break;
         case RANK:
             current_operation = RANK;
             if ( sscanf(user_input.c_str(), " RANK %c", &first_matrix_name) != 1 )
                 if (sscanf(user_input.c_str(), " Rank %c", &first_matrix_name) != 1)
                     sscanf(user_input.c_str(), " rank %c", &first_matrix_name);
-            printf("RANK %c\n", first_matrix_name);
+//            printf("RANK %c\n", first_matrix_name);
             break;
         case ADDITION:
             current_operation = ADDITION;
             sscanf(user_input.c_str(), "%c = %c + %c", &first_matrix_name, &second_matrix_name, &third_matrix_name);
-            printf("%c = %c + %c\n", first_matrix_name, second_matrix_name, third_matrix_name);
+//            printf("%c = %c + %c\n", first_matrix_name, second_matrix_name, third_matrix_name);
             break;
         case SUBTRACTION:
             current_operation = SUBTRACTION;
             sscanf(user_input.c_str(), "%c = %c - %c", &first_matrix_name, &second_matrix_name, &third_matrix_name);
-            printf("%c = %c - %c\n", first_matrix_name, second_matrix_name, third_matrix_name);
+//            printf("%c = %c - %c\n", first_matrix_name, second_matrix_name, third_matrix_name);
             break;
         case MULTIPLICATION_BY_SCALAR:
             current_operation = MULTIPLICATION_BY_SCALAR;
             if (sscanf(user_input.c_str(), "%c = %d * %c", &first_matrix_name, &scalar_numerator, &second_matrix_name) != 3)
                 sscanf(user_input.c_str(), "%c = %d / %d * %c", &first_matrix_name, &scalar_numerator, &scalar_denominator, &second_matrix_name);
             scalar = Fraction(scalar_numerator, scalar_denominator);
-            std::cout << first_matrix_name << " = " << scalar << " * " << second_matrix_name << std::endl;
+//            std::cout << first_matrix_name << " = " << scalar << " * " << second_matrix_name << std::endl;
             break;
         case MULTIPLICATION:
             current_operation = MULTIPLICATION;
             sscanf(user_input.c_str(), "%c = %c * %c", &first_matrix_name, &second_matrix_name, &third_matrix_name);
-            printf("%c = %c * %c\n", first_matrix_name, second_matrix_name, third_matrix_name);
+//            printf("%c = %c * %c\n", first_matrix_name, second_matrix_name, third_matrix_name);
+            break;
+        case EXIT:
+            current_operation = EXIT;
             break;
     }
     return false;
