@@ -34,8 +34,8 @@ std::shared_ptr<Matrix> MatrixOperationManager::MatrixInversion(const Matrix &mt
     return mtrx.inversion();
 }
 
-std::shared_ptr<Matrix> MatrixOperationManager::MatrixDeterminant(const Matrix &mtrx) {
-    return mtrx.determinant();
+Fraction MatrixOperationManager::MatrixDeterminant(const std::shared_ptr<Matrix> mtrx) {
+    return mtrx->gaussEliminateCommon()->determinant();
 }
 
 std::shared_ptr<Matrix> MatrixOperationManager::MatrixRank(const Matrix &mtrx) {
@@ -43,7 +43,12 @@ std::shared_ptr<Matrix> MatrixOperationManager::MatrixRank(const Matrix &mtrx) {
 }
 
 std::shared_ptr<Matrix> MatrixOperationManager::MatrixGem(const std::shared_ptr<Matrix> mtrx, bool withComments) {
-    return mtrx->gaussEliminate(withComments);
+    std::shared_ptr<Matrix> res = mtrx->gaussEliminate(withComments);
+    for (int pos = 0; pos < res->getSize().first; pos++){
+        if (res->at(pos, pos).getDenominator() != 1)
+            res->multiplyRowByScalar(pos, res->at(pos, pos).getDenominator());
+    }
+    return res;
 }
 
 std::shared_ptr<Matrix> MatrixOperationManager::MatrixMergeByRows(const std::shared_ptr<Matrix> lhs, const std::shared_ptr<Matrix> rhs) {

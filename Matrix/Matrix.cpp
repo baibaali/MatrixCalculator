@@ -35,6 +35,14 @@ std::shared_ptr<Matrix> Matrix::gaussEliminate(bool withComments) const {
     return withComments ? this->gaussEliminateDescribed() : this->gaussEliminateCommon();
 }
 
+Fraction Matrix::determinant() const {
+    Fraction det = 1;
+    for (int pos = 0; pos < this->getSize().first; pos++) {
+        det *= this->at(pos, pos);
+    }
+    return det;
+}
+
 double Matrix::sparsity(const std::vector<Fraction> &matrix_elements, int elements_count) {
 
     double zero_values = 0;

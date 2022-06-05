@@ -30,10 +30,6 @@ std::shared_ptr<Matrix> SparseMatrix::inversion() const {
     return std::shared_ptr<Matrix>();
 }
 
-std::shared_ptr<Matrix> SparseMatrix::determinant() const {
-    return std::shared_ptr<Matrix>();
-}
-
 std::shared_ptr<Matrix> SparseMatrix::rank() const {
     return std::shared_ptr<Matrix>();
 }
@@ -41,6 +37,8 @@ std::shared_ptr<Matrix> SparseMatrix::rank() const {
 std::shared_ptr<Matrix> SparseMatrix::gaussEliminateCommon () const {
 
     SparseMatrix gem_matrix = SparseMatrix(*this);
+
+    int swap_counts = 0;
 
     std::cout << "Matrix before GEM:" << std::endl;
     gem_matrix.print();
@@ -54,6 +52,7 @@ std::shared_ptr<Matrix> SparseMatrix::gaussEliminateCommon () const {
                 for (int temp_row = column + 1; temp_row < gem_matrix.getSize().first; temp_row++) {
                     if (gem_matrix.at(temp_row, column) != 0) {
                         gem_matrix.swap_rows(column, temp_row);
+                        swap_counts++;
                         break;
                     }
                 }
@@ -65,10 +64,8 @@ std::shared_ptr<Matrix> SparseMatrix::gaussEliminateCommon () const {
             }
     }
 
-    for (int pos = 0; pos < gem_matrix.getSize().first; pos++){
-        if (gem_matrix.at(pos, pos).getDenominator() != 1)
-            gem_matrix.multiplyRowByScalar(pos, gem_matrix.at(pos, pos).getDenominator());
-    }
+    if (swap_counts % 2 == 1)
+        gem_matrix.multiplyRowByScalar(0, -1);
 
     return gem_matrix.clone();
 

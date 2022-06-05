@@ -56,7 +56,7 @@ public:
 
     virtual std::shared_ptr<Matrix> inversion () const = 0;
 
-    virtual std::shared_ptr<Matrix> determinant () const = 0;
+    Fraction determinant () const;
 
     virtual std::shared_ptr<Matrix> rank () const = 0;
 

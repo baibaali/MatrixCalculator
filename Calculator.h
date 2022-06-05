@@ -35,4 +35,6 @@ public:
     void multiplication();
 
     void gem();
+
+    void determinant();
 };

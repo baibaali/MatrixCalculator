@@ -24,7 +24,7 @@ public:
 
     static std::shared_ptr<Matrix> MatrixInversion (const Matrix & mtrx);
 
-    static std::shared_ptr<Matrix> MatrixDeterminant (const Matrix & mtrx);
+    static Fraction MatrixDeterminant (const std::shared_ptr<Matrix> mtrx);
 
     static std::shared_ptr<Matrix> MatrixRank (const Matrix & mtrx);
 

@@ -20,8 +20,6 @@ public:
 
     std::shared_ptr<Matrix> inversion () const override;
 
-    std::shared_ptr<Matrix> determinant () const override;
-
     std::shared_ptr<Matrix> rank () const override;
 
     std::shared_ptr<Matrix> gaussEliminateCommon () const override;

@@ -52,6 +52,9 @@ bool Calculator::calculate() {
         case GEM:
             gem();
             break;
+        case DETERMINANT:
+            determinant();
+            break;
         case EXIT:
             return true;
         default:
@@ -204,4 +207,16 @@ void Calculator::gem() {
     auto result = MatrixOperationManager::MatrixGem(mtrx->second, false);
     result->print();
     std::cout << std::endl;
+}
+
+void Calculator::determinant() {
+    //TODO: check for valid size n*n
+    auto mtrx = this->variables.find(inputReader.getFirstMatrixName());
+
+    //TODO: exception here
+    if (mtrx == variables.end())
+        return;
+
+    auto result = MatrixOperationManager::MatrixDeterminant(mtrx->second);
+    std::cout << "Matrix determinant is: " << result << std::endl;
 }
