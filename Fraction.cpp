@@ -153,7 +153,7 @@ std::istream & operator>>(std::istream & is, Fraction & fraction) {
 
 int Fraction::getWidth() const {
     bool isNegative = numerator < 0;
-    int result = log10(numerator) + 1;
+    int result = log10(abs(numerator)) + 1;
     result += isNegative;
     if (denominator != 1)
         result += log10(denominator) + 2;
@@ -188,4 +188,3 @@ int Fraction::getDenominator() const {
 void Fraction::setDenominator(int denominator) {
     Fraction::denominator = denominator;
 }
-

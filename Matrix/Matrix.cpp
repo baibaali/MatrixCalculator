@@ -122,7 +122,8 @@ void Matrix::print() const {
     for (int row = 0; row < size.first; row++){
         std::cout << "| ";
         for (int column = 0; column < size.second; column++){
-            std::cout << std::setw(this->getOutputWidth()) << this->at(row, column) << " ";
+            print_ws(this->at(row, column).getWidth(), this->getOutputWidth(), std::cout);
+            std::cout << this->at(row, column) << " ";
         }
         std::cout << "|" << std::endl;
     }
@@ -197,4 +198,9 @@ void Matrix::swap_rows(int first, int second) {
         else
             this->setCellValue(second, column, temp);
     }
+}
+
+void Matrix::print_ws(int width, int max_width, std::ostream & ostream) const {
+    for (int i = width; i < max_width; i++)
+        ostream << " ";
 }

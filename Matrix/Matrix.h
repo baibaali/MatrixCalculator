@@ -107,4 +107,6 @@ public:
     virtual void subtractTwoRows(int first, int second, const Fraction multiple) = 0;
 
     virtual void multiplyRowByScalar(int row, int scalar) = 0;
+
+    void print_ws(int width, int width1, std::ostream & ostream) const;
 };
