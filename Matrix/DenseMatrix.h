@@ -22,9 +22,11 @@ public:
 
     std::shared_ptr<Matrix> inversion () const override;
 
-    std::shared_ptr<Matrix> gaussEliminateCommon () const override;
+    std::shared_ptr<Matrix> gaussEliminate (bool withComments) const override;
 
-    std::shared_ptr<Matrix> gaussEliminateDescribed () const override;
+//    std::shared_ptr<Matrix> gaussEliminateCommon () const override;
+//
+//    std::shared_ptr<Matrix> gaussEliminateDescribed () const override;
 
     Fraction at(int row, int column) const override;
 

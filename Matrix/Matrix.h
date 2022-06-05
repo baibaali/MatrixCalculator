@@ -60,11 +60,11 @@ public:
 
     int rank () const;
 
-    virtual std::shared_ptr<Matrix> gaussEliminate (bool withComments) const;
+    virtual std::shared_ptr<Matrix> gaussEliminate (bool withComments) const = 0;
 
-    virtual std::shared_ptr<Matrix> gaussEliminateCommon () const = 0;
-
-    virtual std::shared_ptr<Matrix> gaussEliminateDescribed () const = 0;
+//    virtual std::shared_ptr<Matrix> gaussEliminateCommon () const = 0;
+//
+//    virtual std::shared_ptr<Matrix> gaussEliminateDescribed () const = 0;
 
     std::vector<Fraction> merge_by_rows (const std::shared_ptr<Matrix> other) const;
 

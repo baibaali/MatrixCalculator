@@ -120,6 +120,8 @@ Fraction Fraction::divide(const int num) const {
 
 std::ostream & operator<<(std::ostream & os, const Fraction & fraction) {
     os << fraction.numerator;
+    if (fraction.numerator == 0)
+        return os;
     if (fraction.denominator != 1)
         os << '/' << fraction.denominator;
     return os;
@@ -152,6 +154,8 @@ std::istream & operator>>(std::istream & is, Fraction & fraction) {
 }
 
 int Fraction::getWidth() const {
+    if (numerator == 0)
+        return 1;
     bool isNegative = numerator < 0;
     int result = log10(abs(numerator)) + 1;
     result += isNegative;

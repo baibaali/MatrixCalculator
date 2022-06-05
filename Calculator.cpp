@@ -7,11 +7,13 @@
 void Calculator::run() {
 
     while (true) {
+        std::cout << "--------------------------------------------------------------------------------" << std::endl;
         inputReader.readExpression();
         if (calculate())
             break;
         inputReader.reset();
         std::cout << "Calculating finished." << std::endl << std::endl;
+        std::cout << "--------------------------------------------------------------------------------" << std::endl;
     }
 }
 
@@ -50,7 +52,10 @@ bool Calculator::calculate() {
             multiplication();
             return false;
         case GEM:
-            gem();
+            gem(false);
+            break;
+        case GEM_COMMENTED:
+            gem(true);
             break;
         case DETERMINANT:
             determinant();
@@ -199,7 +204,7 @@ void Calculator::multiplication() {
     this->variables[inputReader.getFirstMatrixName()] = lhs->second * rhs->second;
 }
 
-void Calculator::gem() {
+void Calculator::gem(bool withComments) {
     //TODO: check for valid size n*n
     auto mtrx = this->variables.find(inputReader.getFirstMatrixName());
 
@@ -207,9 +212,12 @@ void Calculator::gem() {
     if (mtrx == variables.end())
         return;
 
-    auto result = MatrixOperationManager::MatrixGem(mtrx->second, false);
+    auto result = MatrixOperationManager::MatrixGem(mtrx->second, withComments);
+
+    std::cout << "Matrix after GEM:" << std::endl;
     result->print();
     std::cout << std::endl;
+
 }
 
 void Calculator::determinant() {

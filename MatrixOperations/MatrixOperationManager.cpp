@@ -35,11 +35,11 @@ std::shared_ptr<Matrix> MatrixOperationManager::MatrixInversion(const Matrix &mt
 }
 
 Fraction MatrixOperationManager::MatrixDeterminant(const std::shared_ptr<Matrix> mtrx) {
-    return mtrx->gaussEliminateCommon()->determinant();
+    return mtrx->gaussEliminate(false)->determinant();
 }
 
 int MatrixOperationManager::MatrixRank(const std::shared_ptr<Matrix> mtrx) {
-    return mtrx->gaussEliminateCommon()->rank();
+    return mtrx->gaussEliminate(false)->rank();
 }
 
 std::shared_ptr<Matrix> MatrixOperationManager::MatrixGem(const std::shared_ptr<Matrix> mtrx, bool withComments) {

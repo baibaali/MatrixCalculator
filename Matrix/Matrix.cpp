@@ -31,9 +31,9 @@ std::pair<int, int> Matrix::getSize() const {
     return this->size;
 }
 
-std::shared_ptr<Matrix> Matrix::gaussEliminate(bool withComments) const {
-    return withComments ? this->gaussEliminateDescribed() : this->gaussEliminateCommon();
-}
+//std::shared_ptr<Matrix> Matrix::gaussEliminate(bool withComments) const {
+//    return this->gaussEliminate(withComments);
+//}
 
 Fraction Matrix::determinant() const {
     Fraction det = 1;

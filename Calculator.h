@@ -34,7 +34,7 @@ public:
 
     void multiplication();
 
-    void gem();
+    void gem(bool withComments);
 
     void determinant();
 

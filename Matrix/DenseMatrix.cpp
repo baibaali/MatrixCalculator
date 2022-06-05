@@ -30,15 +30,16 @@ std::shared_ptr<Matrix> DenseMatrix::inversion() const {
     return std::shared_ptr<Matrix>();
 }
 
-std::shared_ptr<Matrix> DenseMatrix::gaussEliminateCommon () const {
+std::shared_ptr<Matrix> DenseMatrix::gaussEliminate(bool withComments) const {
 
     DenseMatrix gem_matrix = DenseMatrix(*this);
 
     int swap_counts = 0;
+    if (withComments) {
+        std::cout << "Matrix before GEM:" << std::endl;
+        gem_matrix.print();
+    }
 
-    std::cout << "Matrix before GEM:" << std::endl;
-    gem_matrix.print();
-    std::cout << std::endl << "Matrix after GEM:" << std::endl;
 
     for (int column = 0; column < gem_matrix.getSize().second; column++){
         if(gem_matrix.isColumnNull(column))
@@ -48,6 +49,11 @@ std::shared_ptr<Matrix> DenseMatrix::gaussEliminateCommon () const {
                 if (gem_matrix.at(temp_row, column) != 0) {
                     gem_matrix.swap_rows(column, temp_row);
                     swap_counts++;
+                    if (withComments){
+                        std::cout << "Swapping rows r" << column + 1 << " and r" << temp_row + 1 << std::endl;
+                        gem_matrix.print();
+                        std::cout << std::endl;
+                    }
                     break;
                 }
             }
@@ -55,7 +61,17 @@ std::shared_ptr<Matrix> DenseMatrix::gaussEliminateCommon () const {
         for (int temp_row = column + 1; temp_row < gem_matrix.getSize().first; temp_row++){
             if (gem_matrix.at(temp_row, column) == 0)
                 continue;
+            if (withComments) {
+                std::cout << "Subtract the " << gem_matrix.at(temp_row, column) / gem_matrix.at(column, column)
+                          << " * r" << column + 1 << " from r" << temp_row + 1 << std::endl;
+            }
+
             gem_matrix.subtractTwoRows(temp_row, column, gem_matrix.at(temp_row, column) / gem_matrix.at(column, column));
+
+            if (withComments) {
+                gem_matrix.print();
+                std::cout << std::endl;
+            }
         }
     }
 
@@ -64,10 +80,6 @@ std::shared_ptr<Matrix> DenseMatrix::gaussEliminateCommon () const {
 
     return gem_matrix.clone();
 
-}
-
-std::shared_ptr<Matrix> DenseMatrix::gaussEliminateDescribed () const {
-    return std::shared_ptr<Matrix>();
 }
 
 void DenseMatrix::makeIdentity() {
@@ -96,6 +108,7 @@ void DenseMatrix::subtractTwoRows(int first, int second, const Fraction multiple
     for (int column = 0; column < this->getSize().second; column++) {
         temp_res = this->at(first, column) - multiple * this->at(second, column);
         this->matrix[first][column] = temp_res;
+        this->setOutputWidth(temp_res);
     }
 }
 
