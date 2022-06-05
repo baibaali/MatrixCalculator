@@ -55,6 +55,9 @@ bool Calculator::calculate() {
         case DETERMINANT:
             determinant();
             break;
+        case RANK:
+            rank();
+            break;
         case EXIT:
             return true;
         default:
@@ -219,4 +222,15 @@ void Calculator::determinant() {
 
     auto result = MatrixOperationManager::MatrixDeterminant(mtrx->second);
     std::cout << "Matrix determinant is: " << result << std::endl;
+}
+
+void Calculator::rank() {
+    auto mtrx = this->variables.find(inputReader.getFirstMatrixName());
+
+    //TODO: exception here
+    if (mtrx == variables.end())
+        return;
+
+    auto result = MatrixOperationManager::MatrixRank(mtrx->second);
+    std::cout << "Matrix rank is: " << result << std::endl;
 }

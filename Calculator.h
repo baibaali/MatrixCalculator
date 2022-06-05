@@ -37,4 +37,6 @@ public:
     void gem();
 
     void determinant();
+
+    void rank();
 };

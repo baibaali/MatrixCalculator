@@ -26,7 +26,7 @@ public:
 
     static Fraction MatrixDeterminant (const std::shared_ptr<Matrix> mtrx);
 
-    static std::shared_ptr<Matrix> MatrixRank (const Matrix & mtrx);
+    static int MatrixRank (const std::shared_ptr<Matrix> mtrx);
 
     static std::shared_ptr<Matrix> MatrixGem (const std::shared_ptr<Matrix> mtrx, bool withComments);
 

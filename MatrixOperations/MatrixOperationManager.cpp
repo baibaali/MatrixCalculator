@@ -38,8 +38,8 @@ Fraction MatrixOperationManager::MatrixDeterminant(const std::shared_ptr<Matrix>
     return mtrx->gaussEliminateCommon()->determinant();
 }
 
-std::shared_ptr<Matrix> MatrixOperationManager::MatrixRank(const Matrix &mtrx) {
-    return mtrx.rank();
+int MatrixOperationManager::MatrixRank(const std::shared_ptr<Matrix> mtrx) {
+    return mtrx->gaussEliminateCommon()->rank();
 }
 
 std::shared_ptr<Matrix> MatrixOperationManager::MatrixGem(const std::shared_ptr<Matrix> mtrx, bool withComments) {

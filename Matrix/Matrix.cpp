@@ -43,6 +43,13 @@ Fraction Matrix::determinant() const {
     return det;
 }
 
+int Matrix::rank() const {
+    int rank = 0;
+    for (int row = 0; row < this->getSize().first; row++)
+        rank += !this->isRowNull(row);
+    return rank;
+}
+
 double Matrix::sparsity(const std::vector<Fraction> &matrix_elements, int elements_count) {
 
     double zero_values = 0;
@@ -164,8 +171,15 @@ std::vector<Fraction> Matrix::multiply(const std::shared_ptr<Matrix> other) cons
     return result;
 }
 
-bool Matrix::isColumnNull(int column) {
+bool Matrix::isColumnNull(int column) const {
     for (int row = 0; row < this->getSize().first; row++)
+        if (this->at(row, column) != 0)
+            return false;
+    return true;
+}
+
+bool Matrix::isRowNull(int row) const {
+    for (int column = 0; column < this->getSize().second; column++)
         if (this->at(row, column) != 0)
             return false;
     return true;

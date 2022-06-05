@@ -58,7 +58,7 @@ public:
 
     Fraction determinant () const;
 
-    virtual std::shared_ptr<Matrix> rank () const = 0;
+    int rank () const;
 
     virtual std::shared_ptr<Matrix> gaussEliminate (bool withComments) const;
 
@@ -94,7 +94,9 @@ public:
 
     virtual Fraction at(int row, int column) const = 0;
 
-    bool isColumnNull (int column);
+    bool isColumnNull (int column) const;
+
+    bool isRowNull (int row) const;
 
     void swap_rows(int first, int second);
 

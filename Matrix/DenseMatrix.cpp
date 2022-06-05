@@ -30,10 +30,6 @@ std::shared_ptr<Matrix> DenseMatrix::inversion() const {
     return std::shared_ptr<Matrix>();
 }
 
-std::shared_ptr<Matrix> DenseMatrix::rank() const {
-    return std::shared_ptr<Matrix>();
-}
-
 std::shared_ptr<Matrix> DenseMatrix::gaussEliminateCommon () const {
 
     DenseMatrix gem_matrix = DenseMatrix(*this);

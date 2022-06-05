@@ -30,10 +30,6 @@ std::shared_ptr<Matrix> SparseMatrix::inversion() const {
     return std::shared_ptr<Matrix>();
 }
 
-std::shared_ptr<Matrix> SparseMatrix::rank() const {
-    return std::shared_ptr<Matrix>();
-}
-
 std::shared_ptr<Matrix> SparseMatrix::gaussEliminateCommon () const {
 
     SparseMatrix gem_matrix = SparseMatrix(*this);
