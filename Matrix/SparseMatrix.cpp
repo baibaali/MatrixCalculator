@@ -32,6 +32,7 @@ std::shared_ptr<Matrix> SparseMatrix::inversion() const {
     SparseMatrix identity = SparseMatrix(*this);
     identity.makeIdentity();
 
+
     for (int column = 0; column < gem_matrix.getSize().second; column++){
         if(gem_matrix.isColumnNull(column))
             continue;
@@ -47,47 +48,35 @@ std::shared_ptr<Matrix> SparseMatrix::inversion() const {
         for (int temp_row = column + 1; temp_row < gem_matrix.getSize().first; temp_row++){
             if (gem_matrix.at(temp_row, column) == 0)
                 continue;
-            gem_matrix.subtractTwoRows(temp_row, column, gem_matrix.at(temp_row, column) / gem_matrix.at(column, column));
-            identity.subtractTwoRows(temp_row, column, identity.at(temp_row, column) / identity.at(column, column));
+            Fraction multiply = gem_matrix.at(temp_row, column) / gem_matrix.at(column, column);
+            gem_matrix.subtractTwoRows(temp_row, column, multiply);
+            identity.subtractTwoRows(temp_row, column, multiply);
         }
     }
-    std::cout << "GEM before transposition: " << std::endl;
-    gem_matrix.print();
-    std::cout << "Identity before transposition: " << std::endl;
-    identity.print();
-    std::shared_ptr<Matrix> transposed_gem = gem_matrix.transposition();
-    std::shared_ptr<Matrix> transposed_identity = identity.transposition();
-    std::cout << "GEM after transposition: " << std::endl;
-    transposed_gem->print();
-    std::cout << "Identity after transposition: " << std::endl;
-    transposed_identity->print();
 
-
-    for (int column = 0; column < transposed_gem->getSize().second; column++){
-        if(transposed_gem->isColumnNull(column))
-            continue;
-        if (transposed_gem->at(column, column) == 0) {
-            for (int temp_row = column + 1; temp_row < transposed_gem->getSize().first; temp_row++) {
-                if (transposed_gem->at(temp_row, column) != 0) {
-                    transposed_gem->swap_rows(column, temp_row);
-                    transposed_identity->swap_rows(column, temp_row);
-                    break;
-                }
-            }
+    for (int column = gem_matrix.getSize().second - 1; column >= 0; column--){
+        if (gem_matrix.at(column, column) == 0) {
+            std::cout << "Inversion doesn't exists" << std::endl;
+            break;
         }
-        for (int temp_row = column + 1; temp_row < transposed_gem->getSize().first; temp_row++){
-            if (transposed_gem->at(temp_row, column) == 0)
+        for (int temp_row = column - 1; temp_row >= 0; temp_row--){
+            if (gem_matrix.at(temp_row, column) == 0)
                 continue;
-            transposed_gem->subtractTwoRows(temp_row, column, transposed_gem->at(temp_row, column) / transposed_gem->at(column, column));
-            transposed_identity->subtractTwoRows(temp_row, column, transposed_identity->at(temp_row, column) / transposed_identity->at(column, column));
+            Fraction multiply = gem_matrix.at(temp_row, column) / gem_matrix.at(column, column);
+            gem_matrix.subtractTwoRows(temp_row, column, multiply);
+            identity.subtractTwoRows(temp_row, column, multiply);
         }
     }
 
-    for (int pos = 0; pos < transposed_identity->getSize().first; pos++){
-        transposed_identity->multiplyRowByScalar(pos, 1 / transposed_gem->at(pos, pos));
+    for (int pos = 0; pos < identity.getSize().first; pos++){
+        Fraction scalar = 1 / gem_matrix.at(pos, pos);
+        for (int column = 0; column < gem_matrix.getSize().second; column++) {
+            gem_matrix.setCellValue(pos, column, gem_matrix.at(pos, column) * scalar);
+            identity.setCellValue(pos, column, identity.at(pos, column) * scalar);
+        }
     }
 
-    return transposed_identity;
+    return identity.clone();
 
 }
 

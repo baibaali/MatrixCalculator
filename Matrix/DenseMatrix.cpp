@@ -53,16 +53,9 @@ std::shared_ptr<Matrix> DenseMatrix::inversion() const {
     }
 
     for (int column = gem_matrix.getSize().second - 1; column >= 0; column--){
-        if(gem_matrix.isColumnNull(column))
-            continue;
         if (gem_matrix.at(column, column) == 0) {
-            for (int temp_row = column - 1; temp_row >= 0; temp_row--) {
-                if (gem_matrix.at(temp_row, column) != 0) {
-                    gem_matrix.swap_rows(column, temp_row);
-                    identity.swap_rows(column, temp_row);
-                    break;
-                }
-            }
+            std::cout << "Inversion doesn't exists" << std::endl;
+            break;
         }
         for (int temp_row = column - 1; temp_row >= 0; temp_row--){
             if (gem_matrix.at(temp_row, column) == 0)
@@ -74,7 +67,11 @@ std::shared_ptr<Matrix> DenseMatrix::inversion() const {
     }
 
     for (int pos = 0; pos < identity.getSize().first; pos++){
-        identity.multiplyRowByScalar(pos, 1 / gem_matrix.at(pos, pos));
+        Fraction scalar = 1 / gem_matrix.at(pos, pos);
+        for (int column = 0; column < gem_matrix.getSize().second; column++) {
+            gem_matrix.setCellValue(pos, column, gem_matrix.at(pos, column) * scalar);
+            identity.setCellValue(pos, column, identity.at(pos, column) * scalar);
+        }
     }
 
     return identity.clone();
@@ -94,6 +91,7 @@ std::shared_ptr<Matrix> DenseMatrix::gaussEliminate(bool withComments) const {
     for (int column = 0; column < gem_matrix.getSize().second; column++){
         if(gem_matrix.isColumnNull(column))
             continue;
+
         if (gem_matrix.at(column, column) == 0) {
             for (int temp_row = column + 1; temp_row < gem_matrix.getSize().first; temp_row++) {
                 if (gem_matrix.at(temp_row, column) != 0) {
@@ -128,17 +126,26 @@ std::shared_ptr<Matrix> DenseMatrix::gaussEliminate(bool withComments) const {
     if (swap_counts % 2 == 1)
         gem_matrix.multiplyRowByScalar(0, -1);
 
+    for (int i = 1; i < gem_matrix.getSize().first; i++){
+        if (gem_matrix.isRowNull(i - 1)) {
+            for (int j = i; j < gem_matrix.getSize().first; j++){
+                if (!gem_matrix.isRowNull(j)) {
+                    gem_matrix.swap_rows(i - 1, j);
+                    break;
+                }
+            }
+        }
+    }
+
     return gem_matrix.clone();
 
 }
 
 void DenseMatrix::makeIdentity() {
-    for (int i = 0; i < this->getSize().first; i++)
-        for (int j = 0; j < this->getSize().second; j++) {
-            this->matrix[i].push_back(0);
-            if (i == j)
-                matrix[i][j] = 1;
-        }
+    matrix.clear();
+    matrix = std::vector<std::vector<Fraction>>(this->getSize().first, std::vector<Fraction>(this->getSize().second, 0));
+    for (int pos = 0; pos < this->getSize().first; pos++)
+        matrix[pos][pos] = 1;
 }
 
 Fraction DenseMatrix::at(int row, int column) const {

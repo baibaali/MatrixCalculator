@@ -169,7 +169,7 @@ std::vector<Fraction> Matrix::multiply(const std::shared_ptr<Matrix> other) cons
 }
 
 bool Matrix::isColumnNull(int column) const {
-    for (int row = 0; row < this->getSize().first; row++)
+    for (int row = column; row < this->getSize().first; row++)
         if (this->at(row, column) != 0)
             return false;
     return true;

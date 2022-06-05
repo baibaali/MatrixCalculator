@@ -255,6 +255,5 @@ void Calculator::inversion() {
 
     auto result = MatrixOperationManager::MatrixInversion(mtrx->second);
     std::cout << "Matrix inversion is: " << std::endl;
-    std::cout << result->getSize().first << " " << result->getSize().second << std::endl;
     result->print();
 }
