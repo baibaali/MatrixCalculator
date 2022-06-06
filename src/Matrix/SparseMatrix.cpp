@@ -57,7 +57,8 @@ std::shared_ptr<Matrix> SparseMatrix::inversion() const {
     for (int column = gem_matrix.getSize().second - 1; column >= 0; column--){
         if (gem_matrix.at(column, column) == 0) {
             std::cout << "Inversion doesn't exists" << std::endl;
-            break;
+            identity.matrix.clear();
+            return identity.clone();
         }
         for (int temp_row = column - 1; temp_row >= 0; temp_row--){
             if (gem_matrix.at(temp_row, column) == 0)

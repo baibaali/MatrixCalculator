@@ -51,7 +51,7 @@ bool Calculator::calculate() {
             return false;
         case ADDITION:
             addition();
-            break;
+            return false;
         case SUBTRACTION:
             subtraction();
             return false;
@@ -388,6 +388,10 @@ void Calculator::inversion() {
         throw Exception("ERROR: Matrix should be square (has size N x N)");
 
     auto result = MatrixOperationManager::MatrixInversion(mtrx->second);
+
+    for (int row = 0; row < result->getSize().first; row++)
+        if (result->isRowNull(row))
+            return;
     std::cout << "Matrix inversion is: " << std::endl;
     result->print(std::cout, true);
 }
