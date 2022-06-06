@@ -4,17 +4,6 @@
 
 DenseMatrix::DenseMatrix(int rows, int columns, double sparsity) : Matrix(rows, columns, 1, sparsity) {}
 
-DenseMatrix::DenseMatrix(const std::shared_ptr<Matrix> other)
-: Matrix(other->getSize().first, other->getSize().second, other->getOutputWidth(), other->getMSparsity())
-{
-    this->matrix = std::vector<std::vector<Fraction>>(other->getSize().first, std::vector<Fraction>(other->getSize().second));
-    for (int i = 0; i < other->getSize().first; i++) {
-        for (int j = 0; j < other->getSize().second; j++) {
-            this->matrix[i][j] = other->at(i, j);
-        }
-    }
-}
-
 DenseMatrix::DenseMatrix(const std::vector<Fraction> & values, int rows, int columns, double sparsity) : Matrix(rows, columns, 1, sparsity) {
     for (int i = 0; i < rows; i++) {
         matrix.emplace_back(values.begin() + i * columns, values.begin() + (i + 1) * columns);
