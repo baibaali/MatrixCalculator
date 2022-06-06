@@ -4,6 +4,9 @@
 #include <map>
 #include "Matrix/Matrix.h"
 
+/**
+ * Reads and parse user input
+ */
 class InputReader {
 
     std::string user_input;
