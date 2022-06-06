@@ -164,10 +164,6 @@ bool InputReader::parseExpression(OPERATION operation) {
     return false;
 }
 
-OPERATION InputReader::getOperation(const std::string & expr) const {
-    return INVERSION;
-}
-
 void InputReader::reset() {
     user_input.clear();
     rows = columns = row_from = column_from = 0;

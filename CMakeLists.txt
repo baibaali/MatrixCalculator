@@ -3,7 +3,7 @@ project(baibaali)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(semestral main.cpp Calculator.cpp Calculator.h Matrix/Matrix.cpp Matrix/Matrix.h
-        Matrix/SparseMatrix.cpp Matrix/SparseMatrix.h Matrix/DenseMatrix.cpp Matrix/DenseMatrix.h
-        MatrixOperations/MatrixOperationManager.cpp MatrixOperations/MatrixOperationManager.h
-        InputReader.cpp InputReader.h Fraction.cpp Fraction.h Exception.cpp Exception.h)
+add_executable(semestral src/main.cpp src/Calculator.cpp src/Calculator.h src/Matrix/Matrix.cpp src/Matrix/Matrix.h
+        src/Matrix/SparseMatrix.cpp src/Matrix/SparseMatrix.h src/Matrix/DenseMatrix.cpp src/Matrix/DenseMatrix.h
+        src/MatrixOperations/MatrixOperationManager.cpp src/MatrixOperations/MatrixOperationManager.h
+        src/InputReader.cpp src/InputReader.h src/Fraction.cpp src/Fraction.h src/Exception.cpp src/Exception.h)

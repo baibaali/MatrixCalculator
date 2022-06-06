@@ -435,7 +435,7 @@ void Calculator::readMatrixFromFile() {
 }
 
 void Calculator::saveMatrix() {
-    std::string file_name = "examples/";
+    std::string file_name = "../examples/";
     auto mtrx = this->variables.find(inputReader.getFirstMatrixName());
     if (mtrx == variables.end())
         throw Exception("Matrix with specified name doesn't exists");
