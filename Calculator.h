@@ -41,4 +41,8 @@ public:
     void rank();
 
     void inversion();
+
+    void readMatrixFromFile();
+
+    void saveMatrix();
 };

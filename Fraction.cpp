@@ -87,11 +87,11 @@ Fraction Fraction::multiply(const Fraction &rhs) const {
     return Fraction(temp_numerator / fraction_gcd, temp_denominator / fraction_gcd);
 }
 
-Fraction operator*(const Fraction & lhs, const int num) {
+Fraction operator*(const Fraction & lhs, const long long int num) {
     return lhs.multiply(num);
 }
 
-Fraction operator*(const int num, const Fraction & lhs) {
+Fraction operator*(const long long int num, const Fraction & lhs) {
     return lhs.multiply(num);
 }
 

@@ -10,6 +10,8 @@ public:
 
     DenseMatrix() = default;
 
+    DenseMatrix(const std::shared_ptr<Matrix> other);
+
     DenseMatrix(const std::vector<Fraction> & values, int rows, int columns, double sparsity);
 
     DenseMatrix(int rows, int columns, double sparsity);

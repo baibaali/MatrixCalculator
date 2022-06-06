@@ -87,7 +87,7 @@ std::shared_ptr<Matrix> SparseMatrix::gaussEliminate (bool withComments) const {
     int swap_counts = 0;
     if (withComments) {
         std::cout << "Matrix before GEM:" << std::endl;
-        gem_matrix.print();
+        gem_matrix.print(std::cout, true);
     }
 
 
@@ -101,7 +101,7 @@ std::shared_ptr<Matrix> SparseMatrix::gaussEliminate (bool withComments) const {
                     swap_counts++;
                     if (withComments) {
                         std::cout << "Swapping rows r" << column + 1 << " and r" << temp_row + 1 << std::endl;
-                        gem_matrix.print();
+                        gem_matrix.print(std::cout, true);
                         std::cout << std::endl;
                     }
                     break;
@@ -117,7 +117,7 @@ std::shared_ptr<Matrix> SparseMatrix::gaussEliminate (bool withComments) const {
             }
             gem_matrix.subtractTwoRows(temp_row, column, gem_matrix.at(temp_row, column) / gem_matrix.at(column, column));
             if (withComments) {
-                gem_matrix.print();
+                gem_matrix.print(std::cout, true);
                 std::cout << std::endl;
             }
         }

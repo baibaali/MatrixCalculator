@@ -46,6 +46,19 @@ bool InputReader::parseExpression(OPERATION operation) {
 //            printf("SCAN %c[%d][%d]\n", first_matrix_name, rows, columns);
             break;
         }
+        case SCANF:
+            current_operation = SCANF;
+            if (sscanf(user_input.c_str(), " SCANF %c", &first_matrix_name) != 1)
+                if (sscanf(user_input.c_str(), " Scanf %c", &first_matrix_name) != 1)
+                    sscanf(user_input.c_str(), " scanf %c", &first_matrix_name);
+//            printf("SCAN %c[%d][%d]\n", first_matrix_name, rows, columns);
+            break;
+        case SAVE:
+            current_operation = SAVE;
+            if (sscanf(user_input.c_str(), " SAVE %c", &first_matrix_name) != 1)
+                if (sscanf(user_input.c_str(), " Save %c", &first_matrix_name) != 1)
+                    sscanf(user_input.c_str(), " save %c", &first_matrix_name);
+            break;
         case IDENTITY:
             current_operation = IDENTITY;
             sscanf(user_input.c_str(), " %c [ %d ] [ %d ] = 1", &first_matrix_name, &rows, &columns);
@@ -153,10 +166,6 @@ bool InputReader::parseExpression(OPERATION operation) {
 
 OPERATION InputReader::getOperation(const std::string & expr) const {
     return INVERSION;
-}
-
-std::vector<std::pair<OPERATION, std::vector<std::string>>> &InputReader::getExpressions() {
-    return expressions;
 }
 
 void InputReader::reset() {

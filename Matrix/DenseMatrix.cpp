@@ -4,6 +4,17 @@
 
 DenseMatrix::DenseMatrix(int rows, int columns, double sparsity) : Matrix(rows, columns, 1, sparsity) {}
 
+DenseMatrix::DenseMatrix(const std::shared_ptr<Matrix> other)
+: Matrix(other->getSize().first, other->getSize().second, other->getOutputWidth(), other->getMSparsity())
+{
+    this->matrix = std::vector<std::vector<Fraction>>(other->getSize().first, std::vector<Fraction>(other->getSize().second));
+    for (int i = 0; i < other->getSize().first; i++) {
+        for (int j = 0; j < other->getSize().second; j++) {
+            this->matrix[i][j] = other->at(i, j);
+        }
+    }
+}
+
 DenseMatrix::DenseMatrix(const std::vector<Fraction> & values, int rows, int columns, double sparsity) : Matrix(rows, columns, 1, sparsity) {
     for (int i = 0; i < rows; i++) {
         matrix.emplace_back(values.begin() + i * columns, values.begin() + (i + 1) * columns);
@@ -31,11 +42,8 @@ std::shared_ptr<Matrix> DenseMatrix::inversion() const {
     DenseMatrix gem_matrix = DenseMatrix(*this);
     DenseMatrix identity = DenseMatrix(*this);
     identity.makeIdentity();
-
-    std::cout << "++++++++++"<<std::endl;
-    identity.print();
-    std::cout << "++++++++++"<<std::endl;
     Fraction multiply;
+
     for (int column = 0; column < gem_matrix.getSize().second; column++){
         if(gem_matrix.isColumnNull(column))
             continue;
@@ -44,14 +52,6 @@ std::shared_ptr<Matrix> DenseMatrix::inversion() const {
                 if (gem_matrix.at(temp_row, column) != 0) {
                     gem_matrix.swap_rows(column, temp_row);
                     identity.swap_rows(column, temp_row);
-
-                    std::cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+" << std::endl;
-                    gem_matrix.print();
-                    std::cout << std::endl;
-                    identity.print();
-                    std::cout << std::endl;
-                    std::cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+" << std::endl;
-
                     break;
                 }
             }
@@ -61,26 +61,12 @@ std::shared_ptr<Matrix> DenseMatrix::inversion() const {
         gem_matrix.multiplyRowByScalar(column, multiply);
         identity.multiplyRowByScalar(column, multiply);
 
-        std::cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+" << std::endl;
-        gem_matrix.print();
-        std::cout << std::endl;
-        identity.print();
-        std::cout << std::endl;
-        std::cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+" << std::endl;
-
         for (int temp_row = column + 1; temp_row < gem_matrix.getSize().first; temp_row++){
             if (gem_matrix.at(temp_row, column) == 0)
                 continue;
-            Fraction multiply = gem_matrix.at(temp_row, column) / gem_matrix.at(column, column);
+            multiply = gem_matrix.at(temp_row, column) / gem_matrix.at(column, column);
             gem_matrix.subtractTwoRows(temp_row, column, multiply);
             identity.subtractTwoRows(temp_row, column, multiply);
-
-            std::cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+" << std::endl;
-            gem_matrix.print();
-            std::cout << std::endl;
-            identity.print();
-            std::cout << std::endl;
-            std::cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+" << std::endl;
         }
 
     }
@@ -93,16 +79,9 @@ std::shared_ptr<Matrix> DenseMatrix::inversion() const {
         for (int temp_row = column - 1; temp_row >= 0; temp_row--){
             if (gem_matrix.at(temp_row, column) == 0)
                 continue;
-            Fraction multiply = gem_matrix.at(temp_row, column) / gem_matrix.at(column, column);
+            multiply = gem_matrix.at(temp_row, column) / gem_matrix.at(column, column);
             gem_matrix.subtractTwoRows(temp_row, column, multiply);
             identity.subtractTwoRows(temp_row, column, multiply);
-
-            std::cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+" << std::endl;
-            gem_matrix.print();
-            std::cout << std::endl;
-            identity.print();
-            std::cout << std::endl;
-            std::cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+" << std::endl;
         }
     }
 
@@ -114,13 +93,6 @@ std::shared_ptr<Matrix> DenseMatrix::inversion() const {
         }
     }
 
-    std::cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+" << std::endl;
-    gem_matrix.print();
-    std::cout << std::endl;
-    identity.print();
-    std::cout << std::endl;
-    std::cout << "+-+-+-+-+-+-+-+-+-+-+-+-+-+" << std::endl;
-
     return identity.clone();
 }
 
@@ -131,7 +103,7 @@ std::shared_ptr<Matrix> DenseMatrix::gaussEliminate(bool withComments) const {
     int swap_counts = 0;
     if (withComments) {
         std::cout << "Matrix before GEM:" << std::endl;
-        gem_matrix.print();
+        gem_matrix.print(std::cout, true);
     }
 
 
@@ -146,7 +118,7 @@ std::shared_ptr<Matrix> DenseMatrix::gaussEliminate(bool withComments) const {
                     swap_counts++;
                     if (withComments){
                         std::cout << "Swapping rows r" << column + 1 << " and r" << temp_row + 1 << std::endl;
-                        gem_matrix.print();
+                        gem_matrix.print(std::cout, true);
                         std::cout << std::endl;
                     }
                     break;
@@ -164,22 +136,22 @@ std::shared_ptr<Matrix> DenseMatrix::gaussEliminate(bool withComments) const {
             gem_matrix.subtractTwoRows(temp_row, column, gem_matrix.at(temp_row, column) / gem_matrix.at(column, column));
 
             if (withComments) {
-                gem_matrix.print();
+                gem_matrix.print(std::cout, true);
                 std::cout << std::endl;
             }
         }
     }
 
-//    for (int i = 1; i < gem_matrix.getSize().first; i++){
-//        if (gem_matrix.isRowNull(i - 1)) {
-//            for (int j = i; j < gem_matrix.getSize().first; j++){
-//                if (!gem_matrix.isRowNull(j)) {
-//                    gem_matrix.swap_rows(i - 1, j);
-//                    break;
-//                }
-//            }
-//        }
-//    }
+    for (int i = 1; i < gem_matrix.getSize().first; i++){
+        if (gem_matrix.isRowNull(i - 1)) {
+            for (int j = i; j < gem_matrix.getSize().first; j++){
+                if (!gem_matrix.isRowNull(j)) {
+                    gem_matrix.swap_rows(i - 1, j);
+                    break;
+                }
+            }
+        }
+    }
 
     if (swap_counts % 2 == 1)
         gem_matrix.multiplyRowByScalar(0, -1);

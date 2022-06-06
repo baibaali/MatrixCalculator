@@ -20,6 +20,8 @@ class InputReader {
 
     std::map<OPERATION, std::string> regex {
             {SCAN, R"([\s]*(SCAN|Scan|scan)[\s]+[A-Z][\s]*\[[\s]*[-]?[0-9]+[\s]*\][\s]*\[[\s]*[-]?[0-9]+[\s]*\][\s]*)"},
+            {SCANF, R"([\s]*(S|s)(C|c)(A|a)(N|n)(F|f)[\s]+[A-Z][\s]*)"},
+            {SAVE, R"([\s]*(SAVE|Save|save)[\s]+[A-Z][\s]*)"},
             {IDENTITY, R"([\s]*[A-Z][\s]*\[[\s]*[-]?[0-9]+[\s]*\][\s]*\[[\s]*[-]?[0-9]+[\s]*\][\s]*(=)[\s]*(1)[\s]*)"},
             {MERGE_BY_ROWS, R"([\s]*[A-Z][\s]*(=)[\s]*(MERGE|Merge|merge)[\s]+(-r)[\s]+[A-Z][\s]+[A-Z][\s]*)"},
             {MERGE_BY_COLUMNS, R"([\s]*[A-Z][\s]*(=)[\s]*(MERGE|Merge|merge)[\s]+(-c)[\s]+[A-Z][\s]+[A-Z][\s]*)"},
@@ -40,8 +42,6 @@ class InputReader {
             {EXIT, R"([\s]*(EXIT|Exit|exit)[\s]*)"},
     };
 
-    std::vector<std::pair<OPERATION, std::vector<std::string>>> expressions;
-
 public:
 
     InputReader();
@@ -51,8 +51,6 @@ public:
     bool parseExpression(OPERATION operation);
 
     OPERATION getOperation(const std::string & expr) const;
-
-    std::vector<std::pair<OPERATION, std::vector<std::string>>> & getExpressions();
 
     void reset();
 

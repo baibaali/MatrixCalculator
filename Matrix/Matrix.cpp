@@ -114,14 +114,17 @@ std::vector<Fraction> Matrix::cut(std::pair<int, int> pos, std::pair<int, int> m
     return result;
 }
 
-void Matrix::print() const {
+void Matrix::print(std::ostream & os, bool decorated) const {
     for (int row = 0; row < size.first; row++){
-        std::cout << "| ";
+        if (decorated)
+            os << "| ";
         for (int column = 0; column < size.second; column++){
-            print_ws(this->at(row, column).getWidth(), this->getOutputWidth(), std::cout);
-            std::cout << this->at(row, column) << " ";
+            print_ws(this->at(row, column).getWidth(), this->getOutputWidth(), os);
+            os << this->at(row, column) << " ";
         }
-        std::cout << "|" << std::endl;
+        if (decorated)
+            os << "|";
+        os << std::endl;
     }
 }
 

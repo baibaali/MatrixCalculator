@@ -1,3 +1,4 @@
+#include <iostream>
 #include "MatrixOperationManager.h"
 
 std::shared_ptr<Matrix> MatrixOperationManager::Create(int rows, int columns, const std::vector<Fraction> &values) {

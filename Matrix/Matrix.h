@@ -7,6 +7,8 @@
 enum OPERATION {
     NONE,
     SCAN,
+    SCANF,
+    SAVE,
     ASSIGN,
     ADDITION,
     SUBTRACTION,
@@ -80,7 +82,7 @@ public:
 
     static double sparsity(int rows, int columns);
 
-    void print() const;
+    void print(std::ostream & os, bool decorated) const;
 
     int getOutputWidth() const;
 

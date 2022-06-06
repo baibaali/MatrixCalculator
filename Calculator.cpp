@@ -1,5 +1,6 @@
 #include <iostream>
 #include <utility>
+#include <fstream>
 #include "Calculator.h"
 #include "MatrixOperations/MatrixOperationManager.h"
 #include "Fraction.h"
@@ -17,16 +18,20 @@ void Calculator::run() {
         } catch (Exception & ex) {
             std::cout << ex.what() << std::endl;
         }
-//        std::cout << "Calculating finished." << std::endl << std::endl;
         std::cout << "--------------------------------------------------------------------------------" << std::endl << std::endl;
     }
 }
 
 bool Calculator::calculate() {
-//    std::cout << "Calculating..." << std::endl;
     switch(inputReader.getCurrentOperation()){
         case SCAN:
             addNewVariable();
+            return false;
+        case SCANF:
+            readMatrixFromFile();
+            return false;
+        case SAVE:
+            saveMatrix();
             return false;
         case PRINT:
             printMatrix();
@@ -99,7 +104,7 @@ void Calculator::printMatrix() const {
                   << "]:"
                   << std::endl;
 
-        it->second->print();
+        it->second->print(std::cout, true);
     }
     else
         throw Exception("ERROR: Matrix with specified name wasn't found");
@@ -129,10 +134,19 @@ void Calculator::mergeByRows() {
 
     //TODO: exception . here
     if (lhs == variables.end())
-        throw Exception("ERROR: Matrix with name " + std::to_string(inputReader.getSecondMatrixName()) + " doesn't exists");
+    {
+        std::string name = "ERROR: Matrix with name ";
+        name += inputReader.getSecondMatrixName();
+        name += " doesn't exists";
+        throw Exception(name);
+    }
     if (rhs == variables.end())
-        throw Exception("ERROR: Matrix with name " + std::to_string(inputReader.getThirdMatrixName()) + " doesn't exists");
-
+    {
+        std::string name = "ERROR: Matrix with name ";
+        name += inputReader.getThirdMatrixName();
+        name += " doesn't exists";
+        throw Exception(name);
+    }
 
     if (lhs->second->getSize().second != rhs->second->getSize().second)
         throw Exception("ERROR: Matrices should have same column size for this operation");
@@ -150,10 +164,19 @@ void Calculator::mergeByColumns() {
 
     //TODO: exception here
     if (lhs == variables.end())
-        throw Exception("ERROR: Matrix with name " + std::to_string(inputReader.getSecondMatrixName()) + " doesn't exists");
+    {
+        std::string name = "ERROR: Matrix with name ";
+        name += inputReader.getSecondMatrixName();
+        name += " doesn't exists";
+        throw Exception(name);
+    }
     if (rhs == variables.end())
-        throw Exception("ERROR: Matrix with name " + std::to_string(inputReader.getThirdMatrixName()) + " doesn't exists");
-
+    {
+        std::string name = "ERROR: Matrix with name ";
+        name += inputReader.getThirdMatrixName();
+        name += " doesn't exists";
+        throw Exception(name);
+    }
 
     if (lhs->second->getSize().first != rhs->second->getSize().first)
         throw Exception("ERROR: Matrices should have same row size for this operation");
@@ -170,8 +193,12 @@ void Calculator::cut() {
 
     //TODO: exception here
     if (mtrx == variables.end())
-        throw Exception("ERROR: Matrix with name " + std::to_string(inputReader.getSecondMatrixName()) + " doesn't exists");
-
+    {
+        std::string name = "ERROR: Matrix with name ";
+        name += inputReader.getSecondMatrixName();
+        name += " doesn't exists";
+        throw Exception(name);
+    }
 
     if (inputReader.getRowFrom() < 0 || inputReader.getRowFrom() >= mtrx->second->getSize().first)
         throw Exception("ERROR: Position out of range");
@@ -201,10 +228,19 @@ void Calculator::addition() {
     auto rhs = this->variables.find(inputReader.getThirdMatrixName());
 
     if (lhs == variables.end())
-        throw Exception("ERROR: Matrix with name " + std::to_string(inputReader.getSecondMatrixName()) + " doesn't exists");
+    {
+        std::string name = "ERROR: Matrix with name ";
+        name += inputReader.getSecondMatrixName();
+        name += " doesn't exists";
+        throw Exception(name);
+    }
     if (rhs == variables.end())
-        throw Exception("ERROR: Matrix with name " + std::to_string(inputReader.getThirdMatrixName()) + " doesn't exists");
-
+    {
+        std::string name = "ERROR: Matrix with name ";
+        name += inputReader.getThirdMatrixName();
+        name += " doesn't exists";
+        throw Exception(name);
+    }
     if (lhs->second->getSize().first != rhs->second->getSize().first ||
         lhs->second->getSize().second != rhs->second->getSize().second)
         throw Exception("ERROR: Matrix sizes do not match");
@@ -219,9 +255,19 @@ void Calculator::subtraction() {
     auto rhs = this->variables.find(inputReader.getThirdMatrixName());
 
     if (lhs == variables.end())
-        throw Exception("ERROR: Matrix with name " + std::to_string(inputReader.getSecondMatrixName()) + " doesn't exists");
+    {
+        std::string name = "ERROR: Matrix with name ";
+        name += inputReader.getSecondMatrixName();
+        name += " doesn't exists";
+        throw Exception(name);
+    }
     if (rhs == variables.end())
-        throw Exception("ERROR: Matrix with name " + std::to_string(inputReader.getThirdMatrixName()) + " doesn't exists");
+    {
+        std::string name = "ERROR: Matrix with name ";
+        name += inputReader.getThirdMatrixName();
+        name += " doesn't exists";
+        throw Exception(name);
+    }
 
     if (lhs->second->getSize().first != rhs->second->getSize().first ||
         lhs->second->getSize().second != rhs->second->getSize().second)
@@ -235,7 +281,12 @@ void Calculator::multiplicationByScalar() {
 
     //TODO: exception here
     if (mtrx == variables.end())
-        throw Exception("ERROR: Matrix with name " + std::to_string(inputReader.getFirstMatrixName()) + " doesn't exists");
+    {
+        std::string name = "ERROR: Matrix with name ";
+        name += inputReader.getSecondMatrixName();
+        name += " doesn't exists";
+        throw Exception(name);
+    }
 
     this->variables[inputReader.getFirstMatrixName()] = mtrx->second * inputReader.getScalar();
 }
@@ -247,9 +298,19 @@ void Calculator::multiplication() {
     auto rhs = this->variables.find(inputReader.getThirdMatrixName());
 
     if (lhs == variables.end())
-        throw Exception("ERROR: Matrix with name " + std::to_string(inputReader.getSecondMatrixName()) + " doesn't exists");
+    {
+        std::string name = "ERROR: Matrix with name ";
+        name += inputReader.getSecondMatrixName();
+        name += " doesn't exists";
+        throw Exception(name);
+    }
     if (rhs == variables.end())
-        throw Exception("ERROR: Matrix with name " + std::to_string(inputReader.getThirdMatrixName()) + " doesn't exists");
+    {
+        std::string name = "ERROR: Matrix with name ";
+        name += inputReader.getThirdMatrixName();
+        name += " doesn't exists";
+        throw Exception(name);
+    }
 
     if (lhs->second->getSize().second != rhs->second->getSize().first)
         throw Exception("ERROR: Matrix sizes do not match");
@@ -263,12 +324,17 @@ void Calculator::gem(bool withComments) {
 
     //TODO: exception here
     if (mtrx == variables.end())
-        throw Exception("ERROR: Matrix with name " + std::to_string(inputReader.getFirstMatrixName()) + " doesn't exists");
+    {
+        std::string name = "ERROR: Matrix with name ";
+        name += inputReader.getSecondMatrixName();
+        name += " doesn't exists";
+        throw Exception(name);
+    }
 
     auto result = MatrixOperationManager::MatrixGem(mtrx->second, withComments);
 
     std::cout << "Matrix after GEM:" << std::endl;
-    result->print();
+    result->print(std::cout, true);
     std::cout << std::endl;
 
 }
@@ -279,7 +345,12 @@ void Calculator::determinant() {
 
     //TODO: exception here
     if (mtrx == variables.end())
-        throw Exception("ERROR: Matrix with name " + std::to_string(inputReader.getFirstMatrixName()) + " doesn't exists");
+    {
+        std::string name = "ERROR: Matrix with name ";
+        name += inputReader.getSecondMatrixName();
+        name += " doesn't exists";
+        throw Exception(name);
+    }
 
     if (mtrx->second->getSize().first != mtrx->second->getSize().second)
         throw Exception("ERROR: Matrix should be square (has size N x N)");
@@ -292,7 +363,12 @@ void Calculator::rank() {
     auto mtrx = this->variables.find(inputReader.getFirstMatrixName());
 
     if (mtrx == variables.end())
-        throw Exception("ERROR: Matrix with name " + std::to_string(inputReader.getFirstMatrixName()) + " doesn't exists");
+    {
+        std::string name = "ERROR: Matrix with name ";
+        name += inputReader.getSecondMatrixName();
+        name += " doesn't exists";
+        throw Exception(name);
+    }
 
     auto result = MatrixOperationManager::MatrixRank(mtrx->second);
     std::cout << "Matrix rank is: " << result << std::endl;
@@ -301,13 +377,83 @@ void Calculator::rank() {
 void Calculator::inversion() {
     auto mtrx = this->variables.find(inputReader.getFirstMatrixName());
 
-    if (mtrx == variables.end())
-        throw Exception("ERROR: Matrix with name " + std::to_string(inputReader.getFirstMatrixName()) + " doesn't exists");
 
+    if (mtrx == variables.end()) {
+        std::string name = "ERROR: Matrix with name ";
+        name += inputReader.getFirstMatrixName();
+        name += " doesn't exists";
+        throw Exception(name);
+    }
     if (mtrx->second->getSize().first != mtrx->second->getSize().second)
         throw Exception("ERROR: Matrix should be square (has size N x N)");
 
     auto result = MatrixOperationManager::MatrixInversion(mtrx->second);
     std::cout << "Matrix inversion is: " << std::endl;
-    result->print();
+    result->print(std::cout, true);
+}
+
+void Calculator::readMatrixFromFile() {
+    std::string file_name;
+    std::cin >> file_name;
+
+    std::ifstream input(file_name);
+
+    if (!input.is_open())
+        throw Exception("ERROR: Error occurred while opening the file");
+
+    int rows, columns;
+
+    input >> rows >> columns;
+
+    if (input.fail()) {
+        input.close();
+        throw Exception("ERROR: Something went wrong while reading matrix size");
+    }
+
+    if (rows <= 0 || columns <= 0) {
+        input.close();
+        throw Exception("ERROR: Wrong matrix size");
+    }
+    try {
+        Fraction value;
+        int count = rows * columns;
+        for (int i = 0; i < count; i++)
+        {
+            input >> value;
+            matrix_values.push_back(value);
+        }
+        std::shared_ptr<Matrix> matrix = MatrixOperationManager::Create(rows, columns,matrix_values);
+        this->variables[inputReader.getFirstMatrixName()] = std::move(matrix);
+        matrix_values.clear();
+        input.close();
+    } catch (Exception & ex) {
+        matrix_values.clear();
+        input.close();
+        throw Exception(ex.what());
+    }
+
+}
+
+void Calculator::saveMatrix() {
+    std::string file_name = "examples/";
+    auto mtrx = this->variables.find(inputReader.getFirstMatrixName());
+    if (mtrx == variables.end())
+        throw Exception("Matrix with specified name doesn't exists");
+
+    file_name += inputReader.getFirstMatrixName();
+    file_name += ".txt";
+
+    std::ofstream output(file_name, std::ios::trunc);
+    if (!output.is_open()) {
+        output.close();
+        throw Exception("ERROR: Error occurred while opening the file");
+    }
+    output << mtrx->second->getSize().first << " " << mtrx->second->getSize().second << std::endl;
+    if (output.fail()) {
+        output.close();
+        throw Exception("ERROR: Error occurred while writing into the file");
+    }
+    mtrx->second->print(output, false);
+
+    output.close();
 }
