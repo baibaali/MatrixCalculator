@@ -44,33 +44,82 @@ class InputReader {
 
 public:
 
+    /**
+     * Constructor
+     */
     InputReader();
 
+    /**
+     * Reads user input and trys to recognize it
+     */
     void readExpression();
 
+    /**
+     * Parse the user input, and gets information from it
+     * @param operation - Type of operation, that we get from readExpression() mthod
+     * @return True - if successfully parsed, otherwise false
+     */
     bool parseExpression(OPERATION operation);
 
-    OPERATION getOperation(const std::string & expr) const;
 
+//    OPERATION getOperation(const std::string & expr) const;
+
+    /**
+     * Reset the InputReader into initial state
+     */
     void reset();
 
+    /**
+     * Returns the first matrix name from user input
+     * @return First matrix name
+     */
     char getFirstMatrixName() const;
 
-    std::shared_ptr<Matrix> getMatrix() const;
-
+    /**
+     * Returns the current operation
+     * @return Current operation
+     */
     OPERATION getCurrentOperation() const;
 
+    /**
+     * Returns the count of rows of the matrix
+     * @return Rows count
+     */
     int getRows() const;
 
+    /**
+     * Returns the count of columns of the matrix
+     * @return Columns count
+     */
     int getColumns() const;
 
+    /**
+     * Returns the row, that was specified in cut operation as a position from which to cut
+     * @return Row number
+     */
     int getRowFrom() const;
 
+    /**
+     * Returns the column, that was specified in cut operation as a position from which to cut
+     * @return Column number
+     */
     int getColumnFrom() const;
 
+    /**
+     * Returns the second matrix name from user input
+     * @return Second matrix name
+     */
     char getSecondMatrixName() const;
 
+    /**
+     * Returns the third matrix name from user input
+     * @return Third matrix name
+     */
     char getThirdMatrixName() const;
 
+    /**
+     * Returns the scalar
+     * @return Scalar
+     */
     Fraction getScalar() const;
 };
